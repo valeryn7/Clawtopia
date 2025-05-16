@@ -1,0 +1,174 @@
+go.property("revealed_sprite", hash("cloud"))
+
+local function do_bomb_beat(self)
+	go.animate("#object_sprite", "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.9, go.EASING_OUTBACK, 0.1)
+	go.animate("#object_sprite", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.9, go.EASING_OUTBACK, 0.1, 0, function()
+		go.animate("#object_sprite", "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_INBACK, 0.1)
+		go.animate("#object_sprite", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_INBACK, 0.1)
+	end)
+end
+
+function init(self)
+	self.revealed = false
+	self.hidden_sprite = "cloud"
+
+	self.is_bomb = false
+	self.bomb_timer = 0
+	self.late_timer = 0
+
+	self.is_bug = false
+	self.bug_timer = 0
+
+	self.exploded = false
+	self.row = nil
+	self.col = nil
+
+	self.timer_active = false
+	self.timer_visible = false
+	self.timer_badge_visible = false
+
+	go.set("#timer_badge", "scale", vmath.vector3(0, 0, 0)) -- 🔥 Ocultar badge al principio
+	label.set_text("#timer_label", "") -- 🔥 Ocultar texto al principio
+
+	sprite.play_flipbook("#object_sprite", self.hidden_sprite)
+end
+
+local function animate_explosion(self)
+	particlefx.play("#explosion_fx")
+	go.animate("#object_sprite", "scale.x", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_INBACK, 0.3)
+	go.animate("#object_sprite", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_INBACK, 0.3)
+
+	label.set_text("#timer_label", "")
+	if self.timer_badge_visible then
+		go.set("#timer_badge", "scale", vmath.vector3(0, 0, 0))
+		self.timer_badge_visible = false
+	end
+end
+
+local function trigger_explosion(self)
+	if not self.exploded then
+		self.exploded = true
+		animate_explosion(self)
+		msg.post("/grid_controller#grid", "explode_cell", { row = self.row, col = self.col })
+	end
+end
+
+local function trigger_bug_move(self)
+	if not self.exploded and not self.captured then
+		msg.post("/grid_controller#grid", "move_bug", { row = self.row, col = self.col })
+	end
+end
+
+function update(self, dt)
+	-- 🐛 Lógica de bug
+	if self.is_bug and not self.exploded and not self.captured then
+		self.bug_timer = self.bug_timer - dt
+
+		if self.bug_timer <= 0 then
+			trigger_bug_move(self)
+			self.bug_timer = 5 -- 🔥 Reiniciar después de mover (en la nueva celda)
+		end
+
+		if self.timer_visible then
+			local time_left = math.ceil(self.bug_timer)
+			label.set_text("#timer_label", tostring(time_left))
+		end
+	end
+
+	-- 💣 Lógica de bomba
+	if self.is_bomb and self.timer_active and not self.exploded then
+		self.bomb_timer = self.bomb_timer - dt
+
+		self.late_timer = self.late_timer - dt
+		local beat_interval = self.bomb_timer <= 3 and 0.5 or 1
+		if self.late_timer <= 0 then
+			self.late_timer = beat_interval
+			do_bomb_beat(self)
+		end
+
+		if not self.timer_visible and self.bomb_timer <= 10 then
+			self.timer_visible = true
+		end
+
+		if self.timer_visible then
+			local time_left = math.ceil(self.bomb_timer)
+			label.set_text("#timer_label", tostring(time_left))
+		end
+
+		if self.bomb_timer <= 0 then
+			trigger_explosion(self)
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("set_revealed_sprite") then
+		self.revealed_sprite = hash(message.sprite)
+
+		if message.row and message.col then
+			self.row = message.row
+			self.col = message.col
+		end
+
+		-- 🔥 Activar lógica especial según tipo
+		if message.sprite == "bomb" then
+			self.is_bomb = true
+			self.bomb_timer = 8 + math.random() * 4
+			go.set("#timer_badge", "scale", vmath.vector3(0.2, 0.2, 1))
+			self.timer_badge_visible = true
+
+		elseif message.sprite == "bug" then
+			self.is_bug = true
+			self.bug_timer = 5
+			self.timer_active = false
+			self.exploded = false
+			self.timer_visible = true
+			go.set("#timer_badge", "scale", vmath.vector3(0.2, 0.2, 1))
+			self.timer_badge_visible = true
+		end
+
+		-- 🔥 Si ya estaba revelada, cambiar sprite y restaurar opacidad
+		if self.revealed then
+			sprite.play_flipbook("#object_sprite", self.revealed_sprite)
+			go.set("#object_sprite", "tint.w", 1) -- 🔥 Restauramos alpha a 1 para que se vea
+		end
+
+	elseif message_id == hash("start_bomb_timer") then
+		if self.is_bomb and not self.exploded then
+			self.timer_active = true
+			do_bomb_beat(self)
+		end
+
+	elseif message_id == hash("reveal") then
+		if self.revealed then return end
+		self.revealed = true
+
+		go.animate("#object_sprite", "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.9, go.EASING_OUTBACK, 0.15)
+		go.animate("#object_sprite", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.9, go.EASING_OUTBACK, 0.15, 0, function()
+			go.animate("#object_sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.15, 0, function()
+				sprite.play_flipbook("#object_sprite", self.revealed_sprite)
+				go.set_scale(vmath.vector3(0.8, 0.8, 1), "#object_sprite")
+				go.animate("#object_sprite", "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.7, go.EASING_OUTBACK, 0.3)
+				go.animate("#object_sprite", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.7, go.EASING_OUTBACK, 0.3)
+				go.animate("#object_sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_LINEAR, 0.15)
+			end)
+		end)
+
+	elseif message_id == hash("capture") then
+		sprite.set_constant("#object_sprite", "tint", vmath.vector4(0, 0, 0, 0))
+		self.exploded = true
+		label.set_text("#timer_label", "")
+		if self.timer_badge_visible then
+			go.set("#timer_badge", "scale", vmath.vector3(0, 0, 0))
+			self.timer_badge_visible = false
+		end
+		msg.post("/grid_controller#grid", "cell_captured", { row = self.row, col = self.col })
+
+	elseif message_id == hash("explode") then
+		if self.revealed and not self.exploded then
+			self.revealed = false
+			self.exploded = true
+			animate_explosion(self)
+		end
+	end
+end

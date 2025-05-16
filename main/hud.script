@@ -1,0 +1,77 @@
+local function update_slot(self, slot)
+	local label_url = msg.url(nil, slot.go, slot.label)
+	local sprite_url = msg.url(nil, slot.go, slot.icon)
+	
+	-- Cambiar sprite si tenés animaciones llamadas igual que el tipo
+	msg.post(sprite_url, "play_animation", { id = hash(slot.type) })
+
+	-- Cambiar el texto del label
+	msg.post(label_url, "set_text", {
+		text = string.format("%d/%d", slot.collected, slot.required)
+	})
+end
+
+function init(self)
+	self.slots = {
+		{
+			go = "slot_1",
+			icon = "slot_1_icon",
+			label = "slot_1_label",
+			type = "bear_pink",
+			required = 2,
+			collected = 0
+		},
+		{
+			go = "slot_2",
+			icon = "slot_2_icon",
+			label = "slot_2_label",
+			type = "box",
+			required = 1,
+			collected = 0
+		},
+		{
+			go = "slot_3",
+			icon = "slot_3_icon",
+			label = "slot_3_label",
+			type = "bear_blue",
+			required = 2,
+			collected = 0
+		},
+		{
+			go = "slot_4",
+			icon = "slot_4_icon",
+			label = "slot_4_label",
+			type = "candy",
+			required = 1,
+			collected = 0
+		},
+	}
+
+	-- Mostrar los contadores iniciales
+	for _, slot in ipairs(self.slots) do
+		update_slot(self, slot)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("update_goal") then
+		for _, slot in ipairs(self.slots) do
+			if slot.type == message.type then
+				slot.collected = math.min(message.collected, slot.required)
+				update_slot(self, slot)
+				break
+			end
+		end
+	elseif message_id == hash("init_goals") then
+		if message.goals then
+			for i, g in ipairs(message.goals) do
+				if self.slots[i] then
+					self.slots[i].type = g.type
+					self.slots[i].required = g.required
+					self.slots[i].collected = g.collected
+					update_slot(self, self.slots[i])
+				end
+			end
+		end
+	end
+end

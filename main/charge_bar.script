@@ -1,0 +1,66 @@
+go.property("move_speed", 1.5) -- 🔥 Velocidad angular en radianes/segundo
+go.property("min_angle_deg", 0) -- 🔥 Ángulo mínimo (en grados)
+go.property("max_angle_deg", 120) -- 🔥 Ángulo máximo (en grados)
+
+function init(self)
+	self.moving = false
+	self.angle = math.rad(self.min_angle_deg) -- 🔥 Arranca en el ángulo mínimo
+	self.min_angle = math.rad(self.min_angle_deg)
+	self.max_angle = math.rad(self.max_angle_deg)
+	self.direction = 1 -- 🔥 1 = bajando, -1 = subiendo
+
+	go.set_rotation(vmath.quat_rotation_z(self.angle)) -- 🔥 Rota al ángulo inicial
+	msg.post("#sprite", "disable") -- 🔥 Ocultar flecha al inicio
+end
+
+local function calculate_strength(angle)
+	-- 🔥 Suponiendo:
+	-- 0° a 40° → Amarillo (fuerza baja)
+	-- 40° a 80° → Naranja (fuerza media)
+	-- 80° a 120° → Rojo (fuerza alta)
+
+	if angle >= 0 and angle < 40 then
+		return 0.5 -- fuerza baja
+	elseif angle >= 40 and angle < 80 then
+		return 0.75 -- fuerza media
+	elseif angle >= 80 and angle <= 120 then
+		return 1.0 -- fuerza alta
+	else
+		return 0.5 -- Por defecto, por seguridad
+	end
+end
+
+function update(self, dt)
+	if self.moving then
+		-- 🔥 Mover el ángulo según dirección
+		self.angle = self.angle + self.direction * self.move_speed * dt
+
+		-- 🔥 Si llega a máximo o mínimo, invertimos dirección
+		if self.angle >= self.max_angle then
+			self.angle = self.max_angle
+			self.direction = -1 -- empieza a subir
+		elseif self.angle <= self.min_angle then
+			self.angle = self.min_angle
+			self.direction = 1 -- empieza a bajar
+		end
+
+		go.set_rotation(vmath.quat_rotation_z(-self.angle)) -- 🔥 Solo rotamos
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("start_charge") then
+		self.moving = true
+		self.angle = math.rad(self.min_angle_deg)
+		self.direction = 1
+		go.set_rotation(vmath.quat_rotation_z(-self.angle))
+		msg.post("#sprite", "enable")
+	elseif message_id == hash("stop_charge") then
+		self.moving = false
+
+		-- 🔥 Mandar ángulo final al claw
+		msg.post("claw", "set_charge_angle", { angle = self.angle })
+
+		-- msg.post("#sprite", "disable") -- Opcional
+	end
+end

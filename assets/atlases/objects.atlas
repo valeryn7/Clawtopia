@@ -1,0 +1,37 @@
+images {
+  image: "/assets/images/ballon.png"
+}
+images {
+  image: "/assets/images/bomb.png"
+}
+images {
+  image: "/assets/images/box.png"
+}
+images {
+  image: "/assets/images/brain.png"
+}
+images {
+  image: "/assets/images/candy.png"
+}
+images {
+  image: "/assets/images/clock.png"
+}
+images {
+  image: "/assets/images/vegetable.png"
+}
+images {
+  image: "/assets/images/cloud.png"
+}
+images {
+  image: "/assets/images/bear_blue.png"
+}
+images {
+  image: "/assets/images/bear_golden.png"
+}
+images {
+  image: "/assets/images/bear_pink.png"
+}
+images {
+  image: "/assets/images/bug.png"
+}
+extrude_borders: 2

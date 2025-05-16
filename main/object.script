@@ -1,0 +1,5 @@
+go.property("sprite", hash("bear"))
+
+function init(self)
+	sprite.play_flipbook("#sprite", self.sprite)
+end

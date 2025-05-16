@@ -1,0 +1,14 @@
+images {
+  image: "/assets/images/cell.png"
+}
+images {
+  image: "/assets/images/claw.png"
+  pivot_y: 0.05524
+}
+images {
+  image: "/assets/images/stick.png"
+}
+images {
+  image: "/assets/images/timer_badge.png"
+}
+extrude_borders: 2

@@ -1,0 +1,22 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+render = /rendercam/rendercam.renderc
+
+[script]
+shared_state = 1
+
+[display]
+width = 720
+height = 1280
+high_dpi = 1
+
+[android]
+input_method = HiddenInputField
+
+[html5]
+scale_mode = fit
+
+[project]
+title = Clawtopia
+dependencies#0 = https://github.com/rgrams/rendercam/archive/master.zip
+

@@ -1,0 +1,25 @@
+components {
+  id: "claw"
+  component: "/main/claw.script"
+}
+embedded_components {
+  id: "claw_sprite"
+  type: "sprite"
+  data: "default_animation: \"claw\"\n"
+  "material: \"/builtins/materials/sprite.material\"\n"
+  "textures {\n"
+  "  sampler: \"texture_sampler\"\n"
+  "  texture: \"/assets/atlases/tiles.atlas\"\n"
+  "}\n"
+  ""
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+}
+embedded_components {
+  id: "object_factory"
+  type: "factory"
+  data: "prototype: \"/main/object.go\"\n"
+  ""
+}
