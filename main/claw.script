@@ -129,54 +129,44 @@ function update(self, dt)
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("space") or action_id == hash("touch") or action_id == hash("click")) and action.pressed then
-		if action.pressed then
-			if action_id == hash("space") and not sys.get_sys_info().device_model then
-				-- PC: Tecla space
-				if self.pendulum_active then
-					self.pendulum_active = false
-					self.loading = true
-					self.load_amount = 0
+	local is_pc = not sys.get_sys_info().device_model
+	local is_mobile = sys.get_sys_info().device_model
 
-					msg.post("charge_bar", "start_charge")
-					msg.post("color_arc#sprite", "enable")
-					msg.post("charge_bar#sprite", "enable")
-				end
-			elseif action_id == hash("touch") and sys.get_sys_info().device_model then
-				-- Mobile: Touch
-				if self.pendulum_active then
-					self.pendulum_active = false
-					self.loading = true
-					self.load_amount = 0
+	-- 🔹 Cuando se presiona (inicio de la carga)
+	if action.pressed then
+		if (action_id == hash("space") and is_pc) or (action_id == hash("touch") and is_mobile) then
+			if self.pendulum_active then
+				self.pendulum_active = false
+				self.loading = true
+				self.load_amount = 0
 
-					msg.post("charge_bar", "start_charge")
-					msg.post("color_arc#sprite", "enable")
-					msg.post("charge_bar#sprite", "enable")
-				end
-			end
-		elseif action.released then
-			if self.loading then
-				self.loading = false
-
-				-- 🔥 Paramos la carga
-				msg.post("charge_bar", "stop_charge")
-				msg.post("color_arc#sprite", "disable")
-				msg.post("charge_bar#sprite", "disable")
-
-				self.start_y = self.anchor_y
-				self.start_x = self.anchor_x
-
-				self.total_drop = (self.load_amount / self.max_load) * (self.start_y - CLAW_BOTTOM_Y)
-
-				if self.load_amount >= 1.0 then
-					self.total_drop = self.total_drop + 200
-				end
-
-				self.drop_progress = 0
-				self.descending = true
-				self.captured_angle = self.current_angle
+				msg.post("charge_bar", "start_charge")
+				msg.post("color_arc#sprite", "enable")
+				msg.post("charge_bar#sprite", "enable")
 			end
 		end
+	end
+
+	-- 🔹 Cuando se suelta (fin de la carga y empieza caída)
+	if action.released and self.loading then
+		self.loading = false
+
+		msg.post("charge_bar", "stop_charge")
+		msg.post("color_arc#sprite", "disable")
+		msg.post("charge_bar#sprite", "disable")
+
+		self.start_y = self.anchor_y
+		self.start_x = self.anchor_x
+
+		self.total_drop = (self.load_amount / self.max_load) * (self.start_y - CLAW_BOTTOM_Y)
+
+		if self.load_amount >= 1.0 then
+			self.total_drop = self.total_drop + 200
+		end
+
+		self.drop_progress = 0
+		self.descending = true
+		self.captured_angle = self.current_angle
 	end
 end
 
