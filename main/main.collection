@@ -29,6 +29,9 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 10.0
+  }
 }
 embedded_instances {
   id: "background"
@@ -44,9 +47,6 @@ embedded_instances {
   "\"\n"
   "}\n"
   ""
-  position {
-    z: -1.0
-  }
   scale3 {
     x: 0.7
     y: 0.65
@@ -56,7 +56,7 @@ embedded_instances {
   id: "background_grid"
   data: ""
   position {
-    z: -1.0
+    z: 1.0
   }
 }
 embedded_instances {
@@ -106,6 +106,9 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/charge_bar.atlas\\\"\\n"
   "}\\n"
   "\"\n"
+  "  position {\n"
+  "    z: 2.0\n"
+  "  }\n"
   "  scale {\n"
   "    x: 0.1\n"
   "    y: 0.1\n"
@@ -177,6 +180,9 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/charge_bar.atlas\\\"\\n"
   "}\\n"
   "\"\n"
+  "  position {\n"
+  "    z: 1.0\n"
+  "  }\n"
   "  scale {\n"
   "    x: 0.1\n"
   "    y: 0.1\n"
@@ -186,15 +192,19 @@ embedded_instances {
   position {
     x: 124.0
     y: 255.0
+    z: 1.0
   }
 }
 embedded_instances {
   id: "hud"
+  children: "defeat_panel"
+  children: "panel_overlay"
   children: "slot_1"
   children: "slot_2"
   children: "slot_3"
   children: "slot_4"
   children: "slot_5"
+  children: "victory_panel"
   data: "components {\n"
   "  id: \"hud\"\n"
   "  component: \"/main/hud.script\"\n"
@@ -443,4 +453,191 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+}
+embedded_instances {
+  id: "victory_panel"
+  children: "restart_button"
+  data: "embedded_components {\n"
+  "  id: \"bg\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"bg_victory\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "  position {\n"
+  "    z: 6.0\n"
+  "  }\n"
+  "  scale {\n"
+  "    x: 0.5\n"
+  "    y: 0.5\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"label\"\n"
+  "  type: \"label\"\n"
+  "  data: \"size {\\n"
+  "  x: 250.0\\n"
+  "  y: 250.0\\n"
+  "}\\n"
+  "color {\\n"
+  "  x: 0.0\\n"
+  "  y: 0.0\\n"
+  "  z: 0.0\\n"
+  "}\\n"
+  "text: \\\"Victory\\\"\\n"
+  "font: \\\"/fonts/title.font\\\"\\n"
+  "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    y: 68.0\n"
+  "    z: 6.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"points_label\"\n"
+  "  type: \"label\"\n"
+  "  data: \"size {\\n"
+  "  x: 250.0\\n"
+  "  y: 250.0\\n"
+  "}\\n"
+  "color {\\n"
+  "  x: 0.0\\n"
+  "  y: 0.0\\n"
+  "  z: 0.0\\n"
+  "}\\n"
+  "font: \\\"/builtins/fonts/default.font\\\"\\n"
+  "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    z: 6.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    z: 6.0
+  }
+}
+embedded_instances {
+  id: "defeat_panel"
+  data: "embedded_components {\n"
+  "  id: \"bg\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"bg_defeat\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "  position {\n"
+  "    z: 5.0\n"
+  "  }\n"
+  "  scale {\n"
+  "    x: 0.5\n"
+  "    y: 0.5\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"label\"\n"
+  "  type: \"label\"\n"
+  "  data: \"size {\\n"
+  "  x: 250.0\\n"
+  "  y: 250.0\\n"
+  "}\\n"
+  "text: \\\"Defeat\\\"\\n"
+  "font: \\\"/fonts/title.font\\\"\\n"
+  "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    y: 67.0\n"
+  "    z: 6.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    z: 5.0
+  }
+}
+embedded_instances {
+  id: "restart_button"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"reset\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "  position {\n"
+  "    y: -136.0\n"
+  "  }\n"
+  "  scale {\n"
+  "    x: 0.1\n"
+  "    y: 0.1\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"collisionobject\"\n"
+  "  type: \"collisionobject\"\n"
+  "  data: \"type: COLLISION_OBJECT_TYPE_TRIGGER\\n"
+  "mass: 0.0\\n"
+  "friction: 0.1\\n"
+  "restitution: 0.5\\n"
+  "group: \\\"ui\\\"\\n"
+  "mask: \\\"input\\\"\\n"
+  "embedded_collision_shape {\\n"
+  "  shapes {\\n"
+  "    shape_type: TYPE_BOX\\n"
+  "    position {\\n"
+  "      y: -137.0\\n"
+  "      z: 6.0\\n"
+  "    }\\n"
+  "    rotation {\\n"
+  "    }\\n"
+  "    index: 0\\n"
+  "    count: 3\\n"
+  "  }\\n"
+  "  data: 47.5\\n"
+  "  data: 45.5\\n"
+  "  data: 10.0\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    z: 6.0
+  }
+}
+embedded_instances {
+  id: "panel_overlay"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"bg_black\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 1024.0\\n"
+  "  y: 1024.0\\n"
+  "}\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/assets/atlases/background.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "  position {\n"
+  "    z: 5.0\n"
+  "  }\n"
+  "  scale {\n"
+  "    x: 0.8\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    z: 5.0
+  }
 }

@@ -116,6 +116,34 @@ local function explode_adjacent_cells(self, row, col)
 	end
 end
 
+local function check_impossible_goals(self)
+	-- Contar cuántos objetos válidos siguen disponibles
+	local remaining = {}
+	for row = 0, GRID_ROWS - 1 do
+		for col = 0, GRID_COLS - 1 do
+			local cell = self.grid[row][col]
+			if cell and not cell.captured then
+				local t = cell.sprite
+				if t and (t == "bear_pink" or t == "bear_blue" or t == "bear_golden" or t == "candy") then
+					remaining[t] = (remaining[t] or 0) + 1
+				end
+			end
+		end
+	end
+
+	-- Ver si hay algún objetivo que no se puede cumplir
+	for _, goal in ipairs(self.goals) do
+		local needed = goal.required - goal.collected
+		local available = remaining[goal.type] or 0
+		if available < needed then
+			return true -- hay un objetivo imposible
+		end
+	end
+
+	return false -- todo se puede aún
+end
+
+
 local function check_and_activate_adjacent_bombs(self, row, col)
 	local directions = {
 		{ d_row = -1, d_col = 0 },
@@ -136,6 +164,90 @@ local function check_and_activate_adjacent_bombs(self, row, col)
 		end
 	end
 end
+
+local function generate_new_goals(self)
+	-- Contar tipos disponibles
+	local counts = {}
+	for row = 0, GRID_ROWS - 1 do
+		for col = 0, GRID_COLS - 1 do
+			local sprite = self.grid[row][col].sprite
+			if sprite and (sprite == "bear_pink" or sprite == "bear_blue" or sprite == "bear_golden" or sprite == "candy") then
+				counts[sprite] = (counts[sprite] or 0) + 1
+			end
+		end
+	end
+
+	-- Generar objetivos nuevos (2 a 3)
+	self.goals = {}
+	local added = {}
+	while #self.goals < 3 do
+		local keys = { "bear_pink", "bear_blue", "bear_golden", "candy" }
+		local pick = keys[math.random(#keys)]
+		local available = counts[pick] or 0
+		if available >= 2 and not added[pick] then
+			local req = math.min(available, math.random(1, 3))
+			table.insert(self.goals, {
+				type = pick,
+				required = req,
+				collected = 0,
+				points_total = req * POINTS[pick]
+			})
+			added[pick] = true
+		end
+	end
+
+	-- Enviar al HUD
+	msg.post("hud", "init_goals", { goals = self.goals })
+end
+
+local function reset_grid(self)
+	-- Eliminar celdas actuales
+	for row = 0, GRID_ROWS - 1 do
+		for col = 0, GRID_COLS - 1 do
+			local cell = self.grid[row][col]
+			if cell and cell.id then
+				go.delete(cell.id)
+			end
+		end
+	end
+
+	-- Reestablecer todo
+	self.grid = {}
+	self.sprite_counts = {}
+	for _, prob in ipairs(PROBABILITIES) do
+		self.sprite_counts[prob.sprite] = 0
+	end
+
+	-- Crear nueva grilla
+	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
+	local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
+
+	for row = 0, GRID_ROWS - 1 do
+		self.grid[row] = {}
+		for col = 0, GRID_COLS - 1 do
+			local x = start_x + col * CELL_SIZE
+			local y = start_y - row * CELL_SIZE
+
+			local id = factory.create("#cell_factory", vmath.vector3(x, y, 0))
+			local sprite_name = pick_sprite(self, row, col)
+
+			self.grid[row][col] = {
+				id = id,
+				sprite = sprite_name,
+				revealed = true,
+				captured = false,
+				x = x,
+				y = y
+			}
+
+			msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
+			msg.post(id, "reveal")
+		end
+	end
+
+	create_bug_randomly(self)
+end
+
 
 function init(self)
 	self.grid = {}
@@ -174,18 +286,44 @@ function init(self)
 
 	create_bug_randomly(self)
 
-	-- 🎯 Objetivos y referencia al HUD (GO, no GUI)
-	self.goals = {
-		{ type = "bear_pink", required = 2, collected = 0 },
-		{ type = "bear_blue", required = 1, collected = 0 },
-		{ type = "box", required = 2, collected = 0 },
-	}
+	-- Contar cuántos hay de cada tipo válido
+	local counts = {}
+
+	for row = 0, GRID_ROWS - 1 do
+		for col = 0, GRID_COLS - 1 do
+			local sprite = self.grid[row][col].sprite
+			if sprite and (sprite == "bear_pink" or sprite == "bear_blue" or sprite == "bear_golden" or sprite == "candy") then
+				counts[sprite] = (counts[sprite] or 0) + 1
+			end
+		end
+	end
+
+	-- Generar 2–3 objetivos viables
+	self.goals = {}
+	local added = {}
+	while #self.goals < 3 do
+		local keys = { "bear_pink", "bear_blue", "bear_golden", "candy" }
+		local pick = keys[math.random(#keys)]
+		local available = counts[pick] or 0
+		if available >= 2 and not added[pick] then
+			local req = math.min(available, math.random(1, 3))
+			table.insert(self.goals, {
+				type = pick,
+				required = req,
+				collected = 0,
+				points_total = req * POINTS[pick]
+			})
+			added[pick] = true
+		end
+	end
 
 	-- Game Object con ID "hud"
 	self.hud_go = msg.url(nil, "hud", nil)
+	msg.post("hud", "init_goals", { goals = self.goals })
 
-	-- 🔁 Enviar objetivos iniciales (si tu hud.script los necesita)
-	msg.post(self.hud_go, "init_goals", { goals = self.goals })
+
+	self.total_points = 0
+	self.game_over = false
 end
 
 
@@ -222,16 +360,14 @@ function on_message(self, message_id, message, sender)
 
 					for _, goal in ipairs(self.goals) do
 						if goal.type == cell.sprite and goal.collected < goal.required then
-							goal.collected = math.min(goal.collected + self.multiplier, goal.required)
-							msg.post(self.hud_go, "update_goal", {
+							goal.collected = goal.collected + 1
+							msg.post("hud", "update_goal", {
 								type = goal.type,
 								collected = goal.collected
 							})
-							break
 						end
 					end
 
-					-- ✅ ¿Completó todos?
 					local completed = true
 					for _, goal in ipairs(self.goals) do
 						if goal.collected < goal.required then
@@ -239,10 +375,24 @@ function on_message(self, message_id, message, sender)
 							break
 						end
 					end
-					if completed then
-						msg.post(self.hud_gui, "level_completed")
+
+					if completed and not self.game_over then
+						self.game_over = true
+						self.total_points = 0
+						for _, goal in ipairs(self.goals) do
+							self.total_points = self.total_points + goal.points_total
+						end
+						print("✅ ¡VICTORIA! Puntos totales: " .. self.total_points)
+						msg.post("hud", "level_completed", { points = self.total_points })
 					end
-					
+
+					-- ❌ ¿Hay algún objetivo imposible?
+					if not self.game_over and check_impossible_goals(self) then
+						self.game_over = true
+						print("❌ DERROTA: objetivo imposible de cumplir")
+						msg.post("hud", "level_failed")
+					end
+				
 					check_and_activate_adjacent_bombs(self, row, col)
 					break
 				end
@@ -264,5 +414,10 @@ function on_message(self, message_id, message, sender)
 		timer.delay(5, false, function()
 			self.multiplier = 1
 		end)
+	elseif message_id == hash("restart_level") then
+		self.game_over = false
+		self.total_points = 0
+		reset_grid(self)
+		generate_new_goals(self)
 	end
 end

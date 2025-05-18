@@ -13,4 +13,13 @@ images {
 images {
   image: "/assets/images/candy.png"
 }
+images {
+  image: "/assets/images/bg_defeat.png"
+}
+images {
+  image: "/assets/images/bg_victory.png"
+}
+images {
+  image: "/assets/images/reset.png"
+}
 extrude_borders: 2

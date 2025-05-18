@@ -4,4 +4,7 @@ images {
 images {
   image: "/assets/images/top.png"
 }
+images {
+  image: "/assets/images/bg_black.png"
+}
 extrude_borders: 2

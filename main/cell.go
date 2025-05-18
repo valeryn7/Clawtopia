@@ -5,6 +5,9 @@ components {
 components {
   id: "explosion_fx"
   component: "/main/explosion_fx.particlefx"
+  position {
+    z: 2.0
+  }
 }
 embedded_components {
   id: "sprite"
