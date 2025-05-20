@@ -20,3 +20,9 @@ scale_mode = fit
 title = Clawtopia
 dependencies#0 = https://github.com/rgrams/rendercam/archive/master.zip
 
+[sprite]
+max_count = 1024
+
+[label]
+max_count = 256
+

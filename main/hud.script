@@ -1,8 +1,13 @@
+-- hud.script actualizado (base para control de objetivos y paneles)
+
 local function update_slot(self, slot)
 	local label_url = msg.url(nil, slot.go, slot.label)
 	local sprite_url = msg.url(nil, slot.go, slot.icon)
 
-	msg.post(sprite_url, "play_animation", { id = hash(slot.type) })
+	if slot.type then
+		msg.post(sprite_url, "play_animation", { id = hash(slot.type) })
+	end
+
 	msg.post(label_url, "set_text", {
 		text = string.format("%d/%d", slot.collected, slot.required)
 	})
@@ -12,10 +17,14 @@ local function show_panel(self, panel_name)
 	local panel_url = msg.url(nil, panel_name, nil)
 	msg.post(panel_url, "enable")
 	go.set_scale(vmath.vector3(1, 1, 1), panel_url)
+	print(panel_name)
+
+	if panel_name == "victory_panel" or panel_name == "defeat_panel" then
+		msg.post("charge_bar", "disable")
+	end
 
 	local overlay_sprite = msg.url(nil, "panel_overlay", "sprite")
 	sprite.set_constant(overlay_sprite, "tint", vmath.vector4(0, 0, 0, 0.6))
-
 	self.panel_active = true
 end
 
@@ -26,17 +35,18 @@ end
 
 function init(self)
 	self.panel_active = false
-
 	msg.post(".", "acquire_input_focus")
 
 	self.slots = {
-		{ go = "slot_1", icon = "slot_1_icon", label = "slot_1_label", type = "bear_pink", required = 2, collected = 0 },
-		{ go = "slot_2", icon = "slot_2_icon", label = "slot_2_label", type = "box", required = 1, collected = 0 },
-		{ go = "slot_3", icon = "slot_3_icon", label = "slot_3_label", type = "bear_blue", required = 2, collected = 0 },
-		{ go = "slot_4", icon = "slot_4_icon", label = "slot_4_label", type = "candy", required = 1, collected = 0 },
+		{ go = "slot_1", icon = "slot_1_icon", label = "slot_1_label", type = nil, required = 0, collected = 0 },
+		{ go = "slot_2", icon = "slot_2_icon", label = "slot_2_label", type = nil, required = 0, collected = 0 },
+		{ go = "slot_3", icon = "slot_3_icon", label = "slot_3_label", type = nil, required = 0, collected = 0 },
+		{ go = "slot_4", icon = "slot_4_icon", label = "slot_4_label", type = nil, required = 0, collected = 0 },
+		{ go = "slot_5", icon = "slot_5_icon", label = "slot_5_label", type = nil, required = 0, collected = 0 },
 	}
 
 	hide_panel(self, "victory_panel")
+	msg.post("victory_panel#victory_gui", "disable")
 	hide_panel(self, "defeat_panel")
 	hide_panel(self, "panel_overlay")
 
@@ -53,12 +63,12 @@ function on_message(self, message_id, message, sender)
 				slot.type = g.type
 				slot.required = g.required
 				slot.collected = g.collected
+				go.set_scale(vmath.vector3(1, 1, 1), msg.url(nil, slot.go, slot.icon))
 				update_slot(self, slot)
 			else
 				slot.type = nil
 				slot.required = 0
 				slot.collected = 0
-
 				go.set_scale(vmath.vector3(0.01, 0.01, 1), msg.url(nil, slot.go, slot.icon))
 				msg.post(msg.url(nil, slot.go, slot.label), "set_text", { text = "" })
 			end
@@ -75,36 +85,12 @@ function on_message(self, message_id, message, sender)
 
 	elseif message_id == hash("level_completed") then
 		print("✅ ¡VICTORIA!")
+		msg.post("victory_panel#victory_gui", "enable")
+		msg.post("victory_panel#victory_gui", "set_points", { points = message.points })
 		show_panel(self, "victory_panel")
-		show_panel(self, "panel_overlay")
-		hide_panel(self, "defeat_panel")
-		local label_url = msg.url(nil, "victory_panel", "points_label")
-		label.set_text(label_url, "Puntos: " .. tostring(message.points))
 
 	elseif message_id == hash("level_failed") then
 		show_panel(self, "defeat_panel")
 		hide_panel(self, "victory_panel")
-	end
-end
-
-function on_input(self, action_id, action)
-	if self.panel_active and action_id == hash("touch") and action.pressed then
-		local x, y = action.x or action.screen_x, action.y or action.screen_y
-		local touch_pos = vmath.vector3(x, y, 0)
-
-		local btn_pos = go.get_position("restart_button")
-		local btn_size = vmath.vector3(128, 64, 0)  -- ajustá al tamaño real del botón
-
-		local min = btn_pos - btn_size * 0.5
-		local max = btn_pos + btn_size * 0.5
-
-		if touch_pos.x >= min.x and touch_pos.x <= max.x and
-		touch_pos.y >= min.y and touch_pos.y <= max.y then
-			print("🔁 Reiniciando...")
-			msg.post("main:/grid#grid", "restart_level")
-			self.panel_active = false
-		end
-
-		return true  -- bloquear el toque al resto del juego
 	end
 end

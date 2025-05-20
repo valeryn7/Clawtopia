@@ -1,113 +1,34 @@
+-- grid.script (actualizado para sincronizar nivel con victory_gui y usar LEVELS)
+
 local CELL_SIZE = 90
 local GRID_COLS = 5
 local GRID_ROWS = 6
 
+go.property("level", 1)
+
 local POINTS = {
 	bear_golden = 30,
-	bear_blue = 20,
+	bear_blue = 15,
 	bear_pink = 15,
 	candy = 10,
+	ball = 5,
+	flip_flop = 5,
 	box = 25,
 	bomb = 0,
 	bug = 0
 }
 
-local PROBABILITIES = {
-	{ sprite = "bear_golden", chance = 5, max = 2 },
-	{ sprite = "bear_blue", chance = 15, max = 6 },
-	{ sprite = "bear_pink", chance = 20, max = 8 },
-	{ sprite = "box", chance = 10, max = 5 },
-	{ sprite = "candy", chance = 15, max = 6 },
-	{ sprite = "bomb", chance = 17, max = 5 },
-}
-
-local function pick_sprite(self, row, col)
-	for attempt = 1, 100 do
-		local roll = math.random(100)
-		local cumulative = 0
-		for _, prob in ipairs(PROBABILITIES) do
-			cumulative = cumulative + prob.chance
-			if roll <= cumulative then
-				if prob.sprite == "bear_golden" and row < GRID_ROWS - 2 then break end
-				if prob.sprite == "bomb" and (col < 1 or col > 3) then break end
-				if self.sprite_counts[prob.sprite] < prob.max then
-					self.sprite_counts[prob.sprite] = self.sprite_counts[prob.sprite] + 1
-					return prob.sprite
-				end
-			end
-		end
-	end
-	return "bear_pink"
-end
-
-local function create_bug_randomly(self)
-	local bug_created = false
-	while not bug_created do
-		local row = math.random(0, GRID_ROWS - 1)
-		local col = math.random(0, GRID_COLS - 1)
-		local cell = self.grid[row][col]
-		if cell and cell.sprite ~= "bomb" and cell.sprite ~= "bug" then
-			cell.sprite = "bug"
-			cell.captured = false
-			msg.post(cell.id, "set_revealed_sprite", { sprite = "bug", row = row, col = col })
-			msg.post(cell.id, "reveal")
-			bug_created = true
-		end
-	end
-end
-
-local function move_bug(self, row, col)
-	local directions = {
-		{ d_row = -1, d_col = 0 },
-		{ d_row = 1, d_col = 0 },
-		{ d_row = 0, d_col = -1 },
-		{ d_row = 0, d_col = 1 }
-	}
-
-	local free_cells = {}
-
-	for _, dir in ipairs(directions) do
-		local new_row = row + dir.d_row
-		local new_col = col + dir.d_col
-
-		if new_row >= 0 and new_row < GRID_ROWS and new_col >= 0 and new_col < GRID_COLS then
-			local neighbor = self.grid[new_row][new_col]
-			if neighbor and not neighbor.captured and neighbor.sprite ~= "bomb" and neighbor.sprite ~= "bug" then
-				table.insert(free_cells, { row = new_row, col = new_col })
-			end
-		end
-	end
-
-	if #free_cells > 0 then
-		local choice = free_cells[math.random(#free_cells)]
-		local old_cell = self.grid[row][col]
-		msg.post(old_cell.id, "capture")
-		old_cell.sprite = "empty"
-		old_cell.captured = true
-
-		local new_cell = self.grid[choice.row][choice.col]
-		msg.post(new_cell.id, "set_revealed_sprite", { sprite = "bug", row = choice.row, col = choice.col })
-
-		new_cell.sprite = "bug"
-		new_cell.captured = false
-		new_cell.revealed = true
-	end
-end
+local LEVELS = require("main.levels")
 
 local function explode_adjacent_cells(self, row, col)
 	local directions = {
-		{ d_row = -1, d_col = 0 },
-		{ d_row = 1, d_col = 0 },
-		{ d_row = 0, d_col = -1 },
-		{ d_row = 0, d_col = 1 }
+		{ d_row = -1, d_col = 0 }, { d_row = 1, d_col = 0 },
+		{ d_row = 0, d_col = -1 }, { d_row = 0, d_col = 1 }
 	}
-
 	for _, dir in ipairs(directions) do
-		local new_row = row + dir.d_row
-		local new_col = col + dir.d_col
-
-		if new_row >= 0 and new_row < GRID_ROWS and new_col >= 0 and new_col < GRID_COLS then
-			local neighbor = self.grid[new_row][new_col]
+		local r, c = row + dir.d_row, col + dir.d_col
+		if r >= 0 and r < GRID_ROWS and c >= 0 and c < GRID_COLS then
+			local neighbor = self.grid[r][c]
 			if neighbor and not neighbor.captured then
 				msg.post(neighbor.id, "explode")
 				neighbor.captured = true
@@ -117,246 +38,110 @@ local function explode_adjacent_cells(self, row, col)
 end
 
 local function check_impossible_goals(self)
-	-- Contar cuántos objetos válidos siguen disponibles
 	local remaining = {}
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row][col]
 			if cell and not cell.captured then
 				local t = cell.sprite
-				if t and (t == "bear_pink" or t == "bear_blue" or t == "bear_golden" or t == "candy") then
+				if POINTS[t] and POINTS[t] > 0 then
 					remaining[t] = (remaining[t] or 0) + 1
 				end
 			end
 		end
 	end
-
-	-- Ver si hay algún objetivo que no se puede cumplir
 	for _, goal in ipairs(self.goals) do
-		local needed = goal.required - goal.collected
-		local available = remaining[goal.type] or 0
-		if available < needed then
-			return true -- hay un objetivo imposible
+		if (remaining[goal.type] or 0) < (goal.required - goal.collected) then
+			return true
 		end
 	end
-
-	return false -- todo se puede aún
+	return false
 end
 
-
-local function check_and_activate_adjacent_bombs(self, row, col)
-	local directions = {
-		{ d_row = -1, d_col = 0 },
-		{ d_row = 1, d_col = 0 },
-		{ d_row = 0, d_col = -1 },
-		{ d_row = 0, d_col = 1 }
-	}
-
-	for _, dir in ipairs(directions) do
-		local new_row = row + dir.d_row
-		local new_col = col + dir.d_col
-
-		if new_row >= 0 and new_row < GRID_ROWS and new_col >= 0 and new_col < GRID_COLS then
-			local neighbor = self.grid[new_row][new_col]
-			if neighbor and not neighbor.captured and neighbor.sprite == "bomb" then
-				msg.post(neighbor.id, "start_bomb_timer")
-			end
-		end
-	end
-end
-
-local function generate_new_goals(self)
-	-- Contar tipos disponibles
-	local counts = {}
-	for row = 0, GRID_ROWS - 1 do
-		for col = 0, GRID_COLS - 1 do
-			local sprite = self.grid[row][col].sprite
-			if sprite and (sprite == "bear_pink" or sprite == "bear_blue" or sprite == "bear_golden" or sprite == "candy") then
-				counts[sprite] = (counts[sprite] or 0) + 1
-			end
-		end
-	end
-
-	-- Generar objetivos nuevos (2 a 3)
+local function generate_goals_from_level(self)
+	local data = LEVELS[self.level]
 	self.goals = {}
-	local added = {}
-	while #self.goals < 3 do
-		local keys = { "bear_pink", "bear_blue", "bear_golden", "candy" }
-		local pick = keys[math.random(#keys)]
-		local available = counts[pick] or 0
-		if available >= 2 and not added[pick] then
-			local req = math.min(available, math.random(1, 3))
-			table.insert(self.goals, {
-				type = pick,
-				required = req,
-				collected = 0,
-				points_total = req * POINTS[pick]
-			})
-			added[pick] = true
-		end
+	for _, g in ipairs(data.goals) do
+		table.insert(self.goals, {
+			type = g.type,
+			required = g.required,
+			collected = 0,
+			points_total = g.required * POINTS[g.type]
+		})
 	end
-
-	-- Enviar al HUD
 	msg.post("hud", "init_goals", { goals = self.goals })
 end
 
 local function reset_grid(self)
-	-- Eliminar celdas actuales
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
-			local cell = self.grid[row][col]
+			local cell = self.grid[row] and self.grid[row][col]
 			if cell and cell.id then
 				go.delete(cell.id)
 			end
 		end
 	end
 
-	-- Reestablecer todo
 	self.grid = {}
-	self.sprite_counts = {}
-	for _, prob in ipairs(PROBABILITIES) do
-		self.sprite_counts[prob.sprite] = 0
-	end
+	self.total_cells = 0
 
-	-- Crear nueva grilla
-	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
-	local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
+	timer.delay(0.05, false, function()
+		local level_data = LEVELS[self.level]
+		local layout = level_data and level_data.grid or {}
+		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
+		local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
 
-	for row = 0, GRID_ROWS - 1 do
-		self.grid[row] = {}
-		for col = 0, GRID_COLS - 1 do
-			local x = start_x + col * CELL_SIZE
-			local y = start_y - row * CELL_SIZE
-
-			local id = factory.create("#cell_factory", vmath.vector3(x, y, 0))
-			local sprite_name = pick_sprite(self, row, col)
-
-			self.grid[row][col] = {
-				id = id,
-				sprite = sprite_name,
-				revealed = true,
-				captured = false,
-				x = x,
-				y = y
-			}
-
-			msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
-			msg.post(id, "reveal")
+		for row = 0, GRID_ROWS - 1 do
+			self.grid[row] = {}
+			for col = 0, GRID_COLS - 1 do
+				local x = start_x + col * CELL_SIZE
+				local y = start_y - row * CELL_SIZE
+				local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
+				if id then
+					local sprite_name = layout[row + 1] and layout[row + 1][col + 1] or "bear_pink"
+					self.grid[row][col] = {
+						id = id,
+						sprite = sprite_name,
+						revealed = true,
+						captured = false,
+						x = x,
+						y = y
+					}
+					self.total_cells = self.total_cells + 1
+					msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
+					msg.post(id, "reveal")
+				else
+					print(string.format("⚠️ No se pudo crear celda en fila %d, columna %d", row, col))
+				end
+			end
 		end
-	end
-
-	create_bug_randomly(self)
+	end)
 end
-
 
 function init(self)
 	self.grid = {}
-	self.sprite_counts = {}
 	self.multiplier = 1
-
-	for _, prob in ipairs(PROBABILITIES) do
-		self.sprite_counts[prob.sprite] = 0
-	end
-
-	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
-	local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
-
-	for row = 0, GRID_ROWS - 1 do
-		self.grid[row] = {}
-		for col = 0, GRID_COLS - 1 do
-			local x = start_x + col * CELL_SIZE
-			local y = start_y - row * CELL_SIZE
-
-			local id = factory.create("#cell_factory", vmath.vector3(x, y, 0))
-			local sprite_name = pick_sprite(self, row, col)
-
-			self.grid[row][col] = {
-				id = id,
-				sprite = sprite_name,
-				revealed = true,
-				captured = false,
-				x = x,
-				y = y
-			}
-
-			msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
-			msg.post(id, "reveal")
-		end
-	end
-
-	create_bug_randomly(self)
-
-	-- Contar cuántos hay de cada tipo válido
-	local counts = {}
-
-	for row = 0, GRID_ROWS - 1 do
-		for col = 0, GRID_COLS - 1 do
-			local sprite = self.grid[row][col].sprite
-			if sprite and (sprite == "bear_pink" or sprite == "bear_blue" or sprite == "bear_golden" or sprite == "candy") then
-				counts[sprite] = (counts[sprite] or 0) + 1
-			end
-		end
-	end
-
-	-- Generar 2–3 objetivos viables
-	self.goals = {}
-	local added = {}
-	while #self.goals < 3 do
-		local keys = { "bear_pink", "bear_blue", "bear_golden", "candy" }
-		local pick = keys[math.random(#keys)]
-		local available = counts[pick] or 0
-		if available >= 2 and not added[pick] then
-			local req = math.min(available, math.random(1, 3))
-			table.insert(self.goals, {
-				type = pick,
-				required = req,
-				collected = 0,
-				points_total = req * POINTS[pick]
-			})
-			added[pick] = true
-		end
-	end
-
-	-- Game Object con ID "hud"
-	self.hud_go = msg.url(nil, "hud", nil)
-	msg.post("hud", "init_goals", { goals = self.goals })
-
-
 	self.total_points = 0
 	self.game_over = false
-end
-
-
-function update(self, dt)
+	msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
+	reset_grid(self)
+	generate_goals_from_level(self)
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
-		local x = message.x
-		local y = message.y
-
+		local x, y = message.x, message.y
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local col = math.floor((x - start_x + CELL_SIZE/2) / CELL_SIZE)
-
-		local found = false
 
 		if col >= 0 and col < GRID_COLS then
 			for row = 0, GRID_ROWS - 1 do
 				local cell = self.grid[row][col]
 				if cell and not cell.captured and y <= cell.y + CELL_SIZE/2 and y >= cell.y - CELL_SIZE/2 then
 					msg.post(cell.id, "capture")
-
-					if cell.sprite ~= "bomb" then
-						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite })
-					else
-						msg.post("claw", "object_grabbed", { object_sprite = nil })
-					end
-
-					local points = POINTS[cell.sprite] or 0
-					msg.post("points", "add_points", { points = points })
-
+					msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
+					msg.post("points", "add_points", { points = POINTS[cell.sprite] or 0 })
 					cell.captured = true
-					found = true
 
 					for _, goal in ipairs(self.goals) do
 						if goal.type == cell.sprite and goal.collected < goal.required then
@@ -382,42 +167,30 @@ function on_message(self, message_id, message, sender)
 						for _, goal in ipairs(self.goals) do
 							self.total_points = self.total_points + goal.points_total
 						end
-						print("✅ ¡VICTORIA! Puntos totales: " .. self.total_points)
+						msg.post("charge_bar", "disable")
 						msg.post("hud", "level_completed", { points = self.total_points })
-					end
-
-					-- ❌ ¿Hay algún objetivo imposible?
-					if not self.game_over and check_impossible_goals(self) then
+					elseif not self.game_over and check_impossible_goals(self) then
 						self.game_over = true
-						print("❌ DERROTA: objetivo imposible de cumplir")
+						msg.post("charge_bar", "disable")
 						msg.post("hud", "level_failed")
 					end
-				
-					check_and_activate_adjacent_bombs(self, row, col)
+
 					break
 				end
 			end
 		end
 
-		if not found then
-			msg.post("claw", "object_grabbed", { object_sprite = nil })
-		end
-
-	elseif message_id == hash("explode_cell") then
-		explode_adjacent_cells(self, message.row, message.col)
-
-	elseif message_id == hash("move_bug") then
-		move_bug(self, message.row, message.col)
-
-	elseif message_id == hash("activate_multiplier") then
-		self.multiplier = 2
-		timer.delay(5, false, function()
-			self.multiplier = 1
-		end)
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
 		self.total_points = 0
+		msg.post("charge_bar", "enable")
 		reset_grid(self)
-		generate_new_goals(self)
+		generate_goals_from_level(self)
+		msg.post("victory_panel#victory_gui", "disable")
+		msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
+
+	elseif message_id == hash("set_level") then
+		self.level = message.level or 1
+		msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
 	end
 end

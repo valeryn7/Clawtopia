@@ -3,7 +3,7 @@ instances {
   id: "claw"
   prototype: "/main/claw.go"
   position {
-    z: 2.0
+    z: 4.0
   }
 }
 instances {
@@ -148,7 +148,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 2.0
+    z: 3.0
   }
 }
 embedded_instances {
@@ -261,6 +261,9 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
 }
 embedded_instances {
   id: "slot_2"
@@ -309,6 +312,9 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
 }
 embedded_instances {
   id: "slot_3"
@@ -357,6 +363,9 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
 }
 embedded_instances {
   id: "slot_4"
@@ -405,6 +414,9 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
 }
 embedded_instances {
   id: "slot_5"
@@ -453,67 +465,15 @@ embedded_instances {
   "  }\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
 }
 embedded_instances {
   id: "victory_panel"
-  children: "restart_button"
-  data: "embedded_components {\n"
-  "  id: \"bg\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"default_animation: \\\"bg_victory\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "textures {\\n"
-  "  sampler: \\\"texture_sampler\\\"\\n"
-  "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
-  "}\\n"
-  "\"\n"
-  "  position {\n"
-  "    z: 6.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 0.5\n"
-  "    y: 0.5\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"label\"\n"
-  "  type: \"label\"\n"
-  "  data: \"size {\\n"
-  "  x: 250.0\\n"
-  "  y: 250.0\\n"
-  "}\\n"
-  "color {\\n"
-  "  x: 0.0\\n"
-  "  y: 0.0\\n"
-  "  z: 0.0\\n"
-  "}\\n"
-  "text: \\\"Victory\\\"\\n"
-  "font: \\\"/fonts/title.font\\\"\\n"
-  "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
-  "\"\n"
-  "  position {\n"
-  "    y: 68.0\n"
-  "    z: 6.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"points_label\"\n"
-  "  type: \"label\"\n"
-  "  data: \"size {\\n"
-  "  x: 250.0\\n"
-  "  y: 250.0\\n"
-  "}\\n"
-  "color {\\n"
-  "  x: 0.0\\n"
-  "  y: 0.0\\n"
-  "  z: 0.0\\n"
-  "}\\n"
-  "font: \\\"/builtins/fonts/default.font\\\"\\n"
-  "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
-  "\"\n"
-  "  position {\n"
-  "    z: 6.0\n"
-  "  }\n"
+  data: "components {\n"
+  "  id: \"victory_gui\"\n"
+  "  component: \"/main/victory_gui.gui\"\n"
   "}\n"
   ""
   position {
@@ -559,58 +519,6 @@ embedded_instances {
   ""
   position {
     z: 5.0
-  }
-}
-embedded_instances {
-  id: "restart_button"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"default_animation: \\\"reset\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "textures {\\n"
-  "  sampler: \\\"texture_sampler\\\"\\n"
-  "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
-  "}\\n"
-  "\"\n"
-  "  position {\n"
-  "    y: -136.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 0.1\n"
-  "    y: 0.1\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"collisionobject\"\n"
-  "  type: \"collisionobject\"\n"
-  "  data: \"type: COLLISION_OBJECT_TYPE_TRIGGER\\n"
-  "mass: 0.0\\n"
-  "friction: 0.1\\n"
-  "restitution: 0.5\\n"
-  "group: \\\"ui\\\"\\n"
-  "mask: \\\"input\\\"\\n"
-  "embedded_collision_shape {\\n"
-  "  shapes {\\n"
-  "    shape_type: TYPE_BOX\\n"
-  "    position {\\n"
-  "      y: -137.0\\n"
-  "      z: 6.0\\n"
-  "    }\\n"
-  "    rotation {\\n"
-  "    }\\n"
-  "    index: 0\\n"
-  "    count: 3\\n"
-  "  }\\n"
-  "  data: 47.5\\n"
-  "  data: 45.5\\n"
-  "  data: 10.0\\n"
-  "}\\n"
-  "\"\n"
-  "}\n"
-  ""
-  position {
-    z: 6.0
   }
 }
 embedded_instances {

@@ -20,6 +20,15 @@ images {
   image: "/assets/images/bg_victory.png"
 }
 images {
-  image: "/assets/images/reset.png"
+  image: "/assets/images/reset_button.png"
+}
+images {
+  image: "/assets/images/next_button.png"
+}
+images {
+  image: "/assets/images/ball.png"
+}
+images {
+  image: "/assets/images/flip_flop.png"
 }
 extrude_borders: 2
