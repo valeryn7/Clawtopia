@@ -10,7 +10,8 @@ function init(self)
 	self.direction = 1 -- 🔥 1 = bajando, -1 = subiendo
 
 	go.set_rotation(vmath.quat_rotation_z(self.angle)) -- 🔥 Rota al ángulo inicial
-	msg.post("#sprite", "disable") -- 🔥 Ocultar flecha al inicio
+	msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
+	msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 end
 
 local function calculate_strength(angle)
@@ -54,13 +55,15 @@ function on_message(self, message_id, message, sender)
 		self.angle = math.rad(self.min_angle_deg)
 		self.direction = 1
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
-		msg.post("#sprite", "enable")
+		msg.post(msg.url(nil, "charge_bar_arc", nil), "enable")
+		msg.post(msg.url(nil, "charge_arrow", nil), "enable")
+
 	elseif message_id == hash("stop_charge") then
 		self.moving = false
 
 		-- 🔥 Mandar ángulo final al claw
 		msg.post("claw", "set_charge_angle", { angle = self.angle })
-
-		-- msg.post("#sprite", "disable") -- Opcional
+		msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
+		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 	end
 end

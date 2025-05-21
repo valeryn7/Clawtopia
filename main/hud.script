@@ -18,11 +18,7 @@ local function show_panel(self, panel_name)
 	msg.post(panel_url, "enable")
 	go.set_scale(vmath.vector3(1, 1, 1), panel_url)
 	print(panel_name)
-
-	if panel_name == "victory_panel" or panel_name == "defeat_panel" then
-		msg.post("charge_bar", "disable")
-	end
-
+	
 	local overlay_sprite = msg.url(nil, "panel_overlay", "sprite")
 	sprite.set_constant(overlay_sprite, "tint", vmath.vector4(0, 0, 0, 0.6))
 	self.panel_active = true
@@ -85,11 +81,14 @@ function on_message(self, message_id, message, sender)
 
 	elseif message_id == hash("level_completed") then
 		print("✅ ¡VICTORIA!")
+		msg.post("claw#claw", "disable_touch")
 		msg.post("victory_panel#victory_gui", "enable")
 		msg.post("victory_panel#victory_gui", "set_points", { points = message.points })
 		show_panel(self, "victory_panel")
 
 	elseif message_id == hash("level_failed") then
+		print("¡DERROTA!")
+		msg.post("claw#claw", "disable_touch")
 		show_panel(self, "defeat_panel")
 		hide_panel(self, "victory_panel")
 	end

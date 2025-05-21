@@ -167,11 +167,9 @@ function on_message(self, message_id, message, sender)
 						for _, goal in ipairs(self.goals) do
 							self.total_points = self.total_points + goal.points_total
 						end
-						msg.post("charge_bar", "disable")
 						msg.post("hud", "level_completed", { points = self.total_points })
 					elseif not self.game_over and check_impossible_goals(self) then
 						self.game_over = true
-						msg.post("charge_bar", "disable")
 						msg.post("hud", "level_failed")
 					end
 
@@ -183,10 +181,10 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
 		self.total_points = 0
-		msg.post("charge_bar", "enable")
 		reset_grid(self)
 		generate_goals_from_level(self)
 		msg.post("victory_panel#victory_gui", "disable")
+		msg.post("claw#claw", "enable_touch")
 		msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
 
 	elseif message_id == hash("set_level") then
