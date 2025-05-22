@@ -1,0 +1,46 @@
+local function is_inside(node, action)
+	local pos = gui.get_position(node)
+	local size = gui.get_size(node)
+	local pivot = gui.get_pivot(node)
+
+	if pivot == gui.PIVOT_CENTER then
+		pos = pos - vmath.vector3(size.x / 2, size.y / 2, 0)
+	end
+
+	local max = pos + size
+	return action.x >= pos.x and action.x <= max.x and
+	action.y >= pos.y and action.y <= max.y
+end
+
+function on_input(self, action_id, action)
+	if (action_id == hash("touch") or action_id == hash("click")) and action.released then
+		if is_inside(gui.get_node("restart_button"), action) then
+			print("🔄 Botón de reinicio presionado")
+			msg.post("grid_controller#grid", "restart_level")
+			return true
+		end
+
+		if is_inside(gui.get_node("home_button"), action) then
+			print("🏠 Botón de menú presionado")
+			msg.post("grid_controller#grid", "back_to_menu") -- o el mensaje que uses
+			return true
+		end
+	end
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("set_points") then
+		gui.set_text(gui.get_node("points_label"), "Puntos: " .. tostring(message.points))
+	elseif message_id == hash("set_level") then
+		self.level = message.level or 1
+		gui.set_text(gui.get_node("level_label"), "Nivel " .. self.level)
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	gui.set_enabled(gui.get_node("restart_button"), true)
+	gui.set_enabled(gui.get_node("home_button"), true)
+	self.level = 1
+	gui.set_text(gui.get_node("level_label"), "Nivel " .. self.level)
+end

@@ -31,4 +31,7 @@ images {
 images {
   image: "/assets/images/flip_flop.png"
 }
+images {
+  image: "/assets/images/button_home.png"
+}
 extrude_borders: 2

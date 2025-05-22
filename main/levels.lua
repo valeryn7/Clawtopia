@@ -2,6 +2,7 @@
 
 return {
     [1] = {
+        max_drops = 10,
         grid = {
             { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
             { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
@@ -16,6 +17,7 @@ return {
     },
 
     [2] = {
+        max_drops = 10,
         grid = {
             { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
             { "bear_pink", "bear_blue", "bear_pink", "bear_blue", "bear_pink" },
@@ -31,6 +33,7 @@ return {
     },
 
     [3] = {
+        max_drops = 10,
         grid = {
             { "bear_blue", "bear_pink", "candy",     "flip_flop",   "ball"     },
             { "bear_pink", "flip_flop", "ball",      "flip_flop",   "bear_blue" },
@@ -47,6 +50,7 @@ return {
     },
 
     [4] = {
+        max_drops = 10,
         grid = {
             { "flip_flop", "flip_flop", "ball", "candy", "candy" },
             { "candy", "flip_flop", "bear_blue", "bear_pink", "flip_flop" },
@@ -63,6 +67,7 @@ return {
     },
 
     [5] = {
+        max_drops = 10,
         grid = {
             { "bomb", "flip_flop", "ball", "flip_flop", "bomb" },
             { "bear_blue", "flip_flop", "ball", "flip_flop", "bear_blue" },
@@ -79,6 +84,7 @@ return {
     },
 
     [6] = {
+        max_drops = 10,
         grid = {
             { "bear_blue", "ball", "flip_flop", "candy", "bear_pink" },
             { "flip_flop", "flip_flop", "ball", "ball", "flip_flop" },
@@ -95,6 +101,7 @@ return {
     },
 
     [7] = {
+        max_drops = 10,
         grid = {
             { "candy", "candy", "candy", "ball", "ball" },
             { "flip_flop", "flip_flop", "flip_flop", "flip_flop", "flip_flop" },
@@ -111,6 +118,7 @@ return {
     },
 
     [8] = {
+        max_drops = 10,
         grid = {
             { "flip_flop", "ball", "bear_pink", "bear_blue", "flip_flop" },
             { "ball", "ball", "flip_flop", "ball", "ball" },
@@ -127,6 +135,7 @@ return {
     },
 
     [9] = {
+        max_drops = 10,
         grid = {
             { "ball", "flip_flop", "flip_flop", "flip_flop", "ball" },
             { "candy", "candy", "candy", "candy", "candy" },
@@ -143,6 +152,7 @@ return {
     },
 
     [10] = {
+        max_drops = 10,
         grid = {
             { "bug", "bear_blue", "flip_flop", "ball", "bear_pink" },
             { "bear_blue", "bug", "candy", "bug", "bear_blue" },

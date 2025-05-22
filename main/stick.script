@@ -5,8 +5,14 @@ go.property("segment_factory", msg.url("/stick#segment_factory"))
 
 function init(self)
 	local claw_pos = go.get_position("claw#claw_sprite")
-	self.top_x = claw_pos.x
-	self.top_y = claw_pos.y + 55
+	if claw_pos then
+		self.top_x = claw_pos.x
+		self.top_y = claw_pos.y + 55
+	else
+		print("⚠️ No se encontró claw#claw_sprite. Usando valores por defecto.")
+		self.top_x = 0
+		self.top_y = 330
+	end
 	self.segment_ids = {}
 end
 
@@ -35,7 +41,7 @@ local function ensure_segments(self, count)
 		if id then
 			table.insert(self.segment_ids, id)
 		else
-			print("Error: could not create segment from", self.segment_factory)
+			print("⚠️ Error: no se pudo crear segmento desde", self.segment_factory)
 		end
 	end
 end
@@ -44,39 +50,43 @@ function update(self, dt)
 	if not self.bottom_pos then return end
 
 	local points = calculate_catenary_points(self, self.bottom_pos.x, self.bottom_pos.y)
-
 	ensure_segments(self, #points - 1)
 
-	local base_height = 16 -- Tu segmento mide 16px real
+	local base_height = 16 -- altura base del sprite del segmento
 
 	for i = 1, #points - 1 do
 		local p1 = points[i]
 		local p2 = points[i + 1]
 		local segment = self.segment_ids[i]
 
-		if segment then
-			-- Midpoint
+		if segment and p1 and p2 then
 			local mid_x = (p1.x + p2.x) * 0.5
 			local mid_y = (p1.y + p2.y) * 0.5
 
-			-- Direction
 			local dx = p2.x - p1.x
 			local dy = p2.y - p1.y
 			local length = math.sqrt(dx * dx + dy * dy)
-			local angle = math.atan2(dy, dx)
 
-			-- Posicionar
-			go.set_position(vmath.vector3(mid_x, mid_y, 2), segment)
-			go.set_rotation(vmath.quat_rotation_z(angle), segment)
+			-- Protección extra
+			if mid_x ~= mid_x or mid_y ~= mid_y or length ~= length then
+				print("❌ NaN detectado en posición o largo:", p1, p2)
+			else
+				local angle = math.atan2(dy, dx)
+				if angle ~= angle then
+					print("❌ NaN en ángulo:", dy, dx)
+				else
+					go.set_position(vmath.vector3(mid_x, mid_y, 2), segment)
+					go.set_rotation(vmath.quat_rotation_z(angle), segment)
 
-			-- 🔥 Corrección: Escalar en Y para que se "empalmen" los extremos
-			local final_scale_x = length / base_height
-			local final_scale_y = 0.6 -- 🔥 Un pequeño stretch para que no queden huecos
-			go.set_scale(vmath.vector3(final_scale_x, final_scale_y, 1), segment)
+					local final_scale_x = length / base_height
+					local final_scale_y = 0.6
+					go.set_scale(vmath.vector3(final_scale_x, final_scale_y, 1), segment)
+				end
+			end
 		end
 	end
 
-	-- Ocultar sobrantes
+	-- Ocultar segmentos sobrantes
 	for i = #points, #self.segment_ids do
 		if self.segment_ids[i] then
 			go.set_scale(vmath.vector3(0, 0, 0), self.segment_ids[i])

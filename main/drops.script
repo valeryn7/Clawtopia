@@ -1,0 +1,17 @@
+go.property("drops", 0)
+
+local function update_drops_display(self)
+	label.set_text("#drops_label", tostring(self.drops))
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	update_drops_display(self)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("set_drops") then
+		self.drops = message.drops
+		update_drops_display(self)
+	end
+end

@@ -99,12 +99,26 @@ function update(self, dt)
 
 			if self.drop_progress >= self.total_drop then
 				self.descending = false
-				msg.post("grid_controller#grid", "grab_object_at_column", {
-					x = self.anchor_x,
-					y = self.anchor_y - ROPE_LENGTH
-				})
-				self.waiting_for_grab_response = true
-				self.grab_response_timer = 0
+
+				if self.total_drop < 10 then
+					-- 🔁 No bajó casi nada, no hacer nada
+					self.anchor_y = self.start_y
+					self.anchor_x = self.start_x
+					self.pendulum_active = true
+
+					local ratio = math.max(-1, math.min(1, self.captured_angle / MAX_ANGLE))
+					self.time = math.asin(ratio) / PENDULUM_SPEED
+				else
+					msg.post("grid_controller#grid", "consume_drop")
+
+					msg.post("grid_controller#grid", "grab_object_at_column", {
+						x = self.anchor_x,
+						y = self.anchor_y - ROPE_LENGTH
+					})
+
+					self.waiting_for_grab_response = true
+					self.grab_response_timer = 0
+				end
 			end
 
 		elseif self.ascending then

@@ -1,5 +1,3 @@
--- grid.script (actualizado para sincronizar nivel con victory_gui y usar LEVELS)
-
 local CELL_SIZE = 90
 local GRID_COLS = 5
 local GRID_ROWS = 6
@@ -91,6 +89,10 @@ local function reset_grid(self)
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
 
+		-- Inicializar drops según el nivel
+		self.remaining_drops = level_data.max_drops or 5
+		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
+
 		for row = 0, GRID_ROWS - 1 do
 			self.grid[row] = {}
 			for col = 0, GRID_COLS - 1 do
@@ -140,7 +142,6 @@ function on_message(self, message_id, message, sender)
 				if cell and not cell.captured and y <= cell.y + CELL_SIZE/2 and y >= cell.y - CELL_SIZE/2 then
 					msg.post(cell.id, "capture")
 					msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
-					msg.post("points", "add_points", { points = POINTS[cell.sprite] or 0 })
 					cell.captured = true
 
 					for _, goal in ipairs(self.goals) do
@@ -173,11 +174,30 @@ function on_message(self, message_id, message, sender)
 						msg.post("hud", "level_failed")
 					end
 
+					-- Descontar intento y actualizar visual
+					self.remaining_drops = self.remaining_drops - 1
+					msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
+
+					-- Perder si ya no hay más drops
+					if self.remaining_drops <= 0 and not self.game_over then
+						self.game_over = true
+						msg.post("hud", "level_failed")
+					end
+
 					break
 				end
 			end
 		end
+		
+	elseif message_id == hash("consume_drop") then
+		self.remaining_drops = self.remaining_drops - 1
+		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
 
+		if self.remaining_drops <= 0 and not self.game_over then
+			self.game_over = true
+			msg.post("hud", "level_failed")
+		end
+		
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
 		self.total_points = 0

@@ -44,6 +44,8 @@ function init(self)
 	hide_panel(self, "victory_panel")
 	msg.post("victory_panel#victory_gui", "disable")
 	hide_panel(self, "defeat_panel")
+	msg.post("defeat_panel#defeat_gui", "disable")
+	hide_panel(self, "defeat_panel")
 	hide_panel(self, "panel_overlay")
 
 	for _, slot in ipairs(self.slots) do
@@ -89,7 +91,8 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("level_failed") then
 		print("¡DERROTA!")
 		msg.post("claw#claw", "disable_touch")
+		msg.post("defeat_panel#defeat_gui", "enable")
+		msg.post("defeat_panel#defeat_gui", "set_points", { points = message.points })
 		show_panel(self, "defeat_panel")
-		hide_panel(self, "victory_panel")
 	end
 end
