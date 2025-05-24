@@ -1,37 +1,37 @@
 images {
-  image: "/assets/images/bear_blue.png"
+  image: "/assets/images/objects/bear_blue.png"
 }
 images {
-  image: "/assets/images/bear_golden.png"
+  image: "/assets/images/objects/bear_golden.png"
 }
 images {
-  image: "/assets/images/bear_pink.png"
+  image: "/assets/images/objects/bear_pink.png"
 }
 images {
-  image: "/assets/images/box.png"
+  image: "/assets/images/objects/box.png"
 }
 images {
-  image: "/assets/images/candy.png"
+  image: "/assets/images/objects/candy.png"
 }
 images {
-  image: "/assets/images/bg_defeat.png"
+  image: "/assets/images/panels/bg_defeat.png"
 }
 images {
-  image: "/assets/images/bg_victory.png"
+  image: "/assets/images/panels/bg_victory.png"
 }
 images {
-  image: "/assets/images/reset_button.png"
+  image: "/assets/images/panels/reset_button.png"
 }
 images {
-  image: "/assets/images/next_button.png"
+  image: "/assets/images/panels/next_button.png"
 }
 images {
-  image: "/assets/images/ball.png"
+  image: "/assets/images/objects/ball.png"
 }
 images {
-  image: "/assets/images/flip_flop.png"
+  image: "/assets/images/objects/flip_flop.png"
 }
 images {
-  image: "/assets/images/button_home.png"
+  image: "/assets/images/panels/button_home.png"
 }
 extrude_borders: 2

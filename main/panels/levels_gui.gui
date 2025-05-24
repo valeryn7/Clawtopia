@@ -1,4 +1,4 @@
-script: "/main/defeat_gui.gui_script"
+script: "/main/panels/victory_gui.gui_script"
 fonts {
   name: "title"
   font: "/fonts/title.font"
@@ -27,9 +27,9 @@ nodes {
     z: 0.2
   }
   type: TYPE_TEXT
-  text: "Defeat!"
+  text: "Victory!"
   font: "title"
-  id: "label_defeat"
+  id: "label_win"
   layer: "layer"
   inherit_alpha: true
 }
@@ -75,8 +75,8 @@ nodes {
     y: 0.4
   }
   type: TYPE_BOX
-  texture: "hud_icons/button_home"
-  id: "home_button"
+  texture: "hud_icons/next_button"
+  id: "next_button"
   layer: "layer"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO

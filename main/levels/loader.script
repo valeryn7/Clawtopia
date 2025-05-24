@@ -1,0 +1,44 @@
+-- loader.script
+
+go.property("current_level", 1)
+
+local LEVELS = require("main.levels.levels")
+
+local function load_level(self, level)
+	self.current_level = level
+
+	msg.post("panels#panels_gui", "hide_panels")
+	
+	-- Nos aseguramos de que el nivel exista
+	if LEVELS[level] == nil then
+		print("🎉 ¡No hay más niveles! Nivel máximo alcanzado.")
+		-- Podés mostrar un panel de fin, volver al menú, etc.
+		msg.post("panels#panels_gui", "show_final_panel")
+		return
+	end
+
+	print("🔄 Cargando nivel:", level)
+	msg.post("grid_controller#grid", "set_level", { level = level })
+	msg.post("grid_controller#grid", "restart_level")
+end
+
+function init(self)
+	print("🟢 loader.script iniciado")
+	self.current_level = 1
+	load_level(self, self.current_level)
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("load_next_level") then
+		self.current_level = self.current_level + 1
+		load_level(self, self.current_level)
+
+	elseif message_id == hash("restart_level") then
+		load_level(self, self.current_level)
+
+	elseif message_id == hash("go_to_level_selector") then
+		print("📋 Mostrar selector de niveles")
+		msg.post("panels#panels_gui", "hide_panels")
+		msg.post("levels_gui#script", "show_level_selector")
+	end
+end

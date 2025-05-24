@@ -1,6 +1,6 @@
 components {
   id: "claw"
-  component: "/main/claw.script"
+  component: "/main/claw/claw.script"
 }
 embedded_components {
   id: "claw_sprite"
@@ -20,6 +20,6 @@ embedded_components {
 embedded_components {
   id: "object_factory"
   type: "factory"
-  data: "prototype: \"/main/object.go\"\n"
+  data: "prototype: \"/main/claw/object/object.go\"\n"
   ""
 }

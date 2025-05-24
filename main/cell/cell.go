@@ -1,10 +1,10 @@
 components {
   id: "cell"
-  component: "/main/cell.script"
+  component: "/main/cell/cell.script"
 }
 components {
   id: "explosion_fx"
-  component: "/main/explosion_fx.particlefx"
+  component: "/main/particles/explosion_fx.particlefx"
   position {
     z: 2.0
   }

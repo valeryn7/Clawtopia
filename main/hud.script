@@ -1,4 +1,4 @@
--- hud.script actualizado (base para control de objetivos y paneles)
+-- hud.script (solo objetivos)
 
 local function update_slot(self, slot)
 	local label_url = msg.url(nil, slot.go, slot.label)
@@ -13,24 +13,7 @@ local function update_slot(self, slot)
 	})
 end
 
-local function show_panel(self, panel_name)
-	local panel_url = msg.url(nil, panel_name, nil)
-	msg.post(panel_url, "enable")
-	go.set_scale(vmath.vector3(1, 1, 1), panel_url)
-	print(panel_name)
-	
-	local overlay_sprite = msg.url(nil, "panel_overlay", "sprite")
-	sprite.set_constant(overlay_sprite, "tint", vmath.vector4(0, 0, 0, 0.6))
-	self.panel_active = true
-end
-
-local function hide_panel(self, panel_name)
-	local panel_url = msg.url(nil, panel_name, nil)
-	go.set_scale(vmath.vector3(0.001, 0.001, 1), panel_url)
-end
-
 function init(self)
-	self.panel_active = false
 	msg.post(".", "acquire_input_focus")
 
 	self.slots = {
@@ -40,13 +23,6 @@ function init(self)
 		{ go = "slot_4", icon = "slot_4_icon", label = "slot_4_label", type = nil, required = 0, collected = 0 },
 		{ go = "slot_5", icon = "slot_5_icon", label = "slot_5_label", type = nil, required = 0, collected = 0 },
 	}
-
-	hide_panel(self, "victory_panel")
-	msg.post("victory_panel#victory_gui", "disable")
-	hide_panel(self, "defeat_panel")
-	msg.post("defeat_panel#defeat_gui", "disable")
-	hide_panel(self, "defeat_panel")
-	hide_panel(self, "panel_overlay")
 
 	for _, slot in ipairs(self.slots) do
 		update_slot(self, slot)
@@ -80,19 +56,5 @@ function on_message(self, message_id, message, sender)
 				break
 			end
 		end
-
-	elseif message_id == hash("level_completed") then
-		print("✅ ¡VICTORIA!")
-		msg.post("claw#claw", "disable_touch")
-		msg.post("victory_panel#victory_gui", "enable")
-		msg.post("victory_panel#victory_gui", "set_points", { points = message.points })
-		show_panel(self, "victory_panel")
-
-	elseif message_id == hash("level_failed") then
-		print("¡DERROTA!")
-		msg.post("claw#claw", "disable_touch")
-		msg.post("defeat_panel#defeat_gui", "enable")
-		msg.post("defeat_panel#defeat_gui", "set_points", { points = message.points })
-		show_panel(self, "defeat_panel")
 	end
 end

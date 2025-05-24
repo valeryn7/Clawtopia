@@ -1,14 +1,14 @@
 name: "main"
 instances {
   id: "claw"
-  prototype: "/main/claw.go"
+  prototype: "/main/claw/claw.go"
   position {
     z: 4.0
   }
 }
 instances {
   id: "grid_controller"
-  prototype: "/main/grid.go"
+  prototype: "/main/grid_controller/grid.go"
   children: "background_grid"
 }
 scale_along_z: 0
@@ -26,6 +26,16 @@ embedded_instances {
   "    id: \"farZ\"\n"
   "    value: \"10.0\"\n"
   "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"useViewArea\"\n"
+  "    value: \"true\"\n"
+  "    type: PROPERTY_TYPE_BOOLEAN\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"viewArea\"\n"
+  "    value: \"720.0, 1280.0, 0.0\"\n"
+  "    type: PROPERTY_TYPE_VECTOR3\n"
   "  }\n"
   "}\n"
   ""
@@ -47,10 +57,6 @@ embedded_instances {
   "\"\n"
   "}\n"
   ""
-  scale3 {
-    x: 0.7
-    y: 0.65
-  }
 }
 embedded_instances {
   id: "background_grid"
@@ -63,7 +69,7 @@ embedded_instances {
   id: "drops"
   data: "components {\n"
   "  id: \"drops\"\n"
-  "  component: \"/main/drops.script\"\n"
+  "  component: \"/main/claw/drops.script\"\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"drops_label\"\n"
@@ -77,8 +83,8 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: -202.0\n"
-  "    y: 409.0\n"
+  "    x: -224.0\n"
+  "    y: 530.0\n"
   "  }\n"
   "  scale {\n"
   "    x: 1.5\n"
@@ -87,14 +93,14 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 5.0
+    z: 6.0
   }
 }
 embedded_instances {
   id: "charge_arrow"
   data: "components {\n"
   "  id: \"charge_bar\"\n"
-  "  component: \"/main/charge_bar.script\"\n"
+  "  component: \"/main/charge_bar/charge_bar.script\"\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"arrow_sprite\"\n"
@@ -117,7 +123,7 @@ embedded_instances {
   ""
   position {
     x: 77.0
-    y: 260.0
+    y: 312.0
     z: 1.0
   }
 }
@@ -148,6 +154,7 @@ embedded_instances {
   "}\n"
   ""
   position {
+    y: 118.0
     z: 3.0
   }
 }
@@ -155,12 +162,12 @@ embedded_instances {
   id: "stick"
   data: "components {\n"
   "  id: \"stick\"\n"
-  "  component: \"/main/stick.script\"\n"
+  "  component: \"/main/claw/stick/stick.script\"\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"segment_factory\"\n"
   "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/segment.go\\\"\\n"
+  "  data: \"prototype: \\\"/main/claw/stick/segment.go\\\"\\n"
   "\"\n"
   "}\n"
   ""
@@ -170,14 +177,11 @@ embedded_instances {
 }
 embedded_instances {
   id: "hud"
-  children: "defeat_panel"
-  children: "panel_overlay"
   children: "slot_1"
   children: "slot_2"
   children: "slot_3"
   children: "slot_4"
   children: "slot_5"
-  children: "victory_panel"
   data: "components {\n"
   "  id: \"hud\"\n"
   "  component: \"/main/hud.script\"\n"
@@ -203,10 +207,6 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
   "}\\n"
   "\"\n"
-  "  position {\n"
-  "    x: -61.0\n"
-  "    y: 412.0\n"
-  "  }\n"
   "  scale {\n"
   "    x: 0.3\n"
   "    y: 0.3\n"
@@ -229,12 +229,13 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: -18.0\n"
-  "    y: 412.0\n"
+  "    x: 40.0\n"
   "  }\n"
   "}\n"
   ""
   position {
+    x: -63.0
+    y: 527.0
     z: 5.0
   }
 }
@@ -254,10 +255,6 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
   "}\\n"
   "\"\n"
-  "  position {\n"
-  "    x: 28.0\n"
-  "    y: 412.0\n"
-  "  }\n"
   "  scale {\n"
   "    x: 0.3\n"
   "    y: 0.3\n"
@@ -280,12 +277,13 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 66.0\n"
-  "    y: 412.0\n"
+  "    x: 40.0\n"
   "  }\n"
   "}\n"
   ""
   position {
+    x: 24.0
+    y: 527.0
     z: 5.0
   }
 }
@@ -305,10 +303,6 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
   "}\\n"
   "\"\n"
-  "  position {\n"
-  "    x: 104.0\n"
-  "    y: 412.0\n"
-  "  }\n"
   "  scale {\n"
   "    x: 0.3\n"
   "    y: 0.3\n"
@@ -331,12 +325,13 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 141.0\n"
-  "    y: 412.0\n"
+  "    x: 40.0\n"
   "  }\n"
   "}\n"
   ""
   position {
+    x: 105.0
+    y: 527.0
     z: 5.0
   }
 }
@@ -356,10 +351,6 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
   "}\\n"
   "\"\n"
-  "  position {\n"
-  "    x: 179.0\n"
-  "    y: 412.0\n"
-  "  }\n"
   "  scale {\n"
   "    x: 0.3\n"
   "    y: 0.3\n"
@@ -382,12 +373,13 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 213.0\n"
-  "    y: 412.0\n"
+  "    x: 40.0\n"
   "  }\n"
   "}\n"
   ""
   position {
+    x: 187.0
+    y: 527.0
     z: 5.0
   }
 }
@@ -407,10 +399,6 @@ embedded_instances {
   "  texture: \\\"/assets/atlases/hud_icons.atlas\\\"\\n"
   "}\\n"
   "\"\n"
-  "  position {\n"
-  "    x: 245.0\n"
-  "    y: 412.0\n"
-  "  }\n"
   "  scale {\n"
   "    x: 0.3\n"
   "    y: 0.3\n"
@@ -433,63 +421,14 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 284.0\n"
-  "    y: 412.0\n"
+  "    x: 40.0\n"
   "  }\n"
   "}\n"
   ""
   position {
+    x: 260.0
+    y: 527.0
     z: 5.0
-  }
-}
-embedded_instances {
-  id: "victory_panel"
-  data: "components {\n"
-  "  id: \"victory_gui\"\n"
-  "  component: \"/main/victory_gui.gui\"\n"
-  "}\n"
-  ""
-  position {
-    z: 6.0
-  }
-}
-embedded_instances {
-  id: "defeat_panel"
-  data: "components {\n"
-  "  id: \"defeat_gui\"\n"
-  "  component: \"/main/defeat_gui.gui\"\n"
-  "}\n"
-  ""
-  position {
-    z: 5.0
-  }
-}
-embedded_instances {
-  id: "panel_overlay"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"default_animation: \\\"bg_black\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "size {\\n"
-  "  x: 1024.0\\n"
-  "  y: 1024.0\\n"
-  "}\\n"
-  "textures {\\n"
-  "  sampler: \\\"texture_sampler\\\"\\n"
-  "  texture: \\\"/assets/atlases/background.atlas\\\"\\n"
-  "}\\n"
-  "\"\n"
-  "  position {\n"
-  "    z: 5.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 0.8\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    z: 4.0
   }
 }
 embedded_instances {
@@ -519,7 +458,23 @@ embedded_instances {
   ""
   position {
     x: 124.0
-    y: 255.0
+    y: 332.0
     z: 1.0
   }
+}
+embedded_instances {
+  id: "panels"
+  data: "components {\n"
+  "  id: \"panels_gui\"\n"
+  "  component: \"/main/panels/panels_gui.gui\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "loader_level"
+  data: "components {\n"
+  "  id: \"loader\"\n"
+  "  component: \"/main/levels/loader.script\"\n"
+  "}\n"
+  ""
 }

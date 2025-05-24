@@ -1,10 +1,10 @@
 -- Tus constantes
 local CELL_SIZE = 90
 local GRID_COLS = 5
-local CLAW_START_Y = 300
+local CLAW_START_Y = 380
 local CLAW_BOTTOM_Y = -150
 local CLAW_SPEED = 400
-local ROPE_LENGTH = 40
+local ROPE_LENGTH = 30
 local MAX_ANGLE = math.rad(45)
 local PENDULUM_SPEED = 2
 
@@ -63,9 +63,6 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 3))
 	update_claw_rotation(self)
-	
-	--msg.post("charge_bar_arrow#sprite", "disable")
-	--msg.post("charge_bar#sprite", "disable")
 end
 
 function update(self, dt)

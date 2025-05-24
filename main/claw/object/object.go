@@ -1,6 +1,6 @@
 components {
   id: "object"
-  component: "/main/object.script"
+  component: "/main/claw/object/object.script"
 }
 embedded_components {
   id: "sprite"

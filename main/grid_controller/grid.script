@@ -1,4 +1,4 @@
-local CELL_SIZE = 90
+local CELL_SIZE = 100
 local GRID_COLS = 5
 local GRID_ROWS = 6
 
@@ -16,7 +16,7 @@ local POINTS = {
 	bug = 0
 }
 
-local LEVELS = require("main.levels")
+local LEVELS = require("main.levels.levels")
 
 local function explode_adjacent_cells(self, row, col)
 	local directions = {
@@ -71,10 +71,19 @@ local function generate_goals_from_level(self)
 end
 
 local function reset_grid(self)
+	if self.creating_grid then
+		print("⏳ Ya se está creando la grilla, ignorando este llamado")
+		return
+	end
+	self.creating_grid = true
+
+	-- Borrar celdas viejas
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row] and self.grid[row][col]
-			if cell and cell.id then
+			if cell and cell.id and go.exists(cell.id) then
+				-- 🔇 Detenemos efectos de partículas antes de borrar
+				msg.post(cell.id, "stop_particles")
 				go.delete(cell.id)
 			end
 		end
@@ -89,7 +98,6 @@ local function reset_grid(self)
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
 
-		-- Inicializar drops según el nivel
 		self.remaining_drops = level_data.max_drops or 5
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
 
@@ -117,6 +125,8 @@ local function reset_grid(self)
 				end
 			end
 		end
+
+		self.creating_grid = false -- ✅ Resetear bandera al final
 	end)
 end
 
@@ -125,9 +135,7 @@ function init(self)
 	self.multiplier = 1
 	self.total_points = 0
 	self.game_over = false
-	msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
-	reset_grid(self)
-	generate_goals_from_level(self)
+	self.creating_grid = false
 end
 
 function on_message(self, message_id, message, sender)
@@ -168,10 +176,10 @@ function on_message(self, message_id, message, sender)
 						for _, goal in ipairs(self.goals) do
 							self.total_points = self.total_points + goal.points_total
 						end
-						msg.post("hud", "level_completed", { points = self.total_points })
+						msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
 					elseif not self.game_over and check_impossible_goals(self) then
 						self.game_over = true
-						msg.post("hud", "level_failed")
+						msg.post("panels#panels_gui", "level_failed")
 					end
 
 					-- Descontar intento y actualizar visual
@@ -181,7 +189,7 @@ function on_message(self, message_id, message, sender)
 					-- Perder si ya no hay más drops
 					if self.remaining_drops <= 0 and not self.game_over then
 						self.game_over = true
-						msg.post("hud", "level_failed")
+						msg.post("panels#panels_gui", "level_failed")
 					end
 
 					break
@@ -195,7 +203,7 @@ function on_message(self, message_id, message, sender)
 
 		if self.remaining_drops <= 0 and not self.game_over then
 			self.game_over = true
-			msg.post("hud", "level_failed")
+			msg.post("panels#panels_gui", "level_failed")
 		end
 		
 	elseif message_id == hash("restart_level") then
@@ -203,12 +211,13 @@ function on_message(self, message_id, message, sender)
 		self.total_points = 0
 		reset_grid(self)
 		generate_goals_from_level(self)
-		msg.post("victory_panel#victory_gui", "disable")
 		msg.post("claw#claw", "enable_touch")
-		msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
 
 	elseif message_id == hash("set_level") then
 		self.level = message.level or 1
-		msg.post("victory_panel#victory_gui", "set_level", { level = self.level })
+		reset_grid(self)
+		generate_goals_from_level(self)
+		msg.post("claw#claw", "enable_touch")
+		
 	end
 end

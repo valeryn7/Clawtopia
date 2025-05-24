@@ -1,0 +1,283 @@
+script: "/main/panels/panels.gui_script"
+fonts {
+  name: "title"
+  font: "/fonts/title.font"
+}
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+textures {
+  name: "background"
+  texture: "/assets/atlases/background.atlas"
+}
+textures {
+  name: "hud_icons"
+  texture: "/assets/atlases/hud_icons.atlas"
+}
+nodes {
+  position {
+    x: 358.0
+    y: 640.0
+  }
+  size {
+    x: 1024.0
+    y: 1280.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_BOX
+  id: "panel_overlay"
+  inherit_alpha: true
+  alpha: 0.6
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    x: 360.0
+    y: 656.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/bg_victory"
+  id: "victory_bg"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 440.0
+    y: 568.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/next_button"
+  id: "victory_next_button"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 353.0
+    y: 660.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.702
+    y: 0.302
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "victory_points_label"
+  parent: "victory_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 353.0
+    y: 778.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.6
+    y: 0.2
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "victory_level_label"
+  parent: "victory_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 280.0
+    y: 568.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/reset_button"
+  id: "victory_restart_button"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 355.0
+    y: 715.0
+  }
+  size {
+    x: 280.0
+    y: 100.0
+  }
+  color {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+  }
+  type: TYPE_TEXT
+  text: "Victory"
+  font: "title"
+  id: "victory_label"
+  parent: "victory_gui"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    x: 360.0
+    y: 656.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/bg_victory"
+  id: "defeat_bg"
+  parent: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 440.0
+    y: 568.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/button_home"
+  id: "defeat_home_button"
+  parent: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 353.0
+    y: 660.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.702
+    y: 0.302
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "defeat_points_label"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 353.0
+    y: 778.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.6
+    y: 0.2
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "defeat_level_label"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 280.0
+    y: 568.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/reset_button"
+  id: "defeat_restart_button"
+  parent: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 370.0
+    y: 715.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+  }
+  type: TYPE_TEXT
+  text: "Defeat"
+  font: "title"
+  id: "defeat_label"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

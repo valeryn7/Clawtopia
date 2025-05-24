@@ -170,5 +170,8 @@ function on_message(self, message_id, message, sender)
 			self.exploded = true
 			animate_explosion(self)
 		end
+		
+	elseif message_id == hash("stop_particles") then
+		particlefx.stop("#explosion_fx")
 	end
 end

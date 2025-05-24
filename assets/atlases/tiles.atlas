@@ -1,14 +1,14 @@
 images {
-  image: "/assets/images/cell.png"
+  image: "/assets/images/cell/cell.png"
 }
 images {
-  image: "/assets/images/claw.png"
+  image: "/assets/images/claw/claw.png"
   pivot_y: 0.05524
 }
 images {
-  image: "/assets/images/stick.png"
+  image: "/assets/images/claw/stick.png"
 }
 images {
-  image: "/assets/images/timer_badge.png"
+  image: "/assets/images/objects/timer_badge.png"
 }
 extrude_borders: 2

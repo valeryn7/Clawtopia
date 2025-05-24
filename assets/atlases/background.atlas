@@ -1,10 +1,7 @@
 images {
-  image: "/assets/images/background.png"
+  image: "/assets/images/backgrounds/background.png"
 }
 images {
-  image: "/assets/images/top.png"
-}
-images {
-  image: "/assets/images/bg_black.png"
+  image: "/assets/images/backgrounds/top.png"
 }
 extrude_borders: 2
