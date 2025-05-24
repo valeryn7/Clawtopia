@@ -489,7 +489,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 5.0
+    z: 4.0
   }
 }
 embedded_instances {

@@ -1,4 +1,4 @@
--- levels.lua (definición de niveles personalizados)
+-- levels.lua (niveles 1 al 10 con bombas desde el nivel 5)
 
 return {
     [1] = {
@@ -12,10 +12,9 @@ return {
             { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
         },
         goals = {
-            { type = "bear_blue", required = 1 },
+            { type = "bear_blue", required = 1 }
         }
     },
-
     [2] = {
         max_drops = 10,
         grid = {
@@ -28,143 +27,135 @@ return {
         },
         goals = {
             { type = "bear_blue", required = 2 },
-            { type = "bear_pink", required = 1 },
+            { type = "bear_pink", required = 1 }
         }
     },
-
     [3] = {
-        max_drops = 10,
+        max_drops = 11,
         grid = {
-            { "bear_blue", "bear_pink", "candy",     "flip_flop",   "ball"     },
-            { "bear_pink", "flip_flop", "ball",      "flip_flop",   "bear_blue" },
-            { "ball",      "flip_flop", "bear_blue", "bear_pink",   "flip_flop" },
-            { "flip_flop", "ball",      "flip_flop", "bear_blue",   "candy"     },
-            { "bear_blue", "flip_flop", "ball",      "candy",       "bear_pink" },
-            { "flip_flop", "bear_blue", "bear_pink", "ball",        "flip_flop" },
+            { "candy_green", "candy", "bear_pink", "bear_pink", "bear_blue" },
+            { "bear_blue", "bear_pink", "ball", "candy", "candy_green" },
+            { "bear_pink", "bear_blue", "ball", "candy", "bear_blue" },
+            { "candy", "candy_green", "bear_blue", "bear_pink", "candy" },
+            { "ball", "candy", "candy", "bear_pink", "bear_pink" },
+            { "bear_blue", "candy", "bear_pink", "bear_blue", "candy" },
         },
         goals = {
-            { type = "bear_blue", required = 4 },
-            { type = "bear_pink", required = 3 },
+            { type = "bear_pink", required = 2 },
             { type = "candy", required = 2 },
+            { type = "bear_blue", required = 2 }
         }
     },
-
     [4] = {
-        max_drops = 10,
+        max_drops = 12,
         grid = {
-            { "flip_flop", "flip_flop", "ball", "candy", "candy" },
-            { "candy", "flip_flop", "bear_blue", "bear_pink", "flip_flop" },
-            { "bear_blue", "candy", "bear_pink", "flip_flop", "candy" },
-            { "bear_pink", "flip_flop", "bear_blue", "ball", "flip_flop" },
-            { "flip_flop", "candy", "flip_flop", "bear_pink", "bear_blue" },
-            { "bear_blue", "ball", "candy", "flip_flop", "candy" },
+            { "bear_blue", "bear_pink", "candy_green", "bear_pink", "ball" },
+            { "candy", "bear_pink", "candy", "bear_blue", "bear_blue" },
+            { "candy", "ball", "candy", "bear_blue", "bear_blue" },
+            { "candy", "candy", "candy_green", "bear_blue", "bear_pink" },
+            { "candy", "bear_blue", "bear_pink", "ball", "bear_pink" },
+            { "ball", "bear_blue", "candy", "bear_pink", "bear_blue" },
         },
         goals = {
-            { type = "bear_blue", required = 5 },
-            { type = "bear_pink", required = 4 },
-            { type = "flip_flop", required = 4 },
-        }
-    },
-
-    [5] = {
-        max_drops = 10,
-        grid = {
-            { "bomb", "flip_flop", "ball", "flip_flop", "bomb" },
-            { "bear_blue", "flip_flop", "ball", "flip_flop", "bear_blue" },
-            { "candy", "flip_flop", "bear_blue", "bear_pink", "ball" },
-            { "flip_flop", "bomb", "flip_flop", "bear_blue", "flip_flop" },
-            { "bear_blue", "candy", "bomb", "ball", "bear_pink" },
-            { "flip_flop", "bomb", "bear_pink", "bear_blue", "flip_flop" },
-        },
-        goals = {
-            { type = "bear_blue", required = 5 },
-            { type = "flip_flop", required = 5 },
             { type = "candy", required = 2 },
+            { type = "bear_blue", required = 3 },
+            { type = "bear_pink", required = 2 }
         }
     },
-
+    [5] = {
+        max_drops = 13,
+        grid = {
+            { "ball", "bear_pink", "bomb", "bear_blue", "bear_blue" },
+            { "bear_pink", "bomb", "candy_green", "bear_pink", "candy" },
+            { "bomb", "bear_pink", "candy", "bear_blue", "ball" },
+            { "bear_blue", "ball", "ball", "candy", "bear_blue" },
+            { "bear_blue", "bear_blue", "candy", "bear_pink", "ball" },
+            { "bear_pink", "bear_blue", "candy_green", "ball", "bear_pink" },
+        },
+        goals = {
+            { type = "candy", required = 2 },
+            { type = "bear_pink", required = 3 },
+            { type = "bear_blue", required = 3 }
+        }
+    },
     [6] = {
-        max_drops = 10,
+        max_drops = 14,
         grid = {
-            { "bear_blue", "ball", "flip_flop", "candy", "bear_pink" },
-            { "flip_flop", "flip_flop", "ball", "ball", "flip_flop" },
-            { "bear_blue", "ball", "bear_blue", "flip_flop", "candy" },
-            { "flip_flop", "bear_pink", "ball", "candy", "bear_pink" },
-            { "candy", "flip_flop", "bear_blue", "flip_flop", "ball" },
-            { "bear_blue", "bear_pink", "ball", "flip_flop", "candy" },
+            { "bear_pink", "bomb", "bear_blue", "candy_green", "candy" },
+            { "bear_blue", "ball", "bear_pink", "bear_pink", "bear_blue" },
+            { "ball", "ball", "bear_blue", "bomb", "bear_blue" },
+            { "bear_pink", "ball", "bomb", "ball", "candy_green" },
+            { "candy", "bear_blue", "ball", "ball", "candy" },
+            { "bear_pink", "candy", "ball", "candy", "ball" },
         },
         goals = {
-            { type = "bear_blue", required = 5 },
-            { type = "bear_pink", required = 4 },
-            { type = "flip_flop", required = 6 },
+            { type = "bear_pink", required = 2 },
+            { type = "ball", required = 3 },
+            { type = "bomb", required = 2 }
         }
     },
-
     [7] = {
-        max_drops = 10,
+        max_drops = 15,
         grid = {
-            { "candy", "candy", "candy", "ball", "ball" },
-            { "flip_flop", "flip_flop", "flip_flop", "flip_flop", "flip_flop" },
-            { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
-            { "ball", "flip_flop", "candy", "flip_flop", "ball" },
-            { "flip_flop", "bear_blue", "bear_pink", "candy", "flip_flop" },
-            { "bear_blue", "candy", "ball", "flip_flop", "bear_pink" },
+            { "chocolate", "bomb", "ball", "bear_blue", "ball" },
+            { "bear_pink", "ball", "bear_blue", "bomb", "candy_green" },
+            { "ball", "bear_pink", "candy", "chocolate", "bear_blue" },
+            { "candy", "bear_blue", "candy", "bear_pink", "bomb" },
+            { "candy", "bear_blue", "bear_blue", "candy", "ball" },
+            { "bear_pink", "chocolate", "ball", "candy_green", "bear_blue" },
         },
         goals = {
-            { type = "bear_blue", required = 6 },
-            { type = "flip_flop", required = 6 },
-            { type = "candy", required = 6 },
+            { type = "candy", required = 2 },
+            { type = "chocolate", required = 2 },
+            { type = "bomb", required = 2 }
         }
     },
-
     [8] = {
-        max_drops = 10,
+        max_drops = 16,
         grid = {
-            { "flip_flop", "ball", "bear_pink", "bear_blue", "flip_flop" },
-            { "ball", "ball", "flip_flop", "ball", "ball" },
-            { "bear_pink", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
-            { "candy", "candy", "flip_flop", "candy", "candy" },
-            { "bear_blue", "bear_pink", "flip_flop", "ball", "bear_blue" },
-            { "flip_flop", "candy", "bear_pink", "flip_flop", "ball" },
+            { "bear_blue", "ball", "candy", "candy_green", "bear_pink" },
+            { "ball", "bomb", "chocolate", "bear_pink", "candy" },
+            { "candy", "chocolate", "bear_blue", "bear_pink", "bomb" },
+            { "bear_blue", "candy", "ball", "candy", "bear_blue" },
+            { "bomb", "candy", "chocolate", "ball", "candy_green" },
+            { "bear_blue", "bear_pink", "ball", "bear_pink", "candy" },
         },
         goals = {
-            { type = "bear_pink", required = 5 },
-            { type = "bear_blue", required = 5 },
-            { type = "ball", required = 5 },
+            { type = "bear_pink", required = 3 },
+            { type = "candy", required = 3 },
+            { type = "bomb", required = 2 }
         }
     },
-
     [9] = {
-        max_drops = 10,
+        max_drops = 17,
         grid = {
-            { "ball", "flip_flop", "flip_flop", "flip_flop", "ball" },
-            { "candy", "candy", "candy", "candy", "candy" },
-            { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
-            { "flip_flop", "ball", "candy", "ball", "flip_flop" },
-            { "bear_pink", "bear_blue", "bear_pink", "bear_blue", "bear_pink" },
-            { "candy", "flip_flop", "bear_blue", "flip_flop", "ball" },
+            { "chocolate", "candy", "bear_blue", "bomb", "candy_green" },
+            { "ball", "candy", "bear_pink", "candy", "bear_blue" },
+            { "bear_pink", "ball", "bomb", "candy_green", "candy" },
+            { "candy", "chocolate", "candy", "ball", "candy" },
+            { "ball", "bomb", "bear_pink", "bear_blue", "chocolate" },
+            { "bear_blue", "ball", "candy", "candy", "bear_pink" },
         },
         goals = {
-            { type = "candy", required = 7 },
-            { type = "flip_flop", required = 6 },
-            { type = "bear_blue", required = 5 },
+            { type = "candy", required = 3 },
+            { type = "candy_green", required = 2 },
+            { type = "bomb", required = 3 }
         }
     },
-
     [10] = {
-        max_drops = 10,
+        max_drops = 18,
         grid = {
-            { "bug", "bear_blue", "flip_flop", "ball", "bear_pink" },
-            { "bear_blue", "bug", "candy", "bug", "bear_blue" },
-            { "flip_flop", "ball", "bear_blue", "bear_pink", "candy" },
-            { "ball", "bug", "flip_flop", "bear_blue", "ball" },
-            { "bear_blue", "candy", "bug", "ball", "bear_pink" },
-            { "ball", "bug", "bear_pink", "bear_blue", "flip_flop" },
+            { "chocolate", "bear_blue", "candy", "bomb", "bear_pink" },
+            { "bear_pink", "candy", "candy", "ball", "bear_blue" },
+            { "ball", "bomb", "ball", "bear_pink", "chocolate" },
+            { "candy_green", "candy", "bear_blue", "ball", "bear_pink" },
+            { "bear_blue", "ball", "bomb", "candy_green", "ball" },
+            { "bear_pink", "candy", "chocolate", "ball", "bear_blue" },
         },
         goals = {
-            { type = "bear_blue", required = 6 },
-            { type = "bug", required = 2 },
-            { type = "ball", required = 4 },
+            { type = "bear_blue", required = 3 },
+            { type = "bomb", required = 3 },
+            { type = "chocolate", required = 2 }
         }
     }
 }
