@@ -108,22 +108,22 @@ local function reset_grid(self)
 			for col = 0, GRID_COLS - 1 do
 				local x = start_x + col * CELL_SIZE
 				local y = start_y - row * CELL_SIZE
-				local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
-				if id then
-					local sprite_name = layout[row + 1] and layout[row + 1][col + 1] or "bear_pink"
-					self.grid[row][col] = {
-						id = id,
-						sprite = sprite_name,
-						revealed = true,
-						captured = false,
-						x = x,
-						y = y
-					}
-					self.total_cells = self.total_cells + 1
-					msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
-					msg.post(id, "reveal")
-				else
-					print(string.format("⚠️ No se pudo crear celda en fila %d, columna %d", row, col))
+				local sprite_name = layout[row + 1] and layout[row + 1][col + 1]
+				if sprite_name and sprite_name ~= "" then
+					local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
+					if id then
+						self.grid[row][col] = {
+							id = id,
+							sprite = sprite_name,
+							revealed = true,
+							captured = false,
+							x = x,
+							y = y
+						}
+						self.total_cells = self.total_cells + 1
+						msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
+						msg.post(id, "reveal")
+					end
 				end
 			end
 		end

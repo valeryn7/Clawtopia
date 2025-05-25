@@ -4,10 +4,10 @@ return {
     [1] = {
         max_drops = 10,
         grid = {
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "bear_blue", "", "", "", "bear_blue" },
+            { "bear_blue", "bear_blue", "", "bear_blue", "bear_blue" },
             { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
             { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
         },
@@ -18,32 +18,30 @@ return {
     [2] = {
         max_drops = 10,
         grid = {
-            { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
-            { "bear_pink", "bear_blue", "bear_pink", "bear_blue", "bear_pink" },
-            { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
-            { "bear_pink", "bear_blue", "bear_pink", "bear_blue", "bear_pink" },
-            { "bear_blue", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "bear_pink" },
+            { "", "", "", "bear_pink", "bear_blue" },
+            { "", "", "bear_pink", "bear_blue", "bear_pink" },
+            { "", "bear_pink", "bear_blue", "bear_pink", "bear_blue" },
             { "bear_pink", "bear_blue", "bear_pink", "bear_blue", "bear_pink" },
         },
         goals = {
-            { type = "bear_blue", required = 2 },
+            { type = "bear_blue", required = 1 },
             { type = "bear_pink", required = 1 }
         }
     },
     [3] = {
-        max_drops = 11,
+        max_drops = 10,
         grid = {
-            { "candy_green", "candy", "bear_pink", "bear_pink", "bear_blue" },
-            { "bear_blue", "bear_pink", "ball", "candy", "candy_green" },
-            { "bear_pink", "bear_blue", "ball", "candy", "bear_blue" },
-            { "candy", "candy_green", "bear_blue", "bear_pink", "candy" },
-            { "ball", "candy", "candy", "bear_pink", "bear_pink" },
-            { "bear_blue", "candy", "bear_pink", "bear_blue", "candy" },
+            { "", "", "", "", "" },
+            { "bear_blue", "bear_blue", "", "bear_blue", "bear_blue" },
+            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
+            { "bear_blue", "bear_blue", "bear_pink", "bear_blue", "bear_blue" },
+            { "", "bear_blue", "bear_blue", "bear_blue", "" },
+            { "", "", "bear_blue", "", "" },
         },
         goals = {
-            { type = "bear_pink", required = 2 },
-            { type = "candy", required = 2 },
-            { type = "bear_blue", required = 2 }
+            { type = "bear_pink", required = 1 }
         }
     },
     [4] = {
