@@ -1,5 +1,3 @@
--- hud.script (solo objetivos)
-
 local function update_slot(self, slot)
 	local label_url = msg.url(nil, slot.go, slot.label)
 	local sprite_url = msg.url(nil, slot.go, slot.icon)
@@ -15,6 +13,8 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+
+	self.button_size = vmath.vector3(64, 64, 0) -- Tamaño estándar de los botones
 
 	self.slots = {
 		{ go = "slot_1", icon = "slot_1_icon", label = "slot_1_label", type = nil, required = 0, collected = 0 },

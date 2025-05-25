@@ -77,12 +77,11 @@ local function reset_grid(self)
 	end
 	self.creating_grid = true
 
-	-- Borrar celdas viejas
+	-- Borrar celdas anteriores
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row] and self.grid[row][col]
 			if cell and cell.id and go.exists(cell.id) then
-				-- 🔇 Detenemos efectos de partículas antes de borrar
 				msg.post(cell.id, "stop_particles")
 				go.delete(cell.id)
 			end
@@ -95,8 +94,11 @@ local function reset_grid(self)
 	timer.delay(0.05, false, function()
 		local level_data = LEVELS[self.level]
 		local layout = level_data and level_data.grid or {}
+
+		-- ✅ Centrado completo vertical y horizontal
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
-		local start_y = ((GRID_ROWS - 1) * CELL_SIZE) / 2 - 80
+		local total_grid_height = CELL_SIZE * GRID_ROWS
+		local start_y = (1280 / 2) - ((1280 - total_grid_height) / 2) - 100  -- centrado vertical con espacio arriba
 
 		self.remaining_drops = level_data.max_drops or 5
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
@@ -126,7 +128,7 @@ local function reset_grid(self)
 			end
 		end
 
-		self.creating_grid = false -- ✅ Resetear bandera al final
+		self.creating_grid = false
 	end)
 end
 

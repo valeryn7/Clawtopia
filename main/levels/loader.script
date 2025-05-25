@@ -35,10 +35,16 @@ function on_message(self, message_id, message)
 
 	elseif message_id == hash("restart_level") then
 		load_level(self, self.current_level)
+		
+	elseif message_id == hash("set_level") then
+		if message.level then
+			print("🆕 Nivel seleccionado manualmente:", message.level)
+			load_level(self, message.level)
+		end
 
 	elseif message_id == hash("go_to_level_selector") then
 		print("📋 Mostrar selector de niveles")
 		msg.post("panels#panels_gui", "hide_panels")
-		msg.post("levels_gui#script", "show_level_selector")
+		msg.post("levels#levels_gui", "show_level_selector")
 	end
 end

@@ -1,0 +1,44 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+local function is_inside(node, action)
+	local pos = gui.get_position(node)
+	local size = gui.get_size(node)
+	local pivot = gui.get_pivot(node)
+
+	if pivot == gui.PIVOT_CENTER then
+		pos = pos - size / 2
+	end
+
+	local max = pos + size
+	return action.x >= pos.x and action.x <= max.x and
+	action.y >= pos.y and action.y <= max.y
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("show_pause_panel") then
+		gui.set_enabled(gui.get_node("pause_button"), false)
+		gui.set_enabled(gui.get_node("sound_button"), false)
+	elseif message_id == hash("hide_pause_panel") then
+		gui.set_enabled(gui.get_node("pause_button"), true)
+		gui.set_enabled(gui.get_node("sound_button"), true)
+	end
+end
+
+function on_input(self, action_id, action)
+	if (action_id == hash("touch") or action_id == hash("click")) and action.released then
+		local pause_node = gui.get_node("pause_button")
+		local sound_node = gui.get_node("sound_button")
+
+		if gui.pick_node(pause_node, action.x, action.y) then
+			print("⏸️ Pausa presionada")
+			msg.post("panels#panels_gui", "show_pause_panel")
+			return true
+		elseif gui.pick_node(sound_node, action.x, action.y) then
+			print("🔇 Sonido alternado")
+			-- msg.post("audio_manager#script", "toggle_sound")
+			return true
+		end
+	end
+end

@@ -11,4 +11,7 @@ images {
 images {
   image: "/assets/images/objects/timer_badge.png"
 }
+images {
+  image: "/assets/images/levels/level_cell.png"
+}
 extrude_borders: 2

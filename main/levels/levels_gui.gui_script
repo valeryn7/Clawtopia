@@ -1,0 +1,83 @@
+local NUM_LEVELS = 20
+local BUTTONS_PER_ROW = 4
+local BUTTON_SIZE = vmath.vector3(100, 100, 0)
+local SPACING = 20
+local START_Y = 200
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+
+	self.panel_node = gui.get_node("levels_panel")
+	self.title_node = gui.get_node("levels_title")
+
+	-- Ocultar al inicio
+	gui.set_enabled(self.panel_node, false)
+	gui.set_enabled(self.title_node, false)
+	
+	self.buttons = {}
+
+	local template = gui.get_node("level_button_template")
+	gui.set_enabled(template, false)
+
+	local total_width = BUTTONS_PER_ROW * (BUTTON_SIZE.x + SPACING) - SPACING
+
+	for i = 1, NUM_LEVELS do
+		local btn = gui.clone_tree(template)
+		local root = btn[hash("level_button_template")]
+		local label = btn[hash("level_button_label")]
+
+		gui.set_enabled(root, true)
+
+		local row = math.floor((i - 1) / BUTTONS_PER_ROW)
+		local col = (i - 1) % BUTTONS_PER_ROW
+		local x = col * (BUTTON_SIZE.x + SPACING) - total_width / 2 + BUTTON_SIZE.x / 2
+		local y = START_Y - row * (BUTTON_SIZE.y + SPACING)
+
+		gui.set_position(root, vmath.vector3(x, y, 0))
+		gui.set_parent(root, gui.get_node("levels_panel"), false)
+
+		gui.set_text(label, tostring(i))
+		self.buttons[#self.buttons + 1] = root
+	end
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("show_level_selector") then
+		msg.post("claw#claw", "disable_touch")
+		gui.set_enabled(self.panel_node, true)
+		gui.set_enabled(self.title_node, true)
+
+		for _, btn in ipairs(self.buttons) do
+			gui.set_enabled(btn, true)
+		end
+
+	elseif message_id == hash("hide_panels") then
+		msg.post("claw#claw", "enable_touch")
+		gui.set_enabled(self.panel_node, false)
+		gui.set_enabled(self.title_node, false)
+
+		for _, btn in ipairs(self.buttons) do
+			gui.set_enabled(btn, false)
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if (action_id == hash("touch") or action_id == hash("click")) and action.released then
+		for i, btn in ipairs(self.buttons) do
+			if gui.pick_node(btn, action.x, action.y) then
+				print("🔢 Nivel seleccionado:", i)
+				msg.post("loader_level#loader", "set_level", { level = i })
+				msg.post("panels#panels_gui", "hide_panels")
+				msg.post("claw#claw", "enable_touch")
+				gui.set_enabled(self.panel_node, false)
+				gui.set_enabled(self.title_node, false)
+
+				for _, btn in ipairs(self.buttons) do
+					gui.set_enabled(btn, false)
+				end
+				return true
+			end
+		end
+	end
+end
