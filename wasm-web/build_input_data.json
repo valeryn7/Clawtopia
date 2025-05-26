@@ -1,0 +1,17 @@
+{
+  "project_git" : {
+    "sha1" : "e84b1a25f0b40d03006e29cfd08a37f71fc19ac1",
+    "origin" : "https://github.com/valeryn7/Clawtopia.git",
+    "branch" : "master"
+  },
+  "bob_arguments" : {
+    "sha1" : "d8e6e73a8efac6b9a72783027867e547b6a363e4",
+    "version" : "1.10.1",
+    "timestamp" : "2025-05-13 22:21:07"
+  },
+  "defold_sdk" : "d8e6e73a8efac6b9a72783027867e547b6a363e4",
+  "dependencies" : [ {
+    "link" : "https://github.com/rgrams/rendercam/archive/master.zip",
+    "md5" : "0FD09D3B4D4BBB234A546B728038C75A"
+  } ]
+}

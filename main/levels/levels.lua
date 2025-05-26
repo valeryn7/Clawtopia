@@ -2,7 +2,7 @@
 
 return {
     [1] = {
-        max_drops = 10,
+        max_drops = 5,
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "" },
@@ -16,7 +16,7 @@ return {
         }
     },
     [2] = {
-        max_drops = 10,
+        max_drops = 6,
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "bear_pink" },
@@ -31,7 +31,7 @@ return {
         }
     },
     [3] = {
-        max_drops = 10,
+        max_drops = 8,
         grid = {
             { "", "", "", "", "" },
             { "bear_blue", "bear_blue", "", "bear_blue", "bear_blue" },
@@ -47,17 +47,24 @@ return {
     [4] = {
         max_drops = 12,
         grid = {
-            { "bear_blue", "bear_pink", "candy_green", "bear_pink", "ball" },
-            { "candy", "bear_pink", "candy", "bear_blue", "bear_blue" },
-            { "candy", "ball", "candy", "bear_blue", "bear_blue" },
-            { "candy", "candy", "candy_green", "bear_blue", "bear_pink" },
-            { "candy", "bear_blue", "bear_pink", "ball", "bear_pink" },
-            { "ball", "bear_blue", "candy", "bear_pink", "bear_blue" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "box_wood", "box_wood", "box_wood", "box_wood", "box_wood" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+        },
+        grid_glow = {
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "glow_blue", "glow_blue", "", "glow_pink", "" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
         },
         goals = {
-            { type = "candy", required = 2 },
-            { type = "bear_blue", required = 3 },
-            { type = "bear_pink", required = 2 }
+            { type = "bear_blue", required = 2 },
+            { type = "bear_pink", required = 1 }
         }
     },
     [5] = {

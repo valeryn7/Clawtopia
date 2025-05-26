@@ -173,5 +173,24 @@ function on_message(self, message_id, message, sender)
 		
 	elseif message_id == hash("stop_particles") then
 		particlefx.stop("#explosion_fx")
+
+	elseif message_id == hash("set_glow") then
+		if message.glow and message.glow ~= "" then
+			sprite.play_flipbook("#glow", message.glow)
+			sprite.set_constant("#glow", "tint", vmath.vector4(1,1,1,1)) -- visible
+
+			-- Activar partículas según el glow
+			if message.glow == "glow_blue" then
+				particlefx.play("#blue_glow_particles")
+			elseif message.glow == "glow_pink" then
+				particlefx.play("#pink_glow_particles")
+			end
+		else
+			sprite.set_constant("#glow", "tint", vmath.vector4(1,1,1,0)) -- ocultar
+			-- Parar ambos por si estaban activos
+			particlefx.stop("#blue_glow_particles")
+			particlefx.stop("#pink_glow_particles")
+		end
 	end
+	
 end

@@ -9,6 +9,20 @@ components {
     z: 2.0
   }
 }
+components {
+  id: "blue_glow_particles"
+  component: "/main/particles/blue_glow_particles.particlefx"
+  position {
+    z: 0.5
+  }
+}
+components {
+  id: "pink_glow_particles"
+  component: "/main/particles/pink_glow_particles.particlefx"
+  position {
+    z: 0.5
+  }
+}
 embedded_components {
   id: "sprite"
   type: "sprite"
@@ -27,7 +41,7 @@ embedded_components {
 embedded_components {
   id: "object_sprite"
   type: "sprite"
-  data: "default_animation: \"cloud\"\n"
+  data: "default_animation: \"box_wood\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "textures {\n"
   "  sampler: \"texture_sampler\"\n"
@@ -76,5 +90,23 @@ embedded_components {
   scale {
     x: 0.2
     y: 0.2
+  }
+}
+embedded_components {
+  id: "glow"
+  type: "sprite"
+  data: "default_animation: \"glow_empty\"\n"
+  "material: \"/builtins/materials/sprite.material\"\n"
+  "textures {\n"
+  "  sampler: \"texture_sampler\"\n"
+  "  texture: \"/assets/atlases/objects.atlas\"\n"
+  "}\n"
+  ""
+  position {
+    z: 0.5
+  }
+  scale {
+    x: 0.8
+    y: 0.8
   }
 }

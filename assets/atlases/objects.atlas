@@ -46,4 +46,16 @@ images {
 images {
   image: "/assets/images/objects/chocolate.png"
 }
+images {
+  image: "/assets/images/objects/box_wood.png"
+}
+images {
+  image: "/assets/images/glow/glow_pink.png"
+}
+images {
+  image: "/assets/images/glow/glow_blue.png"
+}
+images {
+  image: "/assets/images/glow/glow_empty.png"
+}
 extrude_borders: 2

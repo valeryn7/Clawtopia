@@ -1,4 +1,10 @@
 images {
   image: "/assets/images/particles/circle_large.png"
 }
+images {
+  image: "/assets/images/particles/circle_blue.png"
+}
+images {
+  image: "/assets/images/particles/circle_pink.png"
+}
 extrude_borders: 2

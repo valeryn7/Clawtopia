@@ -109,6 +109,10 @@ local function reset_grid(self)
 				local x = start_x + col * CELL_SIZE
 				local y = start_y - row * CELL_SIZE
 				local sprite_name = layout[row + 1] and layout[row + 1][col + 1]
+				local glow_name = nil
+				if level_data.grid_glow and level_data.grid_glow[row + 1] then
+					glow_name = level_data.grid_glow[row + 1][col + 1]
+				end
 				if sprite_name and sprite_name ~= "" then
 					local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
 					if id then
@@ -122,6 +126,9 @@ local function reset_grid(self)
 						}
 						self.total_cells = self.total_cells + 1
 						msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
+						if glow_name and glow_name ~= "" then
+							msg.post(id, "set_glow", { glow = glow_name })
+						end
 						msg.post(id, "reveal")
 					end
 				end
