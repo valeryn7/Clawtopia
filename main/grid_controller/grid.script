@@ -240,10 +240,7 @@ function on_message(self, message_id, message, sender)
 						self.game_over = true
 						msg.post("panels#panels_gui", "level_failed")
 					end
-
-					self.remaining_drops = self.remaining_drops - 1
-					msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
-
+					
 					if self.remaining_drops <= 0 and not self.game_over then
 						self.game_over = true
 						msg.post("panels#panels_gui", "level_failed")

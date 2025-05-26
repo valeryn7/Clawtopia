@@ -45,22 +45,20 @@ return {
         }
     },
     [4] = {
-        max_drops = 12,
+        max_drops = 10,
         grid = {
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
-            { "bear_blue", "bear_pink", "bear_blue", "key_red", "key_golden" },
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
+            { "",      "",  "",      "",        "" },
+            { "bear_pink", "",   "bear_pink", "",   "bear_pink" },
+            { "",      "bear_pink", "",   "bear_pink", "" },
+            { "",       "",    "key_golden", "",      "" },
+            { "",       "",    "",          "",      "" },
+            { "",       "",    "bear_blue", "",      "" },
         },
         locked_cells = {
-            { row = 3, col = 1, color = "red" },
-            { row = 3, col = 3, color = "golden" },
+            { row = 6, col = 3, color = "golden" },
         },
         goals = {
-            { type = "bear_blue", required = 2 },
-            { type = "bear_pink", required = 1 }
+            { type = "bear_blue", required = 1 },
         }
     },
     [5] = {
