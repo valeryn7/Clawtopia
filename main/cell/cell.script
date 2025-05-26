@@ -191,6 +191,23 @@ function on_message(self, message_id, message, sender)
 			particlefx.stop("#blue_glow_particles")
 			particlefx.stop("#pink_glow_particles")
 		end
+
+	elseif message_id == hash("set_locked") then
+		if message.color then
+			sprite.play_flipbook("#lock_sprite", "lock_" .. message.color)
+		else
+			sprite.play_flipbook("#lock_sprite", "lock")
+		end
+		go.set("#lock_sprite", "scale", vmath.vector3(1, 1, 1))
+		go.set("#lock_sprite", "tint.w", 1)
+		
+	elseif message_id == hash("unlock") then
+		go.animate("#lock_sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTSINE, 0.3)
+		go.animate("#lock_sprite", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(0, 0, 0), go.EASING_INBACK, 0.3)
+		
+	elseif message_id == hash("set_unlocked_visual") then
+		sprite.play_flipbook("#lock_sprite", "empty") -- muestra un sprite vacío
+		go.set("#lock_sprite", "scale", vmath.vector3(0, 0, 0))
 	end
 	
 end

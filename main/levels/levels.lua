@@ -2,7 +2,7 @@
 
 return {
     [1] = {
-        max_drops = 5,
+        max_drops = 8,
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "" },
@@ -16,7 +16,7 @@ return {
         }
     },
     [2] = {
-        max_drops = 6,
+        max_drops = 10,
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "bear_pink" },
@@ -31,7 +31,7 @@ return {
         }
     },
     [3] = {
-        max_drops = 8,
+        max_drops = 14,
         grid = {
             { "", "", "", "", "" },
             { "bear_blue", "bear_blue", "", "bear_blue", "bear_blue" },
@@ -49,18 +49,14 @@ return {
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "" },
-            { "box_wood", "box_wood", "box_wood", "box_wood", "box_wood" },
+            { "bear_blue", "bear_pink", "bear_blue", "key_red", "key_golden" },
             { "", "", "", "", "" },
             { "", "", "", "", "" },
             { "", "", "", "", "" },
         },
-        grid_glow = {
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
-            { "glow_blue", "glow_blue", "", "glow_pink", "" },
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
-            { "", "", "", "", "" },
+        locked_cells = {
+            { row = 3, col = 1, color = "red" },
+            { row = 3, col = 3, color = "golden" },
         },
         goals = {
             { type = "bear_blue", required = 2 },

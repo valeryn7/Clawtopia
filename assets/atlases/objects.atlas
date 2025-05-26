@@ -58,4 +58,25 @@ images {
 images {
   image: "/assets/images/glow/glow_empty.png"
 }
+images {
+  image: "/assets/images/objects/lock.png"
+}
+images {
+  image: "/assets/images/objects/key.png"
+}
+images {
+  image: "/assets/images/glow/empty.png"
+}
+images {
+  image: "/assets/images/locks/key_golden.png"
+}
+images {
+  image: "/assets/images/locks/key_red.png"
+}
+images {
+  image: "/assets/images/locks/lock_golden.png"
+}
+images {
+  image: "/assets/images/locks/lock_red.png"
+}
 extrude_borders: 2

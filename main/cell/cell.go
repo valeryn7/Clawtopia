@@ -110,3 +110,17 @@ embedded_components {
     y: 0.8
   }
 }
+embedded_components {
+  id: "lock_sprite"
+  type: "sprite"
+  data: "default_animation: \"empty\"\n"
+  "material: \"/builtins/materials/sprite.material\"\n"
+  "textures {\n"
+  "  sampler: \"texture_sampler\"\n"
+  "  texture: \"/assets/atlases/objects.atlas\"\n"
+  "}\n"
+  ""
+  position {
+    z: 2.0
+  }
+}

@@ -77,7 +77,6 @@ local function reset_grid(self)
 	end
 	self.creating_grid = true
 
-	-- Borrar celdas anteriores
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row] and self.grid[row][col]
@@ -94,11 +93,11 @@ local function reset_grid(self)
 	timer.delay(0.05, false, function()
 		local level_data = LEVELS[self.level]
 		local layout = level_data and level_data.grid or {}
+		local locked_cells = level_data.locked_cells or {}
 
-		-- ✅ Centrado completo vertical y horizontal
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local total_grid_height = CELL_SIZE * GRID_ROWS
-		local start_y = (1280 / 2) - ((1280 - total_grid_height) / 2) - 100  -- centrado vertical con espacio arriba
+		local start_y = (1280 / 2) - ((1280 - total_grid_height) / 2) - 100
 
 		self.remaining_drops = level_data.max_drops or 5
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
@@ -109,16 +108,24 @@ local function reset_grid(self)
 				local x = start_x + col * CELL_SIZE
 				local y = start_y - row * CELL_SIZE
 				local sprite_name = layout[row + 1] and layout[row + 1][col + 1]
-				local glow_name = nil
-				if level_data.grid_glow and level_data.grid_glow[row + 1] then
-					glow_name = level_data.grid_glow[row + 1][col + 1]
-				end
 				if sprite_name and sprite_name ~= "" then
 					local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
 					if id then
+						local locked = false
+						local lock_color = nil
+						for _, lock in ipairs(locked_cells) do
+							if lock.row == row + 1 and lock.col == col + 1 then
+								locked = true
+								lock_color = lock.color
+								break
+							end
+						end
+						
 						self.grid[row][col] = {
 							id = id,
 							sprite = sprite_name,
+							locked = locked,
+							lock_color = lock_color,
 							revealed = true,
 							captured = false,
 							x = x,
@@ -126,8 +133,8 @@ local function reset_grid(self)
 						}
 						self.total_cells = self.total_cells + 1
 						msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
-						if glow_name and glow_name ~= "" then
-							msg.post(id, "set_glow", { glow = glow_name })
+						if locked then
+							msg.post(id, "set_locked", { color = lock_color })
 						end
 						msg.post(id, "reveal")
 					end
@@ -145,6 +152,7 @@ function init(self)
 	self.total_points = 0
 	self.game_over = false
 	self.creating_grid = false
+	self.collected_keys = {}
 end
 
 function on_message(self, message_id, message, sender)
@@ -157,6 +165,48 @@ function on_message(self, message_id, message, sender)
 			for row = 0, GRID_ROWS - 1 do
 				local cell = self.grid[row][col]
 				if cell and not cell.captured and y <= cell.y + CELL_SIZE/2 and y >= cell.y - CELL_SIZE/2 then
+
+					if cell.locked then
+						local color = cell.lock_color
+						if not color then
+							print("⚠️ ERROR: Candado sin color en celda (" .. row .. "," .. col .. ")")
+							return
+						end
+
+						if not self.collected_keys[color] then
+							msg.post("hud", "show_message", { text = "🔒 Necesitás la llave " .. color })
+							return
+						else
+							cell.locked = false
+							msg.post(cell.id, "unlock", {})
+						end
+					end
+					
+					if cell.sprite:sub(1, 4) == "key_" then
+						local color = cell.sprite:match("^key_(.+)$") -- más seguro que sub(5)
+
+						if not color then
+							print("⚠️ ERROR: No se pudo extraer color de sprite '" .. tostring(cell.sprite) .. "'")
+							return
+						end
+
+						self.collected_keys[color] = true
+						msg.post("hud", "show_message", { text = "🔓 ¡Llave " .. color .. " obtenida!" })
+
+						timer.delay(0.01, false, function()
+							for r = 0, GRID_ROWS - 1 do
+								for c = 0, GRID_COLS - 1 do
+									local target = self.grid[r][c]
+									if target and target.locked and not target.captured and target.lock_color == color then
+										target.locked = false
+										msg.post(target.id, "unlock", {})
+										return
+									end
+								end
+							end
+						end)
+					end
+
 					msg.post(cell.id, "capture")
 					msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
 					cell.captured = true
@@ -191,11 +241,9 @@ function on_message(self, message_id, message, sender)
 						msg.post("panels#panels_gui", "level_failed")
 					end
 
-					-- Descontar intento y actualizar visual
 					self.remaining_drops = self.remaining_drops - 1
 					msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
 
-					-- Perder si ya no hay más drops
 					if self.remaining_drops <= 0 and not self.game_over then
 						self.game_over = true
 						msg.post("panels#panels_gui", "level_failed")
@@ -205,7 +253,7 @@ function on_message(self, message_id, message, sender)
 				end
 			end
 		end
-		
+
 	elseif message_id == hash("consume_drop") then
 		self.remaining_drops = self.remaining_drops - 1
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
@@ -214,19 +262,20 @@ function on_message(self, message_id, message, sender)
 			self.game_over = true
 			msg.post("panels#panels_gui", "level_failed")
 		end
-		
+
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
 		self.total_points = 0
+		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
 		msg.post("claw#claw", "enable_touch")
 
 	elseif message_id == hash("set_level") then
 		self.level = message.level or 1
+		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
 		msg.post("claw#claw", "enable_touch")
-		
 	end
 end
