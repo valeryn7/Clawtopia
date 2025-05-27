@@ -203,27 +203,6 @@ nodes {
 nodes {
   position {
     x: 353.0
-    y: 660.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-  }
-  color {
-    x: 0.702
-    y: 0.302
-    z: 0.102
-  }
-  type: TYPE_TEXT
-  text: "<text>"
-  font: "default"
-  id: "defeat_points_label"
-  parent: "defeat_gui"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 353.0
     y: 778.0
   }
   size {

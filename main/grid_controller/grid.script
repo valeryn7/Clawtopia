@@ -13,7 +13,9 @@ local POINTS = {
 	flip_flop = 5,
 	box = 25,
 	bomb = 0,
-	bug = 0
+	bug = 0,
+	rabbit = 30,
+	fox = 35
 }
 
 local LEVELS = require("main.levels.levels")
@@ -84,6 +86,7 @@ local function generate_goals_from_level(self)
 			points_total = g.required * POINTS[g.type]
 		})
 	end
+	print(" self.goals ",  self.goals )
 	msg.post("hud", "init_goals", { goals = self.goals })
 end
 
@@ -176,10 +179,6 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
 		local x, y = message.x, message.y
-		print("DEBUG:SCRIPT: grab")
-		print("DEBUG:SCRIPT: x", x)
-		print("DEBUG:SCRIPT: y", y)
-
 		local MARGIN = CELL_SIZE * 0.5 
 		local found = false
 
@@ -188,7 +187,6 @@ function on_message(self, message_id, message, sender)
 				local cell = self.grid[row][col]
 				if cell and not cell.captured then
 					local pos = go.get_position(cell.id)
-					print(string.format("📍 Celda [%d,%d] → x: %.2f y: %.2f", row, col, pos.x, pos.y))
 					local dx = math.abs(pos.x - x)
 					local dy = math.abs(pos.y - y)
 

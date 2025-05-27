@@ -76,11 +76,6 @@ function update(self, dt)
 			})
 		end
 	end
-	if self.row and self.col then
-		local pos = go.get_position()
-		print(string.format("📍 Celda [%d,%d] → x: %.2f y: %.2f", self.row, self.col, pos.x, pos.y))
-	end
-	
 	
 	-- 🐛 Lógica de bug
 	if self.is_bug and not self.exploded and not self.captured then

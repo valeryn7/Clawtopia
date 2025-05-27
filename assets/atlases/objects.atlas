@@ -79,4 +79,13 @@ images {
 images {
   image: "/assets/images/locks/lock_red.png"
 }
+images {
+  image: "/assets/images/objects/crab.png"
+}
+images {
+  image: "/assets/images/objects/rabbit.png"
+}
+images {
+  image: "/assets/images/objects/fox.png"
+}
 extrude_borders: 2
