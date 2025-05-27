@@ -75,12 +75,12 @@ function update(self, dt)
 				if angle ~= angle then
 					print("❌ NaN en ángulo:", dy, dx)
 				else
-					go.set_position(vmath.vector3(mid_x, mid_y, 2), segment)
+					go.set_position(vmath.vector3(mid_x, mid_y, 5), segment)
 					go.set_rotation(vmath.quat_rotation_z(angle), segment)
 
 					local final_scale_x = length / base_height
 					local final_scale_y = 0.6
-					go.set_scale(vmath.vector3(final_scale_x, final_scale_y, 1), segment)
+					go.set_scale(vmath.vector3(final_scale_x, final_scale_y, 5), segment)
 				end
 			end
 		end

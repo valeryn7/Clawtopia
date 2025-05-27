@@ -63,7 +63,7 @@ function init(self)
 	self.activeTouch = true
 	
 	msg.post(".", "acquire_input_focus")
-	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 5))
+	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
 	update_claw_rotation(self)
 end
 
@@ -150,7 +150,7 @@ function update(self, dt)
 			end
 		end
 
-		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 5))
+		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
 		
 
 		if self.carrying_object then

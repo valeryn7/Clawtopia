@@ -2,6 +2,13 @@ components {
   id: "claw"
   component: "/main/claw/claw.script"
 }
+components {
+  id: "confetti"
+  component: "/main/particles/confetti.particlefx"
+  position {
+    y: -400.0
+  }
+}
 embedded_components {
   id: "claw_sprite"
   type: "sprite"
