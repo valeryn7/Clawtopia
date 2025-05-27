@@ -59,22 +59,52 @@ return {
         },
         goals = {
             { type = "bear_blue", required = 1 },
+            { type = "bear_pink", required = 2 },
         }
     },
     [5] = {
-        max_drops = 13,
+        max_drops = 10,
         grid = {
-            { "ball", "bear_pink", "bomb", "bear_blue", "bear_blue" },
-            { "bear_pink", "bomb", "candy_green", "bear_pink", "candy" },
-            { "bomb", "bear_pink", "candy", "bear_blue", "ball" },
-            { "bear_blue", "ball", "ball", "candy", "bear_blue" },
-            { "bear_blue", "bear_blue", "candy", "bear_pink", "ball" },
-            { "bear_pink", "bear_blue", "candy_green", "ball", "bear_pink" },
+            { "", "", "", "", "" },
+            { "bear_blue", "", "", "", "" },
+            { "", "", "", "", "bear_pink" },
+            { "bear_blue", "", "", "", "" },
+            { "", "", "", "", "bear_pink" },
+            { "", "", "", "", "" },
         },
         goals = {
-            { type = "candy", required = 2 },
-            { type = "bear_pink", required = 3 },
-            { type = "bear_blue", required = 3 }
+            { type = "bear_blue", required = 1 },
+            { type = "bear_pink", required = 1 }
+        },
+        movements = {
+            {
+                from_row = 2, from_col = 1,
+                to_x = 200, to_y = 100,
+                loop = true,
+                wait = 1.2,
+                speed = 4
+            },
+            {
+                from_row = 3, from_col = 5,
+                to_x = -200, to_y = 0,
+                loop = true,
+                wait = 1.2,
+                speed = 4
+            },
+            {
+                from_row = 4, from_col = 1,
+                to_x = 200, to_y = -100,
+                loop = true,
+                wait = 1.2,
+                speed = 4
+            },
+            {
+                from_row = 5, from_col = 5,
+                to_x = -200, to_y = -200,
+                loop = true,
+                wait = 1.2,
+                speed = 4
+            },
         }
     },
     [6] = {

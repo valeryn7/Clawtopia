@@ -27,6 +27,9 @@ function init(self)
 	self.timer_visible = false
 	self.timer_badge_visible = false
 
+	self.sync_timer = 0
+	self.sync_interval = 0.1
+
 	go.set("#timer_badge", "scale", vmath.vector3(0, 0, 0)) -- 🔥 Ocultar badge al principio
 	label.set_text("#timer_label", "") -- 🔥 Ocultar texto al principio
 
@@ -60,6 +63,25 @@ local function trigger_bug_move(self)
 end
 
 function update(self, dt)
+	self.sync_timer = self.sync_timer + dt
+	if self.sync_timer >= self.sync_interval then
+		self.sync_timer = 0
+		if self.row and self.col then
+			local pos = go.get_position()
+			msg.post("/grid_controller#grid", "update_cell_position", {
+				row = self.row,
+				col = self.col,
+				x = pos.x,
+				y = pos.y
+			})
+		end
+	end
+	if self.row and self.col then
+		local pos = go.get_position()
+		print(string.format("📍 Celda [%d,%d] → x: %.2f y: %.2f", self.row, self.col, pos.x, pos.y))
+	end
+	
+	
 	-- 🐛 Lógica de bug
 	if self.is_bug and not self.exploded and not self.captured then
 		self.bug_timer = self.bug_timer - dt
@@ -208,6 +230,49 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("set_unlocked_visual") then
 		sprite.play_flipbook("#lock_sprite", "empty") -- muestra un sprite vacío
 		go.set("#lock_sprite", "scale", vmath.vector3(0, 0, 0))
+
+	elseif message_id == hash("start_movement_loop") then
+		self.original_pos = go.get_position()
+		self.target_pos = vmath.vector3(message.x, message.y, 1)
+		self.wait_time = message.wait or 1.0
+		self.move_speed = message.speed or 0.5
+
+		local function loop_move()
+			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, self.target_pos, go.EASING_INOUTSINE, self.move_speed, 0, function()
+				-- ✅ Enviamos nueva posición al grid después de llegar al destino
+				local pos = go.get_position()
+				msg.post("/grid_controller#grid", "update_cell_position", {
+					row = self.row,
+					col = self.col,
+					x = pos.x,
+					y = pos.y
+				})
+
+				timer.delay(self.wait_time, false, function()
+					go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, self.original_pos, go.EASING_INOUTSINE, self.move_speed, 0, function()
+						-- ✅ Enviamos nueva posición al grid después de volver al origen
+						local pos = go.get_position()
+						msg.post("/grid_controller#grid", "update_cell_position", {
+							row = self.row,
+							col = self.col,
+							x = pos.x,
+							y = pos.y
+						})
+
+						timer.delay(self.wait_time, false, function()
+							msg.post(".", "start_movement_loop", {
+								x = self.target_pos.x,
+								y = self.target_pos.y,
+								wait = self.wait_time,
+								speed = self.move_speed
+							})
+						end)
+					end)
+				end)
+			end)
+		end
+
+		loop_move()
 	end
 	
 end

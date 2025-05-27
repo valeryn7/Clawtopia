@@ -35,6 +35,23 @@ local function explode_adjacent_cells(self, row, col)
 	end
 end
 
+local function apply_level_movements(self)
+	local movements = LEVELS[self.level].movements or {}
+	for _, move in ipairs(movements) do
+		local r, c = move.from_row - 1, move.from_col - 1
+		local cell = self.grid[r] and self.grid[r][c]
+		if cell and cell.id then
+			msg.post(cell.id, "start_movement_loop", {
+				x = move.to_x,
+				y = move.to_y,
+				loop = move.loop,
+				wait = move.wait or 1.0,
+				speed = move.speed or 0.5
+			})
+		end
+	end
+end
+
 local function check_impossible_goals(self)
 	local remaining = {}
 	for row = 0, GRID_ROWS - 1 do
@@ -143,6 +160,7 @@ local function reset_grid(self)
 		end
 
 		self.creating_grid = false
+		apply_level_movements(self)
 	end)
 end
 
@@ -158,99 +176,115 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
 		local x, y = message.x, message.y
-		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
-		local col = math.floor((x - start_x + CELL_SIZE/2) / CELL_SIZE)
+		print("DEBUG:SCRIPT: grab")
+		print("DEBUG:SCRIPT: x", x)
+		print("DEBUG:SCRIPT: y", y)
 
-		if col >= 0 and col < GRID_COLS then
-			for row = 0, GRID_ROWS - 1 do
+		local MARGIN = CELL_SIZE * 0.5 
+		local found = false
+
+		for row = 0, GRID_ROWS - 1 do
+			for col = 0, GRID_COLS - 1 do
 				local cell = self.grid[row][col]
-				if cell and not cell.captured and y <= cell.y + CELL_SIZE/2 and y >= cell.y - CELL_SIZE/2 then
+				if cell and not cell.captured then
+					local pos = go.get_position(cell.id)
+					print(string.format("📍 Celda [%d,%d] → x: %.2f y: %.2f", row, col, pos.x, pos.y))
+					local dx = math.abs(pos.x - x)
+					local dy = math.abs(pos.y - y)
 
-					if cell.locked then
-						local color = cell.lock_color
-						if not color then
-							print("⚠️ ERROR: Candado sin color en celda (" .. row .. "," .. col .. ")")
-							return
+					if dx <= MARGIN and dy <= MARGIN then
+						print(string.format("✅ Captura encontrada en [%d,%d]", row, col))
+
+						-- 🔓 Lógica de candado
+						if cell.locked then
+							local color = cell.lock_color
+							if not color then
+								print("⚠️ ERROR: Candado sin color")
+								return
+							end
+							if not self.collected_keys[color] then
+								msg.post("hud", "show_message", { text = "🔒 Necesitás la llave " .. color })
+								return
+							else
+								cell.locked = false
+								msg.post(cell.id, "unlock", {})
+							end
 						end
 
-						if not self.collected_keys[color] then
-							msg.post("hud", "show_message", { text = "🔒 Necesitás la llave " .. color })
-							return
-						else
-							cell.locked = false
-							msg.post(cell.id, "unlock", {})
-						end
-					end
-					
-					if cell.sprite:sub(1, 4) == "key_" then
-						local color = cell.sprite:match("^key_(.+)$") -- más seguro que sub(5)
+						-- 🗝️ Lógica de llaves
+						if cell.sprite:sub(1, 4) == "key_" then
+							local color = cell.sprite:match("^key_(.+)$")
+							if not color then
+								print("⚠️ ERROR: No se pudo extraer color")
+								return
+							end
 
-						if not color then
-							print("⚠️ ERROR: No se pudo extraer color de sprite '" .. tostring(cell.sprite) .. "'")
-							return
-						end
+							self.collected_keys[color] = true
+							msg.post("hud", "show_message", { text = "🔓 ¡Llave " .. color .. " obtenida!" })
 
-						self.collected_keys[color] = true
-						msg.post("hud", "show_message", { text = "🔓 ¡Llave " .. color .. " obtenida!" })
-
-						timer.delay(0.01, false, function()
-							for r = 0, GRID_ROWS - 1 do
-								for c = 0, GRID_COLS - 1 do
-									local target = self.grid[r][c]
-									if target and target.locked and not target.captured and target.lock_color == color then
-										target.locked = false
-										msg.post(target.id, "unlock", {})
-										return
+							timer.delay(0.01, false, function()
+								for r = 0, GRID_ROWS - 1 do
+									for c = 0, GRID_COLS - 1 do
+										local target = self.grid[r][c]
+										if target and target.locked and not target.captured and target.lock_color == color then
+											target.locked = false
+											msg.post(target.id, "unlock", {})
+											return
+										end
 									end
 								end
-							end
-						end)
-					end
-
-					msg.post(cell.id, "capture")
-					msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
-					cell.captured = true
-
-					for _, goal in ipairs(self.goals) do
-						if goal.type == cell.sprite and goal.collected < goal.required then
-							goal.collected = goal.collected + 1
-							msg.post("hud", "update_goal", {
-								type = goal.type,
-								collected = goal.collected
-							})
+							end)
 						end
-					end
 
-					local completed = true
-					for _, goal in ipairs(self.goals) do
-						if goal.collected < goal.required then
-							completed = false
-							break
-						end
-					end
+						msg.post(cell.id, "capture")
+						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
+						cell.captured = true
 
-					if completed and not self.game_over then
-						self.game_over = true
-						self.total_points = 0
+						-- Actualizar objetivos
 						for _, goal in ipairs(self.goals) do
-							self.total_points = self.total_points + goal.points_total
+							if goal.type == cell.sprite and goal.collected < goal.required then
+								goal.collected = goal.collected + 1
+								msg.post("hud", "update_goal", {
+									type = goal.type,
+									collected = goal.collected
+								})
+							end
 						end
-						msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
-					elseif not self.game_over and check_impossible_goals(self) then
-						self.game_over = true
-						msg.post("panels#panels_gui", "level_failed")
-					end
-					
-					if self.remaining_drops <= 0 and not self.game_over then
-						self.game_over = true
-						msg.post("panels#panels_gui", "level_failed")
-					end
 
-					break
+						-- Verificar fin de nivel
+						local completed = true
+						for _, goal in ipairs(self.goals) do
+							if goal.collected < goal.required then
+								completed = false
+								break
+							end
+						end
+
+						if completed and not self.game_over then
+							self.game_over = true
+							self.total_points = 0
+							for _, goal in ipairs(self.goals) do
+								self.total_points = self.total_points + goal.points_total
+							end
+							msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
+						elseif not self.game_over and check_impossible_goals(self) then
+							self.game_over = true
+							msg.post("panels#panels_gui", "level_failed")
+						end
+
+						if self.remaining_drops <= 0 and not self.game_over then
+							self.game_over = true
+							msg.post("panels#panels_gui", "level_failed")
+						end
+
+						found = true
+						break
+					end
 				end
 			end
+			if found then break end
 		end
-
+		
 	elseif message_id == hash("consume_drop") then
 		self.remaining_drops = self.remaining_drops - 1
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
@@ -274,5 +308,13 @@ function on_message(self, message_id, message, sender)
 		reset_grid(self)
 		generate_goals_from_level(self)
 		msg.post("claw#claw", "enable_touch")
+
+	elseif message_id == hash("update_cell_position") then
+		local cell = self.grid[message.row] and self.grid[message.row][message.col]
+		if cell then
+			cell.x = message.x
+			cell.y = message.y
+		end
+	
 	end
 end

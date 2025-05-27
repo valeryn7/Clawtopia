@@ -61,13 +61,14 @@ function init(self)
 	self.strength = 0.5
 
 	self.activeTouch = true
-
+	
 	msg.post(".", "acquire_input_focus")
 	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 3))
 	update_claw_rotation(self)
 end
 
 function update(self, dt)
+	
 	if self.pendulum_active then
 		self.time = self.time + dt
 		update_claw_rotation(self)
@@ -109,11 +110,16 @@ function update(self, dt)
 					self.time = math.asin(ratio) / PENDULUM_SPEED
 				else
 					msg.post("grid_controller#grid", "consume_drop")
-					msg.post("grid_controller#grid", "grab_object_at_column", {
-						x = self.anchor_x,
-						y = self.anchor_y - ROPE_LENGTH
-					})
+					local claw_pos = go.get_position()
+					local claw_tip_y = claw_pos.y - ROPE_LENGTH
 
+					print("👉 Intentando agarrar en:", claw_pos.x, claw_tip_y)
+
+					msg.post("grid_controller#grid", "grab_object_at_column", {
+						x = claw_pos.x,
+						y = claw_tip_y
+					})
+					
 					self.waiting_for_grab_response = true
 					self.grab_response_timer = 0
 				end
@@ -145,6 +151,7 @@ function update(self, dt)
 		end
 
 		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 3))
+		
 
 		if self.carrying_object then
 			local pos = vmath.vector3(self.anchor_x, self.anchor_y - ROPE_LENGTH, 2)
