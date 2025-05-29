@@ -1,70 +1,72 @@
-go.property("move_speed", 1.5) -- 🔥 Velocidad angular en radianes/segundo
-go.property("min_angle_deg", 0) -- 🔥 Ángulo mínimo (en grados)
-go.property("max_angle_deg", 120) -- 🔥 Ángulo máximo (en grados)
+go.property("move_speed", 1.5) -- Velocidad angular en radianes/segundo
+go.property("min_angle_deg", 0)
+go.property("max_angle_deg", 120)
 
 function init(self)
 	self.moving = false
-	self.angle = math.rad(self.min_angle_deg) -- 🔥 Arranca en el ángulo mínimo
+	self.angle = math.rad(self.min_angle_deg)
 	self.min_angle = math.rad(self.min_angle_deg)
 	self.max_angle = math.rad(self.max_angle_deg)
-	self.direction = 1 -- 🔥 1 = bajando, -1 = subiendo
+	self.direction = 1
 
-	go.set_rotation(vmath.quat_rotation_z(self.angle)) -- 🔥 Rota al ángulo inicial
+	self.target_charge_angle = 0
+	self.displayed_angle = 0
+
+	go.set_rotation(vmath.quat_rotation_z(self.angle))
 	msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 	msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 end
 
-local function calculate_strength(angle)
-	-- 🔥 Suponiendo:
-	-- 0° a 40° → Amarillo (fuerza baja)
-	-- 40° a 80° → Naranja (fuerza media)
-	-- 80° a 120° → Rojo (fuerza alta)
-
-	if angle >= 0 and angle < 40 then
-		return 0.5 -- fuerza baja
-	elseif angle >= 40 and angle < 80 then
-		return 0.75 -- fuerza media
-	elseif angle >= 80 and angle <= 120 then
-		return 1.0 -- fuerza alta
-	else
-		return 0.5 -- Por defecto, por seguridad
-	end
-end
-
 function update(self, dt)
 	if self.moving then
-		-- 🔥 Mover el ángulo según dirección
 		self.angle = self.angle + self.direction * self.move_speed * dt
 
-		-- 🔥 Si llega a máximo o mínimo, invertimos dirección
 		if self.angle >= self.max_angle then
 			self.angle = self.max_angle
-			self.direction = -1 -- empieza a subir
+			self.direction = -1
 		elseif self.angle <= self.min_angle then
 			self.angle = self.min_angle
-			self.direction = 1 -- empieza a bajar
+			self.direction = 1
 		end
 
-		go.set_rotation(vmath.quat_rotation_z(-self.angle)) -- 🔥 Solo rotamos
+		go.set_rotation(vmath.quat_rotation_z(-self.angle))
+	end
+
+	if self.target_charge_angle and self.displayed_angle then
+		local diff = self.target_charge_angle - self.displayed_angle
+		local abs_diff = math.abs(diff)
+
+		-- ✅ Mejora de respuesta inmediata
+		local base_speed = 0.3
+		local accel_factor = math.pow(math.max(0.15, abs_diff), 1.8) * 25
+		local speed = base_speed + accel_factor
+		local step = diff * speed * dt
+
+		-- Límite de paso por frame
+		local max_step = math.rad(25)
+		step = math.max(-max_step, math.min(step, max_step))
+
+		self.displayed_angle = self.displayed_angle + step
+		go.set_rotation(vmath.quat_rotation_z(-self.displayed_angle))
 	end
 end
 
-function on_message(self, message_id, message, sender)
+function on_message(self, message_id, message)
 	if message_id == hash("start_charge") then
-		self.angle = math.rad(self.min_angle_deg)
-		self.moving = false -- 🔁 Desactivamos el movimiento automático
+		self.angle = self.min_angle
+		self.moving = false
+		self.target_charge_angle = 0
+		self.displayed_angle = 0
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "enable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "enable")
 
 	elseif message_id == hash("set_manual_angle") then
-		local new_angle = math.max(self.min_angle, math.min(self.max_angle, message.angle))
-		self.angle = new_angle
-		go.set_rotation(vmath.quat_rotation_z(-self.angle))  -- Mostrar la flecha
-		
+		local new_angle = math.max(self.min_angle, math.min(self.max_angle, message.angle or 0))
+		self.target_charge_angle = new_angle
 
 	elseif message_id == hash("stop_charge") then
-		msg.post("claw", "set_charge_angle", { angle = self.angle })
+		msg.post("claw", "set_charge_angle", { angle = self.displayed_angle or 0 })
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 	end

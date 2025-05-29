@@ -74,11 +74,10 @@ function update(self, dt)
 
 	-- Interpolar ángulo de carga suavemente
 	if self.loading then
-		local diff = self.target_charge_angle - self.displayed_angle
-		self.displayed_angle = self.displayed_angle + diff * 0.25  -- más responsivo
-		msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.displayed_angle })
+		msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.target_charge_angle })
 	end
-
+	
+	
 	if self.waiting_for_grab_response then
 		self.grab_response_timer = self.grab_response_timer + dt
 		if self.grab_response_timer >= self.GRAB_RESPONSE_TIMEOUT then
@@ -164,47 +163,41 @@ function on_input(self, action_id, action)
 
 	local is_pc = not sys.get_sys_info().device_model
 	local is_mobile = sys.get_sys_info().device_model
+	local valid_touch = (action_id == hash("touch") and is_mobile) or
+	(action_id == hash("mouse_button_1") and is_pc) or
+	(action_id == hash("space") and is_pc)
 
 	-- PRESIONAR
-	if action.pressed then
-		if (action_id == hash("space") and is_pc) or
-		(action_id == hash("touch") and is_mobile) or
-		(action_id == hash("mouse_button_1") and is_pc) then
+	if valid_touch and action.pressed then
+		if self.pendulum_active then
+			self.pendulum_active = false
+			self.loading = true
+			self.start_touch_y = action.y
 
-			if self.pendulum_active then
-				self.pendulum_active = false
-				self.loading = true
-				self.start_touch_y = action.y
-
-				-- 🔁 Reset total
-				self.target_charge_angle = 0
-				self.displayed_angle = 0
-				msg.post("charge_arrow#charge_bar", "start_charge")
-			end
+			local initial_angle = math.rad(1)
+			self.target_charge_angle = initial_angle
+			self.displayed_angle = initial_angle
+			msg.post("charge_arrow#charge_bar", "start_charge")
+			msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = initial_angle }) -- 👈 esto lo activa desde el primer frame
 		end
 	end
+	
 
-	-- MOVER MIENTRAS PRESIONA
-	if self.loading and action.repeated then
-		local dy = self.start_touch_y - action.y
-		dy = math.max(dy, 0)  -- Evita que baje de 0
-
-		local raw_percentage = dy / 400  -- ajustá este divisor para sensibilidad general
-		local eased_percentage = math.min(raw_percentage * raw_percentage, 1)
-
-		self.target_charge_angle = math.rad(eased_percentage * 120)
+	-- MOVER MIENTRAS PRESIONA (incluso si movés muy rápido)
+	if self.loading and (action.pressed or action.repeated or action.down) then
+		local dy = math.max(self.start_touch_y - action.y, 0)
+		local percentage = math.min(dy / 160, 1)
+		self.target_charge_angle = math.rad(percentage * 150)
+		-- No tocar displayed_angle acá, dejamos que update() lo interpole
+		
 	end
-	
-	
-	
 
-	if action.released and self.loading then
+	-- SOLTAR
+	if valid_touch and action.released and self.loading then
 		self.loading = false
 		msg.post("charge_arrow#charge_bar", "stop_charge")
 
-		-- Usamos el ángulo real de input (no el visual interpolado)
-		local angle = self.target_charge_angle or math.rad(0)
-		local angle_deg = math.deg(angle)
+		local angle_deg = math.deg(self.target_charge_angle)
 		local strength = calculate_strength(angle_deg)
 
 		self.start_y = self.anchor_y
@@ -217,15 +210,12 @@ function on_input(self, action_id, action)
 
 		local offset_x = full_drop * math.sin(self.current_angle)
 		local grid_half_width = ((GRID_COLS - 1) / 2) * CELL_SIZE
-		self.target_x = self.start_x + offset_x
-		self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.target_x))
+		self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.start_x + offset_x))
 
 		self.drop_progress = 0
 		self.descending = true
 	end
-	
 end
-
 
 
 function on_message(self, message_id, message)
