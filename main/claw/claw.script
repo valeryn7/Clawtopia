@@ -187,15 +187,14 @@ function on_input(self, action_id, action)
 	-- MOVER MIENTRAS PRESIONA
 	if self.loading and action.repeated then
 		local dy = self.start_touch_y - action.y
+		dy = math.max(dy, 0)  -- Evita que baje de 0
 
-		-- Si el movimiento es muy chico, lo exageramos un poco al principio
-		if dy < 15 then
-			dy = dy * 2  -- Aumentá este factor si querés que reaccione aún más rápido
-		end
+		local raw_percentage = dy / 180  -- ajustá este divisor para sensibilidad general
+		local eased_percentage = math.min(raw_percentage * raw_percentage, 1)
 
-		local percentage = math.min(math.max(dy / 100, 0), 1)
-		self.target_charge_angle = math.rad(percentage * 120)
+		self.target_charge_angle = math.rad(eased_percentage * 120)
 	end
+	
 	
 	
 
