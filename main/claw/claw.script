@@ -55,10 +55,15 @@ function init(self)
 	self.captured_angle = math.rad(0)
 	self.displayed_angle = 0
 	self.target_charge_angle = 0
+	self.smoothed_dy = 0
 
 	msg.post(".", "acquire_input_focus")
 	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
 	update_claw_rotation(self)
+end
+
+function math.sign(x)
+	return x > 0 and 1 or (x < 0 and -1 or 0)
 end
 
 function update(self, dt)
@@ -69,7 +74,8 @@ function update(self, dt)
 
 	-- Interpolar ángulo de carga suavemente
 	if self.loading then
-		self.displayed_angle = self.displayed_angle + (self.target_charge_angle - self.displayed_angle) * 0.2
+		local diff = self.target_charge_angle - self.displayed_angle
+		self.displayed_angle = self.displayed_angle + diff * 0.25  -- más responsivo
 		msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.displayed_angle })
 	end
 
@@ -169,6 +175,8 @@ function on_input(self, action_id, action)
 				self.pendulum_active = false
 				self.loading = true
 				self.start_touch_y = action.y
+
+				-- 🔁 Reset total
 				self.target_charge_angle = 0
 				self.displayed_angle = 0
 				msg.post("charge_arrow#charge_bar", "start_charge")
@@ -179,17 +187,25 @@ function on_input(self, action_id, action)
 	-- MOVER MIENTRAS PRESIONA
 	if self.loading and action.repeated then
 		local dy = self.start_touch_y - action.y
-		local percentage = math.min(math.max(dy / 300, 0), 1)
+
+		-- Si el movimiento es muy chico, lo exageramos un poco al principio
+		if dy < 15 then
+			dy = dy * 2  -- Aumentá este factor si querés que reaccione aún más rápido
+		end
+
+		local percentage = math.min(math.max(dy / 100, 0), 1)
 		self.target_charge_angle = math.rad(percentage * 120)
 	end
+	
+	
 
-	-- SOLTAR
 	if action.released and self.loading then
 		self.loading = false
 		msg.post("charge_arrow#charge_bar", "stop_charge")
 
-		local strength_angle = self.displayed_angle or math.rad(0)
-		local angle_deg = math.deg(strength_angle)
+		-- Usamos el ángulo real de input (no el visual interpolado)
+		local angle = self.target_charge_angle or math.rad(0)
+		local angle_deg = math.deg(angle)
 		local strength = calculate_strength(angle_deg)
 
 		self.start_y = self.anchor_y
@@ -197,9 +213,7 @@ function on_input(self, action_id, action)
 
 		local full_range = CELL_SIZE * 8
 		local full_drop = strength * full_range
-		print("🔻 Fuerza:", strength, "→ Caída:", full_drop)
-		
-		self.total_drop = full_drop  -- o redondear si querés snap
+		self.total_drop = full_drop
 		self.target_y = self.start_y - self.total_drop
 
 		local offset_x = full_drop * math.sin(self.current_angle)
@@ -210,7 +224,9 @@ function on_input(self, action_id, action)
 		self.drop_progress = 0
 		self.descending = true
 	end
+	
 end
+
 
 
 function on_message(self, message_id, message)
