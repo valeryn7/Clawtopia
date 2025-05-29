@@ -7,6 +7,7 @@ local CLAW_SPEED = 400
 local ROPE_LENGTH = 30
 local MAX_ANGLE = math.rad(45)
 local PENDULUM_SPEED = 2
+local GRAB_OFFSET = 20
 local INPUT_MIN_Y = 150  -- mínimo Y donde sí se puede lanzar la garra
 local INPUT_MAX_Y = 1048 -- máximo Y donde sí se puede lanzar la garra
 
@@ -16,19 +17,10 @@ local function update_claw_rotation(self)
 end
 
 local function calculate_strength(angle_deg)
-	if angle_deg >= 0 and angle_deg < 40 then
-		return 0.5
-	elseif angle_deg >= 40 and angle_deg < 50 then
-		return 0.75
-	elseif angle_deg >= 60 and angle_deg < 110 then
-		return 0.75
-	elseif angle_deg >= 110 and angle_deg < 120 then
-		return 0.8
-	elseif angle_deg >= 120 then
-		return 1.0
-	else
-		return 0.5
-	end
+	local min_strength = 0.2  -- ✅ mínimo decente (baja algo)
+	local max_strength = 1.0  -- máximo
+	local clamped_angle = math.min(math.max(angle_deg, 0), 120)
+	return min_strength + (clamped_angle / 120) * (max_strength - min_strength)
 end
 
 function init(self)
@@ -52,7 +44,6 @@ function init(self)
 	self.start_x = 0
 	self.target_x = 0
 	self.target_y = 0
-	self.captured_angle = 0
 
 	self.waiting_for_grab_response = false
 	self.grab_response_timer = 0
@@ -61,21 +52,25 @@ function init(self)
 	self.strength = 0.5
 
 	self.activeTouch = true
-	
+	self.captured_angle = math.rad(0)
+	self.displayed_angle = 0
+	self.target_charge_angle = 0
+
 	msg.post(".", "acquire_input_focus")
 	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
 	update_claw_rotation(self)
 end
 
 function update(self, dt)
-	
 	if self.pendulum_active then
 		self.time = self.time + dt
 		update_claw_rotation(self)
 	end
 
+	-- Interpolar ángulo de carga suavemente
 	if self.loading then
-		self.load_amount = math.min(self.load_amount + dt, self.max_load)
+		self.displayed_angle = self.displayed_angle + (self.target_charge_angle - self.displayed_angle) * 0.2
+		msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.displayed_angle })
 	end
 
 	if self.waiting_for_grab_response then
@@ -102,29 +97,25 @@ function update(self, dt)
 				self.descending = false
 
 				if self.total_drop < 10 then
-					-- Demasiado corto, vuelve al columpio
 					self.anchor_y = self.start_y
 					self.anchor_x = self.start_x
 					self.pendulum_active = true
-					local ratio = math.max(-1, math.min(1, self.captured_angle / MAX_ANGLE))
+					local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
 					self.time = math.asin(ratio) / PENDULUM_SPEED
 				else
 					msg.post("grid_controller#grid", "consume_drop")
 					local claw_pos = go.get_position()
-					local claw_tip_y = claw_pos.y - ROPE_LENGTH
-
-					print("👉 Intentando agarrar en:", claw_pos.x, claw_tip_y)
-
+					local claw_tip_y = go.get_position().y - ROPE_LENGTH - GRAB_OFFSET
+					
 					msg.post("grid_controller#grid", "grab_object_at_column", {
 						x = claw_pos.x,
 						y = claw_tip_y
 					})
-					
+
 					self.waiting_for_grab_response = true
 					self.grab_response_timer = 0
 				end
 			end
-			
 
 		elseif self.ascending then
 			self.drop_progress = self.drop_progress - move
@@ -140,7 +131,7 @@ function update(self, dt)
 				self.ascending = false
 				self.pendulum_active = true
 
-				local ratio = math.max(-1, math.min(1, self.captured_angle / MAX_ANGLE))
+				local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
 				self.time = math.asin(ratio) / PENDULUM_SPEED
 
 				if self.carrying_object then
@@ -151,7 +142,6 @@ function update(self, dt)
 		end
 
 		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-		
 
 		if self.carrying_object then
 			local pos = vmath.vector3(self.anchor_x, self.anchor_y - ROPE_LENGTH, 4)
@@ -162,58 +152,57 @@ function update(self, dt)
 	msg.post("stick", "set_bottom", { x = self.anchor_x, y = self.anchor_y - ROPE_LENGTH })
 end
 
-
 function on_input(self, action_id, action)
-	if not self.activeTouch then
-		return
-	end
+	if not self.activeTouch then return end
+	if action.y < INPUT_MIN_Y or action.y > INPUT_MAX_Y then return end
 
-	if action.y < INPUT_MIN_Y or action.y > INPUT_MAX_Y then
-		return
-	end
-	
 	local is_pc = not sys.get_sys_info().device_model
 	local is_mobile = sys.get_sys_info().device_model
 
+	-- PRESIONAR
 	if action.pressed then
-		if (action_id == hash("space") and is_pc) or (action_id == hash("touch") and is_mobile) then
+		if (action_id == hash("space") and is_pc) or
+		(action_id == hash("touch") and is_mobile) or
+		(action_id == hash("mouse_button_1") and is_pc) then
+
 			if self.pendulum_active then
 				self.pendulum_active = false
 				self.loading = true
-				self.load_amount = 0
-
+				self.start_touch_y = action.y
+				self.target_charge_angle = 0
+				self.displayed_angle = 0
 				msg.post("charge_arrow#charge_bar", "start_charge")
 			end
 		end
 	end
 
+	-- MOVER MIENTRAS PRESIONA
+	if self.loading and action.repeated then
+		local dy = self.start_touch_y - action.y
+		local percentage = math.min(math.max(dy / 300, 0), 1)
+		self.target_charge_angle = math.rad(percentage * 120)
+	end
+
+	-- SOLTAR
 	if action.released and self.loading then
 		self.loading = false
-
 		msg.post("charge_arrow#charge_bar", "stop_charge")
+
+		local strength_angle = self.displayed_angle or math.rad(0)
+		local angle_deg = math.deg(strength_angle)
+		local strength = calculate_strength(angle_deg)
 
 		self.start_y = self.anchor_y
 		self.start_x = self.anchor_x
 
-		self.captured_angle = self.current_angle
-
-		local strength = self.load_amount / self.max_load
-		if self.load_amount >= 1.0 then
-			strength = 1.2
-		end
-
-		local full_range = CELL_SIZE * 6
+		local full_range = CELL_SIZE * 8
 		local full_drop = strength * full_range
-
-		local raw_drop_y = full_drop * math.cos(self.captured_angle)
-		local offset_x = full_drop * math.sin(self.captured_angle)
-
-		-- 🔧 Alinear al centro de la celda más cercana
-		local rows = math.floor(raw_drop_y / CELL_SIZE + 0.5)
-		self.total_drop = rows * CELL_SIZE
-		self.target_y = self.start_y - self.total_drop
+		print("🔻 Fuerza:", strength, "→ Caída:", full_drop)
 		
-		-- 🔧 Limitar desplazamiento horizontal al borde del grid
+		self.total_drop = full_drop  -- o redondear si querés snap
+		self.target_y = self.start_y - self.total_drop
+
+		local offset_x = full_drop * math.sin(self.current_angle)
 		local grid_half_width = ((GRID_COLS - 1) / 2) * CELL_SIZE
 		self.target_x = self.start_x + offset_x
 		self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.target_x))
@@ -222,6 +211,7 @@ function on_input(self, action_id, action)
 		self.descending = true
 	end
 end
+
 
 function on_message(self, message_id, message)
 	if message_id == hash("object_grabbed") then

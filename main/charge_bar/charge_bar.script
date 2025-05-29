@@ -51,17 +51,19 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("start_charge") then
-		self.moving = true
 		self.angle = math.rad(self.min_angle_deg)
-		self.direction = 1
+		self.moving = false -- 🔁 Desactivamos el movimiento automático
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "enable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "enable")
 
-	elseif message_id == hash("stop_charge") then
-		self.moving = false
+	elseif message_id == hash("set_manual_angle") then
+		local new_angle = math.max(self.min_angle, math.min(self.max_angle, message.angle))
+		self.angle = new_angle
+		go.set_rotation(vmath.quat_rotation_z(-self.angle))  -- Mostrar la flecha
+		
 
-		-- 🔥 Mandar ángulo final al claw
+	elseif message_id == hash("stop_charge") then
 		msg.post("claw", "set_charge_angle", { angle = self.angle })
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
