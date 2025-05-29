@@ -186,7 +186,7 @@ function on_input(self, action_id, action)
 	-- MOVER MIENTRAS PRESIONA (incluso si movés muy rápido)
 	if self.loading and (action.pressed or action.repeated or action.down) then
 		local dy = math.max(self.start_touch_y - action.y, 0)
-		local percentage = math.min(dy / 160, 1)
+		local percentage = math.min(dy / 300, 1)
 		self.target_charge_angle = math.rad(percentage * 150)
 		-- No tocar displayed_angle acá, dejamos que update() lo interpole
 		
