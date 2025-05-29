@@ -178,8 +178,8 @@ scale_mode = fit
 transparent_graphics_context = 0
 
 [particle_fx]
-max_count = 64
-max_emitter_count = 64
+max_count = 128
+max_emitter_count = 128
 max_particle_count = 1024
 
 [network]

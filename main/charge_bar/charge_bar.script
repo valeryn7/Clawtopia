@@ -37,7 +37,7 @@ function update(self, dt)
 		local abs_diff = math.abs(diff)
 
 		-- ✅ Mejora de respuesta inmediata
-		local base_speed = 0.3
+		local base_speed = 0.6
 		local accel_factor = math.pow(math.max(0.15, abs_diff), 1.8) * 25
 		local speed = base_speed + accel_factor
 		local step = diff * speed * dt
