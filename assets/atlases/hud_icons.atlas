@@ -55,4 +55,7 @@ images {
 images {
   image: "/assets/images/objects/fox.png"
 }
+images {
+  image: "/assets/images/claw/claw_icon.png"
+}
 extrude_borders: 2
