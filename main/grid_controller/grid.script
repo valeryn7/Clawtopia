@@ -97,6 +97,7 @@ local function reset_grid(self)
 	end
 	self.creating_grid = true
 
+	-- Eliminar celdas existentes
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row] and self.grid[row][col]
@@ -113,7 +114,6 @@ local function reset_grid(self)
 	timer.delay(0.05, false, function()
 		local level_data = LEVELS[self.level]
 		local layout = level_data and level_data.grid or {}
-		local locked_cells = level_data.locked_cells or {}
 
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local total_grid_height = CELL_SIZE * GRID_ROWS
@@ -128,35 +128,30 @@ local function reset_grid(self)
 				local x = start_x + col * CELL_SIZE
 				local y = start_y - row * CELL_SIZE
 				local sprite_name = layout[row + 1] and layout[row + 1][col + 1]
+
 				if sprite_name and sprite_name ~= "" then
 					local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
 					if id then
-						local locked = false
-						local lock_color = nil
-						for _, lock in ipairs(locked_cells) do
-							if lock.row == row + 1 and lock.col == col + 1 then
-								locked = true
-								lock_color = lock.color
-								break
-							end
-						end
-						
 						self.grid[row][col] = {
 							id = id,
 							sprite = sprite_name,
-							locked = locked,
-							lock_color = lock_color,
 							revealed = true,
 							captured = false,
 							x = x,
 							y = y
 						}
 						self.total_cells = self.total_cells + 1
+
 						msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
-						if locked then
-							msg.post(id, "set_locked", { color = lock_color })
-						end
-						msg.post(id, "reveal")
+
+						-- Escala inicial mínima para animación
+						go.set_scale(vmath.vector3(0.01, 0.01, 1), id)
+
+						local delay = (row * GRID_COLS + col) * 0.02
+						timer.delay(delay, false, function()
+							msg.post(id, "reveal")
+							go.animate(id, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 1), go.EASING_OUTBACK, 0.25)
+						end)
 					end
 				end
 			end
@@ -166,6 +161,8 @@ local function reset_grid(self)
 		apply_level_movements(self)
 	end)
 end
+
+
 
 function init(self)
 	self.grid = {}
