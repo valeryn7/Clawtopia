@@ -1,59 +1,73 @@
-local function update_slot(self, slot)
-	local label_url = msg.url(nil, slot.go, slot.label)
-	local sprite_url = msg.url(nil, slot.go, slot.icon)
-
-	if slot.type then
-		msg.post(sprite_url, "play_animation", { id = hash(slot.type) })
-	end
-
-	msg.post(label_url, "set_text", {
-		text = string.format("%d/%d", slot.collected, slot.required)
-	})
-end
+local OBJECT_ICON_FACTORY = "#object_icon_factory"
+local ABSOLUTE_POSITIONS = require("main.hud.absolute_positions")
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	self.icon_nodes = {}
+end
 
-	self.button_size = vmath.vector3(64, 64, 0) -- Tamaño estándar de los botones
+local function clear_icons(self)
+	for _, icon in ipairs(self.icon_nodes) do
+		if go.exists(icon) then
+			go.delete(icon)
+		end
+	end
+	self.icon_nodes = {}
+end
 
-	self.slots = {
-		{ go = "slot_1", icon = "slot_1_icon", label = "slot_1_label", type = nil, required = 0, collected = 0 },
-		{ go = "slot_2", icon = "slot_2_icon", label = "slot_2_label", type = nil, required = 0, collected = 0 },
-		{ go = "slot_3", icon = "slot_3_icon", label = "slot_3_label", type = nil, required = 0, collected = 0 },
-		{ go = "slot_4", icon = "slot_4_icon", label = "slot_4_label", type = nil, required = 0, collected = 0 },
-		{ go = "slot_5", icon = "slot_5_icon", label = "slot_5_label", type = nil, required = 0, collected = 0 },
-	}
+local function create_object_icons(self, slot_index, type, required, collected)
+	local positions = ABSOLUTE_POSITIONS[slot_index] and ABSOLUTE_POSITIONS[slot_index][required]
+	if not positions then
+		print("⚠️ No hay posiciones para slot", slot_index, "con", required, "íconos.")
+		return
+	end
 
-	for _, slot in ipairs(self.slots) do
-		update_slot(self, slot)
+	local scale = (required == 5) and vmath.vector3(0.6, 0.6, 1) or vmath.vector3(1, 1, 1)
+
+	for i = 1, required do
+		local pos = positions[i]
+		local icon = factory.create(OBJECT_ICON_FACTORY, pos)
+		if icon then
+			go.set_scale(scale, icon)
+			local sprite_url = msg.url(nil, icon, "sprite")
+			msg.post(sprite_url, "play_animation", { id = hash(type) })
+
+			-- Todos empiezan grises
+			go.set(sprite_url, "tint", vmath.vector4(0.6, 0.6, 0.6, 1))
+
+			table.insert(self.icon_nodes, icon)
+		end
 	end
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("init_goals") then
-		for i, slot in ipairs(self.slots) do
-			local g = message.goals[i]
-			if g then
-				slot.type = g.type
-				slot.required = g.required
-				slot.collected = g.collected
-				go.set_scale(vmath.vector3(1, 1, 1), msg.url(nil, slot.go, slot.icon))
-				update_slot(self, slot)
-			else
-				slot.type = nil
-				slot.required = 0
-				slot.collected = 0
-				go.set_scale(vmath.vector3(0.01, 0.01, 1), msg.url(nil, slot.go, slot.icon))
-				msg.post(msg.url(nil, slot.go, slot.label), "set_text", { text = "" })
-			end
+		clear_icons(self)
+		for i, goal in ipairs(message.goals) do
+			create_object_icons(self, i, goal.type, goal.required, goal.collected)
 		end
 
 	elseif message_id == hash("update_goal") then
-		for _, slot in ipairs(self.slots) do
-			if slot.type == message.type then
-				slot.collected = math.min(message.collected, slot.required)
-				update_slot(self, slot)
-				break
+		local updated_type = message.type
+		local updated_collected = message.collected
+
+		for _, icon in ipairs(self.icon_nodes) do
+			if go.exists(icon) then
+				local sprite_url = msg.url(nil, icon, "sprite")
+				local anim = go.get(sprite_url, "animation")
+				if anim == hash(updated_type) then
+					local current_tint = go.get(sprite_url, "tint")
+					if current_tint.x < 1.0 then
+						-- Solo si todavía está gris, lo animamos hacia blanco
+						go.animate(sprite_url, "tint.x", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
+						go.animate(sprite_url, "tint.y", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
+						go.animate(sprite_url, "tint.z", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
+						updated_collected = updated_collected - 1
+					end
+					if updated_collected <= 0 then
+						break
+					end
+				end
 			end
 		end
 	end
