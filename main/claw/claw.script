@@ -108,7 +108,6 @@ function update(self, dt)
 					local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
 					self.time = math.asin(ratio) / PENDULUM_SPEED
 				else
-					msg.post("grid_controller#grid", "consume_drop")
 					local claw_pos = go.get_position()
 					local claw_tip_y = go.get_position().y - ROPE_LENGTH - GRAB_OFFSET
 					
@@ -116,6 +115,8 @@ function update(self, dt)
 						x = claw_pos.x,
 						y = claw_tip_y
 					})
+
+					msg.post("grid_controller#grid", "consume_drop")
 
 					self.waiting_for_grab_response = true
 					self.grab_response_timer = 0

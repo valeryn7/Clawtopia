@@ -176,6 +176,48 @@ function init(self)
 	self.collected_keys = {}
 end
 
+local function check_game_end(self)
+	if self.game_over then return end
+
+	-- ✅ Verificar si se completaron todos los objetivos
+	local completed = true
+	for _, goal in ipairs(self.goals) do
+		print(goal.collected)
+		print(goal.required)
+		if goal.collected < goal.required then
+			completed = false
+			break
+		end
+	end
+
+	if completed then
+		self.game_over = true
+		self.total_points = 0
+		for _, goal in ipairs(self.goals) do
+			self.total_points = self.total_points + goal.points_total
+		end
+		print("🎉 VICTORIA: todos los objetivos cumplidos")
+		msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
+		return
+	end
+
+	-- ❌ Verificar si ya es imposible completar los objetivos
+	if check_impossible_goals(self) then
+		self.game_over = true
+		print("💥 DERROTA: objetivos imposibles de completar")
+		msg.post("panels#panels_gui", "level_failed")
+		return
+	end
+
+	-- ❌ Verificar si se acabaron los drops sin haber cumplido los objetivos
+	if self.remaining_drops <= 0 then
+		self.game_over = true
+		print("💥 DERROTA: sin drops restantes")
+		msg.post("panels#panels_gui", "level_failed")
+	end
+end
+
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
 		local x, y = message.x, message.y
@@ -249,31 +291,8 @@ function on_message(self, message_id, message, sender)
 							end
 						end
 
-						-- Verificar fin de nivel
-						local completed = true
-						for _, goal in ipairs(self.goals) do
-							if goal.collected < goal.required then
-								completed = false
-								break
-							end
-						end
-
-						if completed and not self.game_over then
-							self.game_over = true
-							self.total_points = 0
-							for _, goal in ipairs(self.goals) do
-								self.total_points = self.total_points + goal.points_total
-							end
-							msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
-						elseif not self.game_over and check_impossible_goals(self) then
-							self.game_over = true
-							msg.post("panels#panels_gui", "level_failed")
-						end
-
-						if self.remaining_drops <= 0 and not self.game_over then
-							self.game_over = true
-							msg.post("panels#panels_gui", "level_failed")
-						end
+						check_game_end(self)
+						
 
 						found = true
 						break
@@ -286,11 +305,7 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("consume_drop") then
 		self.remaining_drops = self.remaining_drops - 1
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
-
-		if self.remaining_drops <= 0 and not self.game_over then
-			self.game_over = true
-			msg.post("panels#panels_gui", "level_failed")
-		end
+		check_game_end(self)
 
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
