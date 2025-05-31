@@ -2,6 +2,9 @@ local CELL_SIZE = 100
 local GRID_COLS = 5
 local GRID_ROWS = 6
 
+local ZOOM_DURATION = 1.0  -- segundos
+local ZOOM_LEVEL = 2.0
+
 go.property("level", 1)
 
 local POINTS = {
@@ -188,6 +191,20 @@ function init(self)
 	self.game_over = false
 	self.creating_grid = false
 	self.collected_keys = {}
+
+	self.follow_claw = false
+	self.follow_timer = 0
+	self.max_follow_time = 3
+	self.zoom_set = false
+end
+
+local function follow_claw()
+	local claw_pos = go.get_position("claw#claw_sprite")
+
+	msg.post("@render:", "set_zoom", {
+		zoom = ZOOM_LEVEL,
+		pos = claw_pos
+	})
 end
 
 local function check_game_end(self)
@@ -209,10 +226,49 @@ local function check_game_end(self)
 			self.total_points = self.total_points + goal.points_total
 		end
 		print("🎉 VICTORIA: todos los objetivos cumplidos")
-		msg.post("panels#panels_gui", "level_completed", {
-			points = self.total_points,
-			level = self.level
-		})
+
+		msg.post("claw#claw", "disable_touch")
+
+		-- 1️⃣ Mostrar primero la celebración visual
+	
+
+		-- 2️⃣ Esperamos 0.6s para que se vea la explosión y partículas
+		timer.delay(0.6, false, function()
+			local claw_pos = go.get_position("claw")
+
+			msg.post("celebration_fx#celebrationScript", "play_celebration")
+
+			-- 3️⃣ Zoom hacia la garra
+			msg.post("@render:", "set_zoom", {
+				zoom = ZOOM_LEVEL,
+				pos = claw_pos
+			})
+
+			-- 4️⃣ Seguir la garra por 5 segundos
+			self.follow_claw = true
+			self.follow_timer = 0
+
+			-- 5️⃣ Volver al centro y mostrar panel
+			timer.delay(ZOOM_DURATION, false, function()
+				self.follow_claw = false
+
+				-- 1️⃣ Mostrar panel primero
+				msg.post("panels#panels_gui", "level_completed", {
+					points = self.total_points,
+					level = self.level
+				})
+
+				-- 2️⃣ Recién después de 0.5s hacé zoom out
+				timer.delay(0.5, false, function()
+					msg.post("@render:", "set_zoom", {
+						zoom = 1.0,
+						pos = vmath.vector3(0)
+					})
+				end)
+			end)
+			
+		end)
+
 		return
 	end
 
@@ -238,6 +294,28 @@ local function check_game_end(self)
 	end
 end
 
+function update(self, dt)
+	if self.follow_claw then
+		self.follow_timer = self.follow_timer + dt
+		local claw_pos = go.get_position("claw")
+		msg.post("@render:", "set_zoom", {
+			zoom = ZOOM_LEVEL,
+			pos = claw_pos
+		})
+
+		if self.follow_timer >= self.max_follow_time then
+			self.follow_claw = false
+			self.zoom_set = false
+
+			-- Volver al centro y zoom normal
+			msg.post("@render:", "set_zoom", {
+				zoom = 1.0,
+				pos = vmath.vector3(0)
+			})
+		end
+	end
+	
+end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
