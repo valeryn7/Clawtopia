@@ -8,7 +8,7 @@ local ROPE_LENGTH = 30
 local MAX_ANGLE = math.rad(45)
 local PENDULUM_SPEED = 2
 local GRAB_OFFSET = 20
-local INPUT_MIN_Y = 150  -- mínimo Y donde sí se puede lanzar la garra
+local INPUT_MIN_Y = 0  -- mínimo Y donde sí se puede lanzar la garra
 local INPUT_MAX_Y = 1048 -- máximo Y donde sí se puede lanzar la garra
 
 local function update_claw_rotation(self)

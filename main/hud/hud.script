@@ -58,12 +58,18 @@ function on_message(self, message_id, message, sender)
 				if anim == hash(updated_type) then
 					local current_tint = go.get(sprite_url, "tint")
 					if current_tint.x < 1.0 then
-						-- Solo si todavía está gris, lo animamos hacia blanco
-						go.animate(sprite_url, "tint.x", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
-						go.animate(sprite_url, "tint.y", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
-						go.animate(sprite_url, "tint.z", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.2)
+						go.animate(sprite_url, "tint.x", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.15)
+						go.animate(sprite_url, "tint.y", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.15)
+						go.animate(sprite_url, "tint.z", go.PLAYBACK_ONCE_FORWARD, 1.0, go.EASING_INOUTSINE, 0.15)
+
+						go.animate(icon, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1.2, 1.2, 1), go.EASING_OUTSINE, 0.15)
+						timer.delay(0.15, false, function()
+							go.animate(icon, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 1), go.EASING_INSINE, 0.1)
+						end)
+						
 						updated_collected = updated_collected - 1
 					end
+					
 					if updated_collected <= 0 then
 						break
 					end

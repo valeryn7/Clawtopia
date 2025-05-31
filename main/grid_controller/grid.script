@@ -114,6 +114,7 @@ local function reset_grid(self)
 	timer.delay(0.05, false, function()
 		local level_data = LEVELS[self.level]
 		local layout = level_data and level_data.grid or {}
+		local locked_cells = level_data.locked_cells or {}
 
 		local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
 		local total_grid_height = CELL_SIZE * GRID_ROWS
@@ -132,21 +133,38 @@ local function reset_grid(self)
 				if sprite_name and sprite_name ~= "" then
 					local id = factory.create("#cell_factory", vmath.vector3(x, y, 1))
 					if id then
+						-- Detectar si la celda está bloqueada por candado
+						local locked = false
+						local lock_color = nil
+						for _, lock in ipairs(locked_cells) do
+							if lock.row == row + 1 and lock.col == col + 1 then
+								locked = true
+								lock_color = lock.color
+								break
+							end
+						end
+
+						-- Guardar en la grilla
 						self.grid[row][col] = {
 							id = id,
 							sprite = sprite_name,
 							revealed = true,
 							captured = false,
+							locked = locked,
+							lock_color = lock_color,
 							x = x,
 							y = y
 						}
 						self.total_cells = self.total_cells + 1
 
+						-- Setear sprite y candado
 						msg.post(id, "set_revealed_sprite", { sprite = sprite_name, row = row, col = col })
+						if locked then
+							msg.post(id, "set_locked", { color = lock_color })
+						end
 
-						-- Escala inicial mínima para animación
+						-- Animación de aparición
 						go.set_scale(vmath.vector3(0.01, 0.01, 1), id)
-
 						local delay = (row * GRID_COLS + col) * 0.02
 						timer.delay(delay, false, function()
 							msg.post(id, "reveal")
@@ -161,7 +179,6 @@ local function reset_grid(self)
 		apply_level_movements(self)
 	end)
 end
-
 
 
 function init(self)
@@ -179,8 +196,6 @@ local function check_game_end(self)
 	-- ✅ Verificar si se completaron todos los objetivos
 	local completed = true
 	for _, goal in ipairs(self.goals) do
-		print(goal.collected)
-		print(goal.required)
 		if goal.collected < goal.required then
 			completed = false
 			break
@@ -194,7 +209,10 @@ local function check_game_end(self)
 			self.total_points = self.total_points + goal.points_total
 		end
 		print("🎉 VICTORIA: todos los objetivos cumplidos")
-		msg.post("panels#panels_gui", "level_completed", { points = self.total_points })
+		msg.post("panels#panels_gui", "level_completed", {
+			points = self.total_points,
+			level = self.level
+		})
 		return
 	end
 
@@ -202,7 +220,10 @@ local function check_game_end(self)
 	if check_impossible_goals(self) then
 		self.game_over = true
 		print("💥 DERROTA: objetivos imposibles de completar")
-		msg.post("panels#panels_gui", "level_failed")
+		msg.post("panels#panels_gui", "level_failed", {
+			level = self.level,
+			points = self.total_points
+		})
 		return
 	end
 
@@ -210,7 +231,10 @@ local function check_game_end(self)
 	if self.remaining_drops <= 0 then
 		self.game_over = true
 		print("💥 DERROTA: sin drops restantes")
-		msg.post("panels#panels_gui", "level_failed")
+		msg.post("panels#panels_gui", "level_failed", {
+			level = self.level,
+			points = self.total_points
+		})
 	end
 end
 
