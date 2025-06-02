@@ -11,6 +11,9 @@ function init(self)
 
 	self.target_charge_angle = 0
 	self.displayed_angle = 0
+	self.charging = false
+	self.charge_timer = 0
+	self.charge_direction = 1
 
 	go.set_rotation(vmath.quat_rotation_z(self.angle))
 	msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
@@ -32,17 +35,30 @@ function update(self, dt)
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
 	end
 
+	if self.charging then
+		self.charge_timer = self.charge_timer + self.charge_direction * dt * 0.8
+
+		if self.charge_timer >= 1 then
+			self.charge_timer = 1
+			self.charge_direction = -1
+		elseif self.charge_timer <= 0 then
+			self.charge_timer = 0
+			self.charge_direction = 1
+		end
+
+		local charge_angle = self.min_angle + (self.max_angle - self.min_angle) * self.charge_timer
+		self.target_charge_angle = charge_angle
+	end
+
 	if self.target_charge_angle and self.displayed_angle then
 		local diff = self.target_charge_angle - self.displayed_angle
 		local abs_diff = math.abs(diff)
 
-		-- ✅ Mejora de respuesta inmediata
 		local base_speed = 0.6
 		local accel_factor = math.pow(math.max(0.15, abs_diff), 1.8) * 25
 		local speed = base_speed + accel_factor
 		local step = diff * speed * dt
 
-		-- Límite de paso por frame
 		local max_step = math.rad(25)
 		step = math.max(-max_step, math.min(step, max_step))
 
@@ -51,21 +67,31 @@ function update(self, dt)
 	end
 end
 
+function on_input(self, action_id, action)
+	if action_id == hash("touch") or action_id == hash("mouse_button_1") then
+		if action.pressed then
+			msg.post("charge_arrow#charge_bar", "start_charge")
+		elseif action.released then
+			msg.post("charge_arrow#charge_bar", "stop_charge")
+		end
+	end
+end
+
 function on_message(self, message_id, message)
 	if message_id == hash("start_charge") then
 		self.angle = self.min_angle
 		self.moving = false
+		self.charging = true
+		self.charge_timer = 0
+		self.charge_direction = 1
 		self.target_charge_angle = 0
 		self.displayed_angle = 0
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "enable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "enable")
 
-	elseif message_id == hash("set_manual_angle") then
-		local new_angle = math.max(self.min_angle, math.min(self.max_angle, message.angle or 0))
-		self.target_charge_angle = new_angle
-
 	elseif message_id == hash("stop_charge") then
+		self.charging = false
 		msg.post("claw", "set_charge_angle", { angle = self.displayed_angle or 0 })
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
