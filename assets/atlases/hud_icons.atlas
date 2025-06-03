@@ -58,4 +58,7 @@ images {
 images {
   image: "/assets/images/claw/claw_icon.png"
 }
+images {
+  image: "/assets/images/panels/victory_label.png"
+}
 extrude_borders: 2

@@ -1,0 +1,31 @@
+function init(self)
+	print("Victory layer init")
+
+	-- Forzar z y rotación del GO principal
+	local pos = go.get_position()
+	pos.z = 10
+	go.set_position(pos)
+	go.set_rotation(vmath.quat_rotation_z(0))
+
+	-- Posiciones Z de los elementos hijos
+	go.set_position(vmath.vector3(0, 0, 9), "#victory_anim")          -- Fondo animado
+	go.set_position(vmath.vector3(0, 200, 10), "#victory_label")       -- Cartel más arriba
+
+	-- Escala y opacidad inicial
+	go.set_scale(vmath.vector3(0.1, 0.1, 1), "#victory_label")
+	go.set("#victory_label", "tint", vmath.vector4(1, 1, 1, 0))
+	go.set("#victory_anim", "tint", vmath.vector4(1, 1, 1, 0))
+
+	-- Reproducir fondo animado con opacidad parcial
+	msg.post("#victory_anim", "play_animation", { id = hash("explosion_victory") })
+	go.set("#victory_anim", "tint", vmath.vector4(1, 1, 1, 0.5))
+
+	-- Cartel Victory con rebote y fade in
+	go.animate("#victory_label", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 1), go.EASING_OUTBACK, 0.6)
+	go.animate("#victory_label", "tint.w", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_LINEAR, 0.4)
+
+	-- Eliminar GO completo tras 2 segundos
+	timer.delay(2.0, false, function()
+		go.delete()
+	end)
+end

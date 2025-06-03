@@ -1,0 +1,81 @@
+animations {
+  id: "explosion_pink"
+  images {
+    image: "/assets/images/explosion/explode_pink_1.png"
+  }
+  images {
+    image: "/assets/images/explosion/explode_pink_2.png"
+  }
+  images {
+    image: "/assets/images/explosion/explode_pink_3.png"
+  }
+  images {
+    image: "/assets/images/explosion/explode_pink_4.png"
+  }
+  images {
+    image: "/assets/images/explosion/explode_pink_5.png"
+  }
+  images {
+    image: "/assets/images/explosion/explode_pink_6.png"
+  }
+  fps: 13
+}
+animations {
+  id: "idle"
+  images {
+    image: "/assets/images/explosion/idle.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+}
+animations {
+  id: "explosion_blue"
+  images {
+    image: "/assets/images/explosion/explosion_blue_1.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_blue_2.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_blue_3.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_blue_4.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_blue_5.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_blue_6.png"
+  }
+  fps: 13
+}
+animations {
+  id: "explosion_victory"
+  images {
+    image: "/assets/images/explosion/star_1.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_2.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_3.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_4.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_6.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_7.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_8.png"
+  }
+  images {
+    image: "/assets/images/explosion/star_9.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 20
+}
+extrude_borders: 2

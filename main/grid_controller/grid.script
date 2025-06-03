@@ -2,7 +2,7 @@ local CELL_SIZE = 100
 local GRID_COLS = 5
 local GRID_ROWS = 6
 
-local ZOOM_DURATION = 1.0  -- segundos
+local ZOOM_DURATION = 2.0  -- segundos
 local ZOOM_LEVEL = 2.0
 
 go.property("level", 1)

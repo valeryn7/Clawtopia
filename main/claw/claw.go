@@ -23,3 +23,15 @@ embedded_components {
   data: "prototype: \"/main/claw/object/object.go\"\n"
   ""
 }
+embedded_components {
+  id: "explosion_factory"
+  type: "factory"
+  data: "prototype: \"/main/explosion/explosion_object.go\"\n"
+  ""
+}
+embedded_components {
+  id: "victory_layer_factory"
+  type: "factory"
+  data: "prototype: \"/main/panels/victory_layer.go\"\n"
+  ""
+}
