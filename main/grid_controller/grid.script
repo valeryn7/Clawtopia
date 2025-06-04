@@ -18,7 +18,9 @@ local POINTS = {
 	bomb = 0,
 	bug = 0,
 	rabbit = 30,
-	fox = 35
+	fox = 35,
+	frog = 40,
+	bear_panda = 50
 }
 
 local LEVELS = require("main.levels.levels")

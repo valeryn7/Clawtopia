@@ -88,4 +88,10 @@ images {
 images {
   image: "/assets/images/objects/fox.png"
 }
+images {
+  image: "/assets/images/objects/frog.png"
+}
+images {
+  image: "/assets/images/objects/bear_panda.png"
+}
 extrude_borders: 2

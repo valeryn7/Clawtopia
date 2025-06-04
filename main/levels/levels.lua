@@ -63,7 +63,7 @@ return {
         }
     },
     [5] = {
-        max_drops = 10,
+        max_drops = 12,
         grid = {
             { "",      "",  "",      "",        "" },
             { "", "rabbit",   "", "rabbit",   "" },
@@ -129,12 +129,12 @@ return {
     [7] = {
         max_drops = 16,
         grid = {
+            { "", "", "", "", "" },
             { "", "", "rabbit", "", "" },
             { "", "", "", "", "" },
             { "rabbit", "", "fox", "", "rabbit" },
             { "", "", "", "", "" },
             { "", "", "rabbit", "", "" },
-            { "", "", "", "", "" },
         },
         goals = {
             { type = "fox", required = 1 },
@@ -142,29 +142,29 @@ return {
         },
         movements = {
             {
-                from_row = 1, from_col = 3,
-                to_x = 200, to_y = 0,
+                from_row = 2, from_col = 3,
+                to_x = 200, to_y = -100,
                 loop = true,
                 wait = 1.2,
                 speed = 4
             },
             {
-                from_row = 3, from_col = 1,
-                to_x = 0, to_y = 200,
+                from_row = 4, from_col = 1,
+                to_x = 0, to_y = 100,
                 loop = true,
                 wait = 1.2,
                 speed = 4
             },
             {
-                from_row = 3, from_col = 5,
-                to_x = 0, to_y = -200,
+                from_row = 4, from_col = 5,
+                to_x = 0, to_y = -300,
                 loop = true,
                 wait = 1.2,
                 speed = 4
             },
             {
-                from_row = 5, from_col = 3,
-                to_x = -200, to_y = 0,
+                from_row = 6, from_col = 3,
+                to_x = -200, to_y = -100,
                 loop = true,
                 wait = 1.2,
                 speed = 4
@@ -174,49 +174,164 @@ return {
     [8] = {
         max_drops = 16,
         grid = {
-            { "bear_blue", "ball", "candy", "candy_green", "bear_pink" },
-            { "ball", "bomb", "chocolate", "bear_pink", "candy" },
-            { "candy", "chocolate", "bear_blue", "bear_pink", "bomb" },
-            { "bear_blue", "candy", "ball", "candy", "bear_blue" },
-            { "bomb", "candy", "chocolate", "ball", "candy_green" },
-            { "bear_blue", "bear_pink", "ball", "bear_pink", "candy" },
+            { "", "", "fox", "", "" },
+            { "", "bear_blue", "", "bear_blue", "" },
+            { "bear_panda", "", "", "", "bear_panda" },
+            { "", "bear_blue", "", "bear_blue", "" },
+            { "", "", "fox", "", "" },
+            { "key_red", "", "", "", "key_golden" },
+        },
+        locked_cells = {
+            { row = 3, col = 1, color = "golden" },
+            { row = 3, col = 5, color = "red" },
         },
         goals = {
-            { type = "bear_pink", required = 3 },
-            { type = "candy", required = 3 },
-            { type = "bomb", required = 2 }
+            { type = "fox", required = 1 },
+            { type = "bear_panda", required = 2 }
+        },
+        movements = {
+            {
+                from_row = 1, from_col = 3,
+                to_x = 0, to_y = 50,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 5, from_col = 3,
+                to_x = 0, to_y = -50,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 3, from_col = 1,
+                to_x = -100, to_y = 0,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 3, from_col = 5,
+                to_x = 100, to_y = 0,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
         }
     },
     [9] = {
-        max_drops = 17,
+        max_drops = 18,
         grid = {
-            { "chocolate", "candy", "bear_blue", "bomb", "candy_green" },
-            { "ball", "candy", "bear_pink", "candy", "bear_blue" },
-            { "bear_pink", "ball", "bomb", "candy_green", "candy" },
-            { "candy", "chocolate", "candy", "ball", "candy" },
-            { "ball", "bomb", "bear_pink", "bear_blue", "chocolate" },
-            { "bear_blue", "ball", "candy", "candy", "bear_pink" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "rabbit", "", "key_golden", "", "rabbit" },
+            { "", "", "", "", "" },
+            { "", "", "bear_panda", "", "" },
+            { "fox", "", "", "", "fox" },
+        },
+        locked_cells = {
+            { row = 5, col = 3, color = "golden" },
         },
         goals = {
-            { type = "candy", required = 3 },
-            { type = "candy_green", required = 2 },
-            { type = "bomb", required = 3 }
+            { type = "fox", required = 2 },
+            { type = "bear_panda", required = 1 }
+        },
+        movements = {
+            {
+                from_row = 6, from_col = 1,
+                to_x = -100, to_y = -100,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 6, from_col = 5,
+                to_x = 100, to_y = -100,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 5, from_col = 3,
+                to_x = 0, to_y = -400,
+                loop = true,
+                wait = 1,
+                speed = 3
+            },
         }
     },
     [10] = {
-        max_drops = 18,
+        max_drops = 16,
         grid = {
-            { "chocolate", "bear_blue", "candy", "bomb", "bear_pink" },
-            { "bear_pink", "candy", "candy", "ball", "bear_blue" },
-            { "ball", "bomb", "ball", "bear_pink", "chocolate" },
-            { "candy_green", "candy", "bear_blue", "ball", "bear_pink" },
-            { "bear_blue", "ball", "bomb", "candy_green", "ball" },
-            { "bear_pink", "candy", "chocolate", "ball", "bear_blue" },
+            { "", "", "", "", "" },
+            { "", "", "", "", "" },
+            { "", "bear_blue", "fox", "bear_blue", "" },
+            { "", "bear_panda", "bear_pink", "bear_panda", "" },
+            { "", "bear_blue", "fox", "bear_blue", "" },
+            { "", "", "", "", "" },
         },
         goals = {
-            { type = "bear_blue", required = 3 },
-            { type = "bomb", required = 3 },
-            { type = "chocolate", required = 2 }
+            { type = "fox", required = 1 },
+            { type = "bear_panda", required = 2 }
+        },
+        movements = {
+            {
+                from_row = 3, from_col = 3,
+                to_x = 0, to_y = 100,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 5, from_col = 3,
+                to_x = 0, to_y = -300,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 4, from_col = 2,
+                to_x = -200, to_y = -100,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 4, from_col = 4,
+                to_x = 200, to_y = -100,
+                loop = true,
+                wait = 1,
+                speed = 2
+            },
+            {
+                from_row = 3, from_col = 2,
+                to_x = -200, to_y = 100,
+                loop = true,
+                wait = 1,
+                speed = 1
+            },
+            {
+                from_row = 3, from_col = 4,
+                to_x = 200, to_y = 100,
+                loop = true,
+                wait = 1,
+                speed = 1
+            },
+            {
+                from_row = 5, from_col = 2,
+                to_x = -200, to_y = -300,
+                loop = true,
+                wait = 1,
+                speed = 1
+            },
+            {
+                from_row = 5, from_col = 4,
+                to_x = 200, to_y = -300,
+                loop = true,
+                wait = 1,
+                speed = 1
+            },
         }
     }
 }

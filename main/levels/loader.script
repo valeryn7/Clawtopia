@@ -20,6 +20,8 @@ local function load_level(self, level)
 	print("🔄 Cargando nivel:", level)
 	msg.post("grid_controller#grid", "set_level", { level = level })
 	msg.post("grid_controller#grid", "restart_level")
+
+	msg.post("claw#claw", "enable_touch")
 end
 
 function init(self)

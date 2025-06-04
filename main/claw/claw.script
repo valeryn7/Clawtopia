@@ -7,7 +7,7 @@ local CLAW_SPEED = 400
 local ROPE_LENGTH = 30
 local MAX_ANGLE = math.rad(45)
 local PENDULUM_SPEED = 2
-local GRAB_OFFSET = 20
+local GRAB_OFFSET = 20 
 local INPUT_MIN_Y = 0
 local INPUT_MAX_Y = 1048
 
@@ -180,6 +180,10 @@ end
 
 function on_input(self, action_id, action)
 	if not self.activeTouch then
+		return
+	end
+
+	if action.y > INPUT_MAX_Y then
 		return
 	end
 	

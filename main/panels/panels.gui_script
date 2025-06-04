@@ -36,10 +36,15 @@ end
 
 function update(self, dt)
 	if gui.is_enabled(gui.get_node("panel_overlay")) then
-		self.panel_overlay_angle = (self.panel_overlay_angle + dt * 0.4) % (math.pi * 2)
+		-- Oscilación entre -20° y +20°
+		local angle_range = math.rad(5
+	)
+		local speed = 2  -- velocidad de oscilación
+		self.panel_overlay_angle = angle_range * math.sin(socket.gettime() * speed)
 		gui.set_rotation(gui.get_node("panel_overlay"), vmath.quat_rotation_z(self.panel_overlay_angle))
 	end
 end
+
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("level_completed") then

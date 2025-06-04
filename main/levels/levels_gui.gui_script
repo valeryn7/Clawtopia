@@ -1,4 +1,4 @@
-local NUM_LEVELS = 20
+local NUM_LEVELS = 10
 local BUTTONS_PER_ROW = 4
 local BUTTON_SIZE = vmath.vector3(100, 100, 0)
 local SPACING = 20
