@@ -198,6 +198,7 @@ function init(self)
 	self.follow_timer = 0
 	self.max_follow_time = 3
 	self.zoom_set = false
+	self.speed_multiplier = 1
 end
 
 local function follow_claw()
@@ -232,35 +233,35 @@ local function check_game_end(self)
 		msg.post("claw#claw", "disable_touch")
 
 		-- 1️⃣ Mostrar primero la celebración visual
-	
-
-		-- 2️⃣ Esperamos 0.6s para que se vea la explosión y partículas
 		timer.delay(0.6, false, function()
 			local claw_pos = go.get_position("claw")
 
+			-- 2️⃣ Reproducir efectos visuales
 			msg.post("celebration_fx#celebrationScript", "play_celebration")
 
-			-- 3️⃣ Zoom hacia la garra
+			-- 3️⃣ Activar zoom y cámara lenta
 			msg.post("@render:", "set_zoom", {
 				zoom = ZOOM_LEVEL,
 				pos = claw_pos
 			})
-
-			-- 4️⃣ Seguir la garra por 5 segundos
+			self.speed_multiplier = 0.3  -- cámara lenta
+			msg.post("claw#claw", "set_speed_multiplier", { value = self.speed_multiplier })
+			
 			self.follow_claw = true
 			self.follow_timer = 0
 
-			-- 5️⃣ Volver al centro y mostrar panel
 			timer.delay(ZOOM_DURATION, false, function()
 				self.follow_claw = false
-
-				-- 1️⃣ Mostrar panel primero
+				self.speed_multiplier = 1  -- volver a velocidad normal
+				msg.post("claw#claw", "set_speed_multiplier", { value = self.speed_multiplier })
+				
+				-- 6️⃣ Mostrar panel de victoria
 				msg.post("panels#panels_gui", "level_completed", {
 					points = self.total_points,
 					level = self.level
 				})
 
-				-- 2️⃣ Recién después de 0.5s hacé zoom out
+				-- 7️⃣ Zoom out después de un pequeño delay
 				timer.delay(0.5, false, function()
 					msg.post("@render:", "set_zoom", {
 						zoom = 1.0,
@@ -268,7 +269,6 @@ local function check_game_end(self)
 					})
 				end)
 			end)
-			
 		end)
 
 		return
@@ -285,7 +285,7 @@ local function check_game_end(self)
 		return
 	end
 
-	-- ❌ Verificar si se acabaron los drops sin haber cumplido los objetivos
+	-- ❌ Verificar si se acabaron los drops sin cumplir objetivos
 	if self.remaining_drops <= 0 then
 		self.game_over = true
 		print("💥 DERROTA: sin drops restantes")
@@ -296,7 +296,9 @@ local function check_game_end(self)
 	end
 end
 
+
 function update(self, dt)
+	dt = dt * self.speed_multiplier
 	if self.follow_claw then
 		self.follow_timer = self.follow_timer + dt
 		local claw_pos = go.get_position("claw")

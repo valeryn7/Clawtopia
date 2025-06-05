@@ -53,7 +53,7 @@ function on_message(self, message_id, message, sender)
 		self.current_level = message.level or self.current_level
 
 		gui.set_text(gui.get_node("victory_points_label"), tostring(message.points))
-		gui.set_text(gui.get_node("victory_level_label"), "Level " .. tostring(self.current_level))
+		gui.set_text(gui.get_node("victory_level_label"), "LEVEL " .. tostring(self.current_level))
 		show_panel(self, "victory_gui")
 
 	elseif message_id == hash("level_failed") then
@@ -62,7 +62,7 @@ function on_message(self, message_id, message, sender)
 		self.current_level = message.level or self.current_level
 
 		gui.set_text(gui.get_node("defeat_points_label"), tostring(message.points))
-		gui.set_text(gui.get_node("defeat_level_label"), "Level " .. tostring(self.current_level))
+		gui.set_text(gui.get_node("defeat_level_label"), "LEVEL " .. tostring(self.current_level))
 		show_panel(self, "defeat_gui")
 
 	elseif message_id == hash("show_pause_panel") then
@@ -75,7 +75,7 @@ function on_message(self, message_id, message, sender)
 
 	elseif message_id == hash("set_level") then
 		self.current_level = message.level or 1
-		gui.set_text(gui.get_node("victory_level_label"), "Level " .. tostring(self.current_level))
+		gui.set_text(gui.get_node("victory_level_label"), "LEVEL " .. tostring(self.current_level))
 
 	elseif message_id == hash("show_levels_panel") then
 		print("📋 Mostrar selector de niveles")

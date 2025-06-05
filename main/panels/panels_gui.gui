@@ -7,6 +7,10 @@ fonts {
   name: "default"
   font: "/builtins/fonts/default.font"
 }
+fonts {
+  name: "level_font"
+  font: "/fonts/level_font.font"
+}
 textures {
   name: "background"
   texture: "/assets/atlases/background.atlas"
@@ -47,11 +51,11 @@ nodes {
     y: 656.0
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.5
+    y: 0.7
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_victory"
+  texture: "hud_icons/bg_panel"
   id: "victory_bg"
   parent: "victory_gui"
   inherit_alpha: true
@@ -59,8 +63,8 @@ nodes {
 }
 nodes {
   position {
-    x: 440.0
-    y: 568.0
+    x: 478.0
+    y: 456.0
   }
   scale {
     x: 0.4
@@ -76,49 +80,28 @@ nodes {
 nodes {
   position {
     x: 353.0
-    y: 660.0
+    y: 813.0
   }
   size {
     x: 200.0
     y: 100.0
   }
   color {
-    x: 0.702
-    y: 0.302
-    z: 0.102
+    x: 0.071
+    y: 0.475
+    z: 0.529
   }
   type: TYPE_TEXT
-  text: "<text>"
-  font: "default"
-  id: "victory_points_label"
+  text: "Score:"
+  font: "level_font"
+  id: "victory_points_title"
   parent: "victory_gui"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 353.0
-    y: 778.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-  }
-  color {
-    x: 0.6
-    y: 0.2
-    z: 0.0
-  }
-  type: TYPE_TEXT
-  text: "<text>"
-  font: "default"
-  id: "victory_level_label"
-  parent: "victory_gui"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 280.0
-    y: 568.0
+    x: 239.0
+    y: 456.0
   }
   scale {
     x: 0.4
@@ -133,22 +116,59 @@ nodes {
 }
 nodes {
   position {
-    x: 355.0
-    y: 715.0
+    x: 362.0
+    y: 977.0
+  }
+  scale {
+    x: 0.55
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/title_victory"
+  id: "victory_title"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -5.18181
+    y: -86.0
+    z: 1.0
   }
   size {
-    x: 280.0
+    x: 200.0
     y: 100.0
   }
   color {
-    x: 0.8
-    y: 0.4
-    z: 0.2
+    x: 0.6
+    y: 0.2
+    z: 0.0
   }
   type: TYPE_TEXT
-  text: "Victory"
+  text: "<text>"
+  font: "level_font"
+  id: "victory_level_label"
+  parent: "victory_title"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 355.0
+    y: 733.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.071
+    y: 0.475
+    z: 0.529
+  }
+  type: TYPE_TEXT
   font: "title"
-  id: "victory_label"
+  id: "victory_points_label"
   parent: "victory_gui"
   inherit_alpha: true
 }

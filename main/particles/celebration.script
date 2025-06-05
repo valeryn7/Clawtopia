@@ -1,5 +1,18 @@
 function on_message(self, message_id, message, sender)
 	if message_id == hash("play_celebration") then
-		particlefx.play("#celebration") -- asumimos que el id es "celebration"
+		particlefx.play("#celebration")  -- efecto principal
+
+		timer.delay(0.1, false, function()
+			particlefx.play("#fw_splat_blue")
+		end)
+
+		timer.delay(0.3, false, function()
+			particlefx.play("#fw_splat_red")
+		end)
+
+		timer.delay(0.5, false, function()
+			particlefx.play("#fw_splat_green")
+		end)
 	end
+	
 end

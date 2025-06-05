@@ -30,4 +30,5 @@ max_count = 256
 [particle_fx]
 max_count = 128
 max_emitter_count = 128
+max_particle_count = 2048
 

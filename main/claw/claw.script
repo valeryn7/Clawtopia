@@ -27,6 +27,7 @@ end
 
 function init(self)
 	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
+	self.speed_multiplier = 1
 	self.anchor_x = start_x + 2 * CELL_SIZE
 	self.anchor_y = CLAW_START_Y
 	self.time = 0
@@ -52,6 +53,7 @@ function init(self)
 	self.target_charge_angle = 0
 	self.smoothed_dy = 0
 	self.state = "pendulum"
+	
 	msg.post(".", "acquire_input_focus")
 	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
 	update_claw_rotation(self)
@@ -62,6 +64,8 @@ function math.sign(x)
 end
 
 function update(self, dt)
+	dt = dt * self.speed_multiplier
+
 	if self.pendulum_active then
 		self.time = self.time + dt
 		update_claw_rotation(self)
@@ -259,5 +263,7 @@ function on_message(self, message_id, message)
 		self.activeTouch = false
 	elseif message_id == hash("enable_touch") then
 		self.activeTouch = true
+	elseif message_id == hash("set_speed_multiplier") then
+		self.speed_multiplier = message.value or 1
 	end
 end
