@@ -35,3 +35,9 @@ embedded_components {
   data: "prototype: \"/main/panels/victory_layer.go\"\n"
   ""
 }
+embedded_components {
+  id: "debug_dot_factory"
+  type: "factory"
+  data: "prototype: \"/main/debug_dot.go\"\n"
+  ""
+}
