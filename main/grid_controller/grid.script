@@ -102,6 +102,10 @@ local function reset_grid(self)
 	end
 	self.creating_grid = true
 
+	self.correct_collected = 0
+	self.incorrect_collected = 0
+	self.total_points = 0
+
 	-- Eliminar celdas existentes
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
@@ -199,6 +203,9 @@ function init(self)
 	self.max_follow_time = 3
 	self.zoom_set = false
 	self.speed_multiplier = 1
+
+	self.correct_collected = 0
+	self.incorrect_collected = 0
 end
 
 local function follow_claw()
@@ -258,7 +265,9 @@ local function check_game_end(self)
 				-- 6️⃣ Mostrar panel de victoria
 				msg.post("panels#panels_gui", "level_completed", {
 					points = self.total_points,
-					level = self.level
+					level = self.level,
+					correct_count = self.correct_collected,
+					incorrect_count = self.incorrect_collected
 				})
 
 				-- 7️⃣ Zoom out después de un pequeño delay
@@ -384,15 +393,27 @@ function on_message(self, message_id, message, sender)
 						cell.captured = true
 
 						-- Actualizar objetivos
+						local was_correct = false
 						for _, goal in ipairs(self.goals) do
-							if goal.type == cell.sprite and goal.collected < goal.required then
-								goal.collected = goal.collected + 1
-								msg.post("hud", "update_goal", {
-									type = goal.type,
-									collected = goal.collected
-								})
+							if goal.type == cell.sprite then
+								if goal.collected < goal.required then
+									goal.collected = goal.collected + 1
+									msg.post("hud", "update_goal", {
+										type = goal.type,
+										collected = goal.collected
+									})
+									was_correct = true
+								end
+								break  -- ya evaluamos el objetivo correspondiente
 							end
 						end
+
+						if was_correct then
+							self.correct_collected = self.correct_collected + 1
+						else
+							self.incorrect_collected = self.incorrect_collected + 1
+						end
+						
 
 						check_game_end(self)
 						

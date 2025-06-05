@@ -38,6 +38,6 @@ embedded_components {
 embedded_components {
   id: "debug_dot_factory"
   type: "factory"
-  data: "prototype: \"/main/debug_dot.go\"\n"
+  data: "prototype: \"/main/debug/debug_dot.go\"\n"
   ""
 }

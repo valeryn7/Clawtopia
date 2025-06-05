@@ -52,8 +52,19 @@ function on_message(self, message_id, message, sender)
 		msg.post("claw#claw", "disable_touch")
 		self.current_level = message.level or self.current_level
 
-		gui.set_text(gui.get_node("victory_points_label"), tostring(message.points))
+		local correct = message.correct_count or 0
+		local incorrect = message.incorrect_count or 0
+		local total = correct * 100 - incorrect * 50
+
+		gui.set_text(gui.get_node("points_positive"), "x" .. tostring(correct))
+		gui.set_text(gui.get_node("points_negative"), "x" .. tostring(incorrect))
+		
+		gui.set_text(gui.get_node("victory_points_label"), tostring(total))
 		gui.set_text(gui.get_node("victory_level_label"), "LEVEL " .. tostring(self.current_level))
+
+		gui.set_enabled(gui.get_node("victory_points_positive"), true)
+		gui.set_enabled(gui.get_node("victory_points_negative"), true)
+
 		show_panel(self, "victory_gui")
 
 	elseif message_id == hash("level_failed") then
