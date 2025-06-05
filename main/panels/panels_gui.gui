@@ -11,6 +11,14 @@ fonts {
   name: "level_font"
   font: "/fonts/level_font.font"
 }
+fonts {
+  name: "score"
+  font: "/fonts/score.font"
+}
+fonts {
+  name: "score_description"
+  font: "/fonts/score_description.font"
+}
 textures {
   name: "background"
   texture: "/assets/atlases/background.atlas"
@@ -35,6 +43,18 @@ nodes {
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
+  scale {
+    x: 0.7
+    y: 0.7
+  }
+  type: TYPE_BOX
+  texture: "background/confetti_bg"
+  id: "box"
+  parent: "panel_overlay"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
   size {
     x: 200.0
     y: 100.0
@@ -47,12 +67,12 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 656.0
+    x: 364.0
+    y: 595.0
   }
   scale {
     x: 0.5
-    y: 0.7
+    y: 0.5
   }
   type: TYPE_BOX
   texture: "hud_icons/bg_panel"
@@ -63,12 +83,12 @@ nodes {
 }
 nodes {
   position {
-    x: 478.0
-    y: 456.0
+    x: 489.0
+    y: 453.0
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.5
+    y: 0.5
   }
   type: TYPE_BOX
   texture: "hud_icons/next_button"
@@ -79,8 +99,8 @@ nodes {
 }
 nodes {
   position {
-    x: 353.0
-    y: 813.0
+    x: 363.0
+    y: 643.0
   }
   size {
     x: 200.0
@@ -100,12 +120,12 @@ nodes {
 }
 nodes {
   position {
-    x: 239.0
-    y: 456.0
+    x: 233.0
+    y: 453.0
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.5
+    y: 0.5
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_button"
@@ -116,15 +136,15 @@ nodes {
 }
 nodes {
   position {
-    x: 362.0
-    y: 977.0
+    x: 365.0
+    y: 931.0
   }
   scale {
-    x: 0.55
+    x: 0.5
     y: 0.5
   }
   type: TYPE_BOX
-  texture: "hud_icons/title_victory"
+  texture: "hud_icons/victory_title"
   id: "victory_title"
   parent: "victory_gui"
   inherit_alpha: true
@@ -132,8 +152,20 @@ nodes {
 }
 nodes {
   position {
+    x: -3.18181
+    y: -294.0
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/victory_level"
+  id: "victory_level"
+  parent: "victory_title"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
     x: -5.18181
-    y: -86.0
+    y: 6.0
     z: 1.0
   }
   size {
@@ -149,13 +181,13 @@ nodes {
   text: "<text>"
   font: "level_font"
   id: "victory_level_label"
-  parent: "victory_title"
+  parent: "victory_level"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 355.0
-    y: 733.0
+    x: 362.0
+    y: 580.0
   }
   size {
     x: 200.0
@@ -167,8 +199,105 @@ nodes {
     z: 0.529
   }
   type: TYPE_TEXT
-  font: "title"
+  text: "1340"
+  font: "score"
   id: "victory_points_label"
+  parent: "victory_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 434.0
+    y: 714.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/victory_bear_icon_negative"
+  id: "victory_points_negative"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 106.0
+    y: -2.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.702
+    y: 0.102
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "x5"
+  font: "level_font"
+  id: "points_negative"
+  parent: "victory_points_negative"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 253.0
+    y: 717.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/victory_bear_icon_positive"
+  id: "victory_points_positive"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 106.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.102
+    y: 0.302
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "x4\n"
+  ""
+  font: "level_font"
+  id: "points_positive"
+  parent: "victory_points_positive"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 359.81818
+    y: 529.0
+    z: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+  }
+  type: TYPE_TEXT
+  text: "Great job!"
+  font: "score_description"
+  id: "victory_level_description"
   parent: "victory_gui"
   inherit_alpha: true
 }
@@ -185,15 +314,15 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 656.0
+    x: 364.0
+    y: 595.0
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.5
+    y: 0.5
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_victory"
+  texture: "hud_icons/bg_panel"
   id: "defeat_bg"
   parent: "defeat_gui"
   inherit_alpha: true
@@ -201,12 +330,12 @@ nodes {
 }
 nodes {
   position {
-    x: 440.0
-    y: 568.0
+    x: 237.0
+    y: 453.0
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.5
+    y: 0.5
   }
   type: TYPE_BOX
   texture: "hud_icons/button_home"
@@ -217,8 +346,117 @@ nodes {
 }
 nodes {
   position {
-    x: 353.0
-    y: 778.0
+    x: 364.0
+    y: 620.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.071
+    y: 0.475
+    z: 0.529
+  }
+  type: TYPE_TEXT
+  text: "1340"
+  font: "score"
+  id: "defeat_points_label"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 365.0
+    y: 683.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.071
+    y: 0.475
+    z: 0.529
+  }
+  type: TYPE_TEXT
+  text: "Score:"
+  font: "level_font"
+  id: "defeat_points_title"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 502.0
+    y: 453.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/reset_button"
+  id: "defeat_restart_button"
+  parent: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 359.81818
+    y: 529.0
+    z: 1.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.8
+    y: 0.4
+    z: 0.2
+  }
+  type: TYPE_TEXT
+  text: "Oops!"
+  font: "score_description"
+  id: "defeat_level_description"
+  parent: "defeat_gui"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 365.0
+    y: 931.0
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/defeat_title"
+  id: "defeat_title"
+  parent: "defeat_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -5.18181
+    y: -320.0
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/victory_level"
+  id: "defeat_level"
+  parent: "defeat_title"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -5.18181
+    y: 6.0
+    z: 1.0
   }
   size {
     x: 200.0
@@ -231,67 +469,9 @@ nodes {
   }
   type: TYPE_TEXT
   text: "<text>"
-  font: "default"
+  font: "level_font"
   id: "defeat_level_label"
-  parent: "defeat_gui"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 280.0
-    y: 568.0
-  }
-  scale {
-    x: 0.4
-    y: 0.4
-  }
-  type: TYPE_BOX
-  texture: "hud_icons/reset_button"
-  id: "defeat_restart_button"
-  parent: "defeat_gui"
-  inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
-    x: 370.0
-    y: 715.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-  }
-  color {
-    x: 0.8
-    y: 0.4
-    z: 0.2
-  }
-  type: TYPE_TEXT
-  text: "Defeat"
-  font: "title"
-  id: "defeat_label"
-  parent: "defeat_gui"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 353.0
-    y: 660.0
-  }
-  size {
-    x: 200.0
-    y: 100.0
-  }
-  color {
-    x: 0.702
-    y: 0.302
-    z: 0.102
-  }
-  type: TYPE_TEXT
-  text: "<text>"
-  font: "default"
-  id: "defeat_points_label"
-  parent: "defeat_gui"
+  parent: "defeat_level"
   inherit_alpha: true
 }
 nodes {
@@ -315,7 +495,7 @@ nodes {
     y: 0.4
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_victory"
+  texture: "hud_icons/bg_panel"
   id: "pause_panel"
   parent: "pause_gui"
   inherit_alpha: true

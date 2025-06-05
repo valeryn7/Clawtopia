@@ -65,6 +65,18 @@ images {
   image: "/assets/images/panels/bg_panel.png"
 }
 images {
-  image: "/assets/images/panels/title_victory.png"
+  image: "/assets/images/panels/victory_level.png"
+}
+images {
+  image: "/assets/images/panels/victory_title.png"
+}
+images {
+  image: "/assets/images/panels/victory_bear_icon_positive.png"
+}
+images {
+  image: "/assets/images/panels/victory_bear_icon_negative.png"
+}
+images {
+  image: "/assets/images/panels/defeat_title.png"
 }
 extrude_borders: 2

@@ -10,4 +10,7 @@ images {
 images {
   image: "/assets/images/backgrounds/background_panel.png"
 }
+images {
+  image: "/assets/images/panels/confetti_bg.png"
+}
 extrude_borders: 2
