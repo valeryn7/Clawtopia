@@ -48,12 +48,13 @@ embedded_instances {
   "  y: 32.0\\n"
   "}\\n"
   "text: \\\"Label\\\"\\n"
-  "font: \\\"/builtins/fonts/default.font\\\"\\n"
+  "font: \\\"/fonts/drop_font.font\\\"\\n"
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: -180.0\n"
+  "    x: -189.0\n"
   "    y: 538.0\n"
+  "    z: 5.0\n"
   "  }\n"
   "  scale {\n"
   "    x: 1.5\n"
@@ -75,8 +76,9 @@ embedded_instances {
   "}\\n"
   "\"\n"
   "  position {\n"
-  "    x: -268.0\n"
-  "    y: 534.0\n"
+  "    x: -259.0\n"
+  "    y: 548.0\n"
+  "    z: 5.0\n"
   "  }\n"
   "  scale {\n"
   "    x: 0.7\n"
@@ -85,7 +87,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 6.0
+    z: 5.0
   }
 }
 embedded_instances {
@@ -136,19 +138,14 @@ embedded_instances {
   "}\\n"
   "\"\n"
   "  position {\n"
-  "    x: -1.0\n"
-  "    y: 420.28577\n"
-  "    z: 2.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 0.72\n"
-  "    y: 0.62\n"
+  "    y: 400.28577\n"
+  "    z: 4.0\n"
   "  }\n"
   "}\n"
   ""
   position {
     y: 118.0
-    z: 3.0
+    z: 4.0
   }
 }
 embedded_instances {
@@ -165,7 +162,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 5.0
+    z: 3.0
   }
 }
 embedded_instances {
@@ -183,7 +180,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    z: 5.0
+    z: 4.0
   }
 }
 embedded_instances {

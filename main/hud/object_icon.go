@@ -8,6 +8,9 @@ embedded_components {
   "  texture: \"/assets/atlases/objects.atlas\"\n"
   "}\n"
   ""
+  position {
+    z: 5.0
+  }
   scale {
     x: 0.3
     y: 0.3

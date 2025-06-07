@@ -60,14 +60,14 @@ emitters {
   properties {
     key: EMITTER_KEY_PARTICLE_GREEN
     points {
-      y: 0.20392157
+      y: 0.3
     }
     spread: 0.05
   }
   properties {
     key: EMITTER_KEY_PARTICLE_BLUE
     points {
-      y: 0.039215688
+      y: 0.3
     }
   }
   properties {

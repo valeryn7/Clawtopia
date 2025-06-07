@@ -26,6 +26,7 @@ local function create_object_icons(self, slot_index, type, required, collected)
 
 	for i = 1, required do
 		local pos = positions[i]
+		pos.z = 5 
 		local icon = factory.create(OBJECT_ICON_FACTORY, pos)
 		if icon then
 			go.set_scale(scale, icon)

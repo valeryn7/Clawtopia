@@ -59,7 +59,7 @@ emitters {
   properties {
     key: EMITTER_KEY_PARTICLE_GREEN
     points {
-      y: 0.3019608
+      y: 0.6
     }
   }
   properties {

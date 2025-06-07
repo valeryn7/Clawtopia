@@ -79,4 +79,7 @@ images {
 images {
   image: "/assets/images/panels/defeat_title.png"
 }
+images {
+  image: "/assets/images/panels/pause_title.png"
+}
 extrude_borders: 2

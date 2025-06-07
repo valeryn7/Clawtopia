@@ -24,8 +24,8 @@ nodes {
 }
 nodes {
   position {
-    x: 370.0
-    y: 991.0
+    x: 373.0
+    y: 958.0
   }
   size {
     x: 200.0
@@ -45,8 +45,8 @@ nodes {
 }
 nodes {
   scale {
-    x: 0.6
-    y: 0.6
+    x: 0.7
+    y: 0.7
   }
   type: TYPE_BOX
   texture: "tiles/level_cell"
