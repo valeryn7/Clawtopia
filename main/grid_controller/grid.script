@@ -61,22 +61,66 @@ end
 
 local function check_impossible_goals(self)
 	local remaining = {}
+	local total_required_remaining = 0
+	local locked_objectives = {}
+	local has_pending_key = false
+	local key_drops_needed = 0
+
+	-- Recorremos la grilla
 	for row = 0, GRID_ROWS - 1 do
 		for col = 0, GRID_COLS - 1 do
 			local cell = self.grid[row][col]
 			if cell and not cell.captured then
 				local t = cell.sprite
-				if POINTS[t] and POINTS[t] > 0 then
+
+				-- Detectar llaves no capturadas
+				if t:sub(1, 4) == "key_" then
+					has_pending_key = true
+					key_drops_needed = key_drops_needed + 1
+				end
+
+				-- Si está bloqueado y no tengo la llave, lo marco como "posible pero inaccesible"
+				if cell.locked then
+					local color = cell.lock_color
+					if not self.collected_keys[color] then
+						table.insert(locked_objectives, t)
+						t = nil
+					end
+				end
+
+				if t and POINTS[t] and POINTS[t] > 0 then
 					remaining[t] = (remaining[t] or 0) + 1
 				end
 			end
 		end
 	end
+
+	-- Evaluar si hay suficientes objetos para cumplir los objetivos
 	for _, goal in ipairs(self.goals) do
-		if (remaining[goal.type] or 0) < (goal.required - goal.collected) then
-			return true
+		local faltan = goal.required - goal.collected
+		total_required_remaining = total_required_remaining + math.max(faltan, 0)
+
+		-- Verificar si sumando bloqueados podría alcanzarse
+		local locked_count = 0
+		for _, ltype in ipairs(locked_objectives) do
+			if ltype == goal.type then
+				locked_count = locked_count + 1
+			end
+		end
+
+		local total_posibles = (remaining[goal.type] or 0) + locked_count
+		if total_posibles < faltan and not has_pending_key then
+			return true -- No hay forma de completar el objetivo
 		end
 	end
+
+	-- Calcular drops que se pueden usar realmente para cumplir objetivos
+	local usable_drops = self.remaining_drops - key_drops_needed
+
+	if usable_drops < total_required_remaining then
+		return true -- No alcanza con los drops útiles
+	end
+
 	return false
 end
 
