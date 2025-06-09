@@ -5,6 +5,8 @@ local GRID_ROWS = 6
 local ZOOM_DURATION = 2.0  -- segundos
 local ZOOM_LEVEL = 2.0
 
+local MAX_TARGETS = 1
+
 go.property("level", 1)
 
 local POINTS = {
@@ -21,6 +23,19 @@ local POINTS = {
 	fox = 35,
 	frog = 40,
 	bear_panda = 50
+}
+
+-- Rango de ángulos en grados (relativo al frente de la garra) → qué celdas revisar
+local ANGLE_CELLS_VERTICAL = {
+	{ min = -45, max = -36, col = 0 },
+	{ min = -36, max = -27, col = 0 },
+	{ min = -27, max = -18, col = 1 },
+	{ min = -18, max =  -9, col = 1 },
+	{ min =  -9, max =   9, col = 2 },
+	{ min =   9, max =  18, col = 3 },
+	{ min =  18, max =  27, col = 3 },
+	{ min =  27, max =  36, col = 4 },
+	{ min =  36, max =  45, col = 4 }
 }
 
 local LEVELS = require("main.levels.levels")
@@ -139,6 +154,60 @@ local function generate_goals_from_level(self)
 	msg.post("hud", "init_goals", { goals = self.goals })
 end
 
+local function get_magnet_targets(self, angle)
+	print("angle", angle)
+	local angle_deg = math.deg(angle)
+	local found_col = nil
+
+	-- Buscar la columna asociada al ángulo
+	for _, range in ipairs(ANGLE_CELLS_VERTICAL) do
+		if angle_deg >= range.min and angle_deg <= range.max then
+			found_col = range.col
+			break
+		end
+	end
+
+	local targets = {}
+
+	if found_col then
+		for row = 0, GRID_ROWS - 1 do
+			local cell = self.grid[row] and self.grid[row][found_col]
+			if cell and not cell.captured and not cell.locked then
+				local valid = false
+
+				-- Es un objetivo válido
+				for _, goal in ipairs(self.goals or {}) do
+					if cell.sprite == goal.type and goal.collected < goal.required then
+						valid = true
+						break
+					end
+				end
+
+				-- Es una llave aún no recolectada
+				if not valid and cell.sprite:match("^key_") then
+					local color = cell.sprite:match("^key_(.+)$")
+					if color and not self.collected_keys[color] then
+						valid = true
+					end
+				end
+
+				if valid and go.exists(cell.id) then
+					table.insert(targets, {
+						id = cell.id,
+						sprite = cell.sprite,
+						position = go.get_position(cell.id)
+					})
+					break -- ⛔ Rompe el bucle, ya encontramos el más arriba
+				end
+				
+			end
+		end
+	end
+
+	return targets
+end
+
+
 local function reset_grid(self)
 	if self.creating_grid then
 		print("⏳ Ya se está creando la grilla, ignorando este llamado")
@@ -250,15 +319,9 @@ function init(self)
 
 	self.correct_collected = 0
 	self.incorrect_collected = 0
-end
 
-local function follow_claw()
-	local claw_pos = go.get_position("claw#claw_sprite")
-
-	msg.post("@render:", "set_zoom", {
-		zoom = ZOOM_LEVEL,
-		pos = claw_pos
-	})
+	self.highlighted_cells = {}
+	
 end
 
 local function check_game_end(self)
@@ -377,8 +440,10 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("grab_object_at_column") then
 		local x, y = message.x, message.y
-		local MARGIN = CELL_SIZE * 0.5 
-		local found = false
+		local max_targets = message.max_targets or 1
+		local margin_multiplier = self.magnet_grab_active and 1.5 or 1.0
+		local MARGIN = CELL_SIZE * 0.5 * margin_multiplier
+		local targets_found = 0
 
 		for row = 0, GRID_ROWS - 1 do
 			for col = 0, GRID_COLS - 1 do
@@ -389,8 +454,6 @@ function on_message(self, message_id, message, sender)
 					local dy = math.abs(pos.y - y)
 
 					if dx <= MARGIN and dy <= MARGIN then
-						print(string.format("✅ Captura encontrada en [%d,%d]", row, col))
-
 						-- 🔓 Lógica de candado
 						if cell.locked then
 							local color = cell.lock_color
@@ -425,7 +488,6 @@ function on_message(self, message_id, message, sender)
 										if target and target.locked and not target.captured and target.lock_color == color then
 											target.locked = false
 											msg.post(target.id, "unlock", {})
-											return
 										end
 									end
 								end
@@ -436,19 +498,22 @@ function on_message(self, message_id, message, sender)
 						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
 						cell.captured = true
 
-						-- Actualizar objetivos
+						if self.magnet_grab_active then
+							msg.post("claw#claw", "disable_magnet_effect")
+							msg.post(cell.id, "play_magnet_effect")
+						end
+
+						-- 🎯 Actualizar objetivos
 						local was_correct = false
 						for _, goal in ipairs(self.goals) do
-							if goal.type == cell.sprite then
-								if goal.collected < goal.required then
-									goal.collected = goal.collected + 1
-									msg.post("hud", "update_goal", {
-										type = goal.type,
-										collected = goal.collected
-									})
-									was_correct = true
-								end
-								break  -- ya evaluamos el objetivo correspondiente
+							if goal.type == cell.sprite and goal.collected < goal.required then
+								goal.collected = goal.collected + 1
+								msg.post("hud", "update_goal", {
+									type = goal.type,
+									collected = goal.collected
+								})
+								was_correct = true
+								break
 							end
 						end
 
@@ -457,17 +522,21 @@ function on_message(self, message_id, message, sender)
 						else
 							self.incorrect_collected = self.incorrect_collected + 1
 						end
-						
 
 						check_game_end(self)
-						
 
-						found = true
-						break
+						targets_found = targets_found + 1
+						if targets_found >= max_targets then
+							return
+						end
 					end
 				end
 			end
-			if found then break end
+		end
+
+		if self.magnet_grab_active then
+			self.magnet_grab_active = false
+			msg.post("claw#claw", "disable_magnet_effect")
 		end
 		
 	elseif message_id == hash("consume_drop") then
@@ -496,6 +565,77 @@ function on_message(self, message_id, message, sender)
 			cell.x = message.x
 			cell.y = message.y
 		end
+
+	elseif message_id == hash("activate_powerup") then
+		if message.type == "magnet_grab" then
+			self.magnet_grab_active = true
+			self.magnet_grab_level = message.level or 1
+			msg.post("claw#claw", "enable_magnet_effect", { level = self.magnet_grab_level })
+		end
+
+	elseif message_id == hash("disable_magnet_effect") then
+		if self.highlighted_cell and go.exists(self.highlighted_cell) then
+			msg.post(self.highlighted_cell, "set_glow_visible", { visible = false })
+		end
+		self.highlighted_cell = nil
 	
+	elseif message_id == hash("update_magnet_highlight") then
+		local targets = get_magnet_targets(self, message.angle)
+		pprint(targets)
+		print("🔍 Cantidad de targets seleccionados:", #targets)
+		
+		-- 🔄 Apagar todos los glows anteriores
+		if self.highlighted_cells then
+			for _, id in ipairs(self.highlighted_cells) do
+				if go.exists(id) then
+					msg.post(id, "set_glow_visible", { visible = false })
+				end
+			end
+		end
+
+		-- 🧼 Limpiar la tabla antes de llenarla de nuevo
+		self.highlighted_cells = {}
+
+		-- ✅ Encender el glow en todos los targets nuevos
+		for _, target in ipairs(targets) do
+			if go.exists(target.id) then
+				msg.post(target.id, "set_glow_visible", { visible = true })
+				table.insert(self.highlighted_cells, target.id)
+			end
+		end
+		
+		
+	elseif message_id == hash("magnet_attract_bears") then
+		local targets = get_magnet_targets(self, message.angle)
+		print("🐻 Recibido magnet_attract_bears con targets:")
+		print(targets)
+		
+		for _, target in ipairs(targets) do
+			if go.exists(target.id) then
+				msg.post(target.id, "set_glow_invisible")
+				table.insert(self.highlighted_cells, target.id)
+			end
+		end
+
+		for _, goal in ipairs(self.goals) do
+			local target = targets[1]
+			if goal.type == target.sprite and goal.collected < goal.required then
+				goal.collected = goal.collected + 1
+				msg.post("hud", "update_goal", {
+					type = goal.type,
+					collected = goal.collected
+				})
+				break
+			end
+		end
+		
+		msg.post("claw#claw", "magnet_targets", {
+			targets = targets
+		})
+
+		-- timer.delay(0.3, false, function()
+			check_game_end(self)
+		-- end)
+		-- 
 	end
 end

@@ -1,0 +1,46 @@
+function init(self)
+	self.inventory = {
+		magnet_grab = {
+			count = 8,
+			level = 1
+		}
+	}
+	msg.post(".", "acquire_input_focus")
+	msg.post("powerups#powerups_hud", "update_powerup", {
+		type = "magnet_grab",
+		count = self.inventory["magnet_grab"].count,
+		level = self.inventory["magnet_grab"].level
+	})
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("add_powerup") then
+		local type = message.type
+		local data = self.inventory[type]
+		if data then
+			data.count = data.count + 1
+		else
+			self.inventory[type] = { count = 1, level = 1 }
+		end
+		msg.post("powerups#powerups_hud", "update_powerup", {
+			type = type,
+			count = self.inventory[type].count,
+			level = self.inventory[type].level
+		})
+
+	elseif message_id == hash("powerup_pressed") then
+		local data = self.inventory[message.type]
+		if data and data.count > 0 then
+			data.count = data.count - 1
+			msg.post("grid_controller#grid", "activate_powerup", {
+				type = message.type,
+				level = data.level
+			})
+			msg.post("powerups#powerups_hud", "update_powerup", {
+				type = message.type,
+				count = data.count,
+				level = data.level
+			})
+		end
+	end
+end

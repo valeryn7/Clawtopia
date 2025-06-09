@@ -41,3 +41,14 @@ embedded_components {
   data: "prototype: \"/main/debug/debug_dot.go\"\n"
   ""
 }
+embedded_components {
+  id: "area_sprite"
+  type: "sprite"
+  data: "default_animation: \"timer_badge\"\n"
+  "material: \"/builtins/materials/sprite.material\"\n"
+  "textures {\n"
+  "  sampler: \"texture_sampler\"\n"
+  "  texture: \"/assets/atlases/tiles.atlas\"\n"
+  "}\n"
+  ""
+}

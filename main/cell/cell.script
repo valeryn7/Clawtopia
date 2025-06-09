@@ -29,6 +29,8 @@ function init(self)
 
 	self.sync_timer = 0
 	self.sync_interval = 0.1
+	
+	go.set("#fx_bear_glow", "scale", vmath.vector3(0, 0, 0))
 
 	go.set("#timer_badge", "scale", vmath.vector3(0, 0, 0)) -- 🔥 Ocultar badge al principio
 	label.set_text("#timer_label", "") -- 🔥 Ocultar texto al principio
@@ -225,7 +227,7 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("set_unlocked_visual") then
 		sprite.play_flipbook("#lock_sprite", "empty") -- muestra un sprite vacío
 		go.set("#lock_sprite", "scale", vmath.vector3(0, 0, 0))
-
+		
 	elseif message_id == hash("start_movement_loop") then
 		self.original_pos = go.get_position()
 		self.target_pos = vmath.vector3(message.x, message.y, 1)
@@ -268,6 +270,14 @@ function on_message(self, message_id, message, sender)
 		end
 
 		loop_move()
+		
+	elseif message_id == hash("set_glow_visible") then
+		local visible = message.visible
+		local scale = visible and vmath.vector3(0.2, 0.2, 1) or vmath.vector3(0, 0, 0)
+		go.set("#fx_bear_glow", "scale", scale)
+	elseif message_id == hash("set_glow_invisible") then
+		go.set("#fx_bear_glow", "scale", vmath.vector3(0, 0, 0))
+		go.set("#object_sprite", "scale", vmath.vector3(0, 0, 0))
 	end
 	
 end

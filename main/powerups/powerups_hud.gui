@@ -1,0 +1,58 @@
+script: "/main/powerups/powerups_hud.gui_script"
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
+textures {
+  name: "powerups"
+  texture: "/assets/atlases/powerups.atlas"
+}
+nodes {
+  position {
+    x: 194.0
+    y: 94.0
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_magnet_button"
+  id: "btn_magnet"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 68.33333
+    y: 68.33333
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "label_magnet_count"
+  parent: "btn_magnet"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -80.0
+    y: 26.666666
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "default"
+  id: "label_magnet_level"
+  parent: "btn_magnet"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

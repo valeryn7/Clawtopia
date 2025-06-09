@@ -1,0 +1,13 @@
+images {
+  image: "/assets/images/powerups/fx_bear_glow.png"
+}
+images {
+  image: "/assets/images/powerups/fx_electro_glow.png"
+}
+images {
+  image: "/assets/images/powerups/powerup_magnet_button.png"
+}
+images {
+  image: "/assets/images/powerups/powerup_magnet_button_pressed.png"
+}
+extrude_borders: 2
