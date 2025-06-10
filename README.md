@@ -11,3 +11,6 @@ If you run into trouble, help is available in [our forum](https://forum.defold.c
 Happy Defolding!
 
 ---
+## License
+
+This project is licensed under the [MIT License](LICENSE).
