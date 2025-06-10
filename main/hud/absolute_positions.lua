@@ -24,7 +24,7 @@ local ABSOLUTE_POSITIONS = {
 	},
 	[4] = {
 		[1] = { vmath.vector3(201.0, 531.0, 7.0) },
-		[2] = { vmath.vector3(182.0, 531.0, 7.0), vmath.vector3(531.0, 531.0, 7.0) },
+               [2] = { vmath.vector3(182.0, 531.0, 7.0), vmath.vector3(220.0, 531.0, 7.0) },
 		[3] = { vmath.vector3(178.0, 550.0, 7.0), vmath.vector3(221.0, 550.0, 7.0), vmath.vector3(199.0, 509.0, 7.0) },
 		[4] = { vmath.vector3(180.0, 550.0, 7.0), vmath.vector3(223.0, 550.0, 7.0), vmath.vector3(180.0, 510.0, 7.0), vmath.vector3(223.0, 510.0, 7.0) },
 		[5] = { vmath.vector3(166.0, 548.0, 7.0), vmath.vector3(200.0, 548.0, 7.0), vmath.vector3(232.0, 548.0, 7.0), vmath.vector3(181.0, 509.0, 7.0), vmath.vector3(220.0, 509.0, 7.0) },
