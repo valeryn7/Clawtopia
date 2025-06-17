@@ -28,6 +28,7 @@ end
 
 function init(self)
 	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
+	self.activeTouch = false
 	self.speed_multiplier = 1
 	self.anchor_x = start_x + 2 * CELL_SIZE
 	self.anchor_y = CLAW_START_Y
@@ -494,34 +495,49 @@ function on_message(self, message_id, message)
 		-- Crear objeto igual que antes
 		local angle = self.current_angle
 		local offset = vmath.vector3(
-		math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-		-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-		0
-	)
+			math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+			-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+			0
+		)
 
-	local pos = go.get_position() + offset
-	pos.z = 2
-	self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
+		local pos = go.get_position() + offset
+		pos.z = 2
+		self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
 
-	if message.object_sprite == "bear_blue" then
-		self.current_bear_color = "blue"
-	else
-		self.current_bear_color = "pink"
-	end
+		if message.object_sprite == "bear_blue" then
+			self.current_bear_color = "blue"
+		else
+			self.current_bear_color = "pink"
+		end
 
-	if self.carrying_object then
-		go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
-		go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-		go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+		if self.carrying_object then
+			go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
+			go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+			go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+		end
+		
+		self.anchor_y = CLAW_START_Y
+		self.pendulum_active = true
+		self.ascending = false
+		self.descending = false
+		self.drop_progress = 0
+		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+			
+	elseif message_id == hash("fallback_grab") then
+		self.waiting_for_grab_response = false
+		self.ascending = true
+		self.descending = false
+
+		-- 🟡 Restaurar datos de animación de subida
+		self.start_x = self.anchor_x
+		self.start_y = self.anchor_y
+
+		-- Por si acaso no se había seteado:
+		if not self.total_drop or self.total_drop == 0 then
+			self.total_drop = CLAW_START_Y - self.anchor_y
+		end
+
+		self.drop_progress = self.total_drop
 	end
 	
-	self.anchor_y = CLAW_START_Y
-	self.pendulum_active = true
-	self.ascending = false
-	self.descending = false
-	self.drop_progress = 0
-	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-	
-
-	end
 end

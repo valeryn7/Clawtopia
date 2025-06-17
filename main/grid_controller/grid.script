@@ -9,6 +9,8 @@ local MAX_TARGETS = 1
 
 go.property("level", 1)
 
+local SAVE_FILE = "clawtopia_data"
+
 local POINTS = {
 	bear_golden = 30,
 	bear_blue = 15,
@@ -55,6 +57,16 @@ local function explode_adjacent_cells(self, row, col)
 			end
 		end
 	end
+end
+
+local function has_seen_tutorial()
+	-- local data = sys.load(SAVE_FILE)
+	-- return data.tutorial_shown == true
+	return false
+end
+
+local function mark_tutorial_as_seen()
+	sys.save(SAVE_FILE, { tutorial_shown = true })
 end
 
 local function apply_level_movements(self)
@@ -299,9 +311,21 @@ local function reset_grid(self)
 
 		self.creating_grid = false
 		apply_level_movements(self)
+		if (self.level >= 4) then
+			msg.post("/powerups#powerups_hud", "enable")
+		end
 	end)
 end
 
+local function enableTouch(self)
+	if (self.showing_tutorial == false) then
+		msg.post("claw#claw", "enable_touch")
+	end
+end
+
+local function disableTouch(self)
+	msg.post("claw#claw", "disable_touch")
+end
 
 function init(self)
 	self.grid = {}
@@ -321,6 +345,18 @@ function init(self)
 	self.incorrect_collected = 0
 
 	self.highlighted_cells = {}
+
+	self.showing_tutorial = false
+	self.level = 1
+
+	if not has_seen_tutorial() then
+		print("show tuto")
+		self.showing_tutorial = true
+		msg.post("tutorial_controller#tutorial_controller", "show_tutorial")
+		disableTouch(self)
+	else
+		enableTouch(self)
+	end
 	
 end
 
@@ -344,7 +380,7 @@ local function check_game_end(self)
 		end
 		print("🎉 VICTORIA: todos los objetivos cumplidos")
 
-		msg.post("claw#claw", "disable_touch")
+		disableTouch(self)
 
 		-- 1️⃣ Mostrar primero la celebración visual
 		timer.delay(0.6, false, function()
@@ -353,6 +389,8 @@ local function check_game_end(self)
 			-- 2️⃣ Reproducir efectos visuales
 			msg.post("celebration_fx#celebrationScript", "play_celebration")
 
+			msg.post("/powerups#powerups_hud", "disable")
+			
 			-- 3️⃣ Activar zoom y cámara lenta
 			msg.post("@render:", "set_zoom", {
 				zoom = ZOOM_LEVEL,
@@ -438,7 +476,23 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("grab_object_at_column") then
+	if message_id == hash("tutorial_shown") then
+		self.showing_tutorial = true
+		print("show tuto")
+
+	elseif message_id == hash("tutorial_hidden") then
+		print("hide tuto")
+		self.showing_tutorial = false
+		mark_tutorial_as_seen()
+		enableTouch(self)
+
+	elseif message_id == hash("enable_touch") then
+		enableTouch(self)
+
+	elseif message_id == hash("disable_touch") then
+		disableTouch(self)
+		
+	elseif message_id == hash("grab_object_at_column") then
 		local x, y = message.x, message.y
 		local max_targets = message.max_targets or 1
 		local margin_multiplier = self.magnet_grab_active and 1.5 or 1.0
@@ -550,15 +604,20 @@ function on_message(self, message_id, message, sender)
 		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
-		msg.post("claw#claw", "enable_touch")
+		if (self.showing_tutorial == false) then
+			enableTouch(self)
+		end
 
 	elseif message_id == hash("set_level") then
 		self.level = message.level or 1
 		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
-		msg.post("claw#claw", "enable_touch")
-
+		print("self.showing_tutorial", self.showing_tutorial)
+		if (self.showing_tutorial == false) then
+			enableTouch(self)
+		end
+		
 	elseif message_id == hash("update_cell_position") then
 		local cell = self.grid[message.row] and self.grid[message.row][message.col]
 		if cell then
@@ -609,7 +668,19 @@ function on_message(self, message_id, message, sender)
 		local targets = get_magnet_targets(self, message.angle)
 		print("🐻 Recibido magnet_attract_bears con targets:")
 		print(targets)
-		
+
+		if #targets == 0 then
+			print("⚠️ No se encontraron targets válidos para el imán.")
+
+			-- 🚫 Cancelar el modo imán visualmente
+			self.magnet_grab_active = false
+			msg.post("claw#claw", "disable_magnet_effect")
+
+			-- 🧲 Continuar con descenso como si fuera un intento normal
+			msg.post("claw#claw", "fallback_grab")
+			return
+		end
+
 		for _, target in ipairs(targets) do
 			if go.exists(target.id) then
 				msg.post(target.id, "set_glow_invisible")
@@ -617,8 +688,8 @@ function on_message(self, message_id, message, sender)
 			end
 		end
 
+		local target = targets[1]
 		for _, goal in ipairs(self.goals) do
-			local target = targets[1]
 			if goal.type == target.sprite and goal.collected < goal.required then
 				goal.collected = goal.collected + 1
 				msg.post("hud", "update_goal", {
@@ -628,14 +699,12 @@ function on_message(self, message_id, message, sender)
 				break
 			end
 		end
-		
+
 		msg.post("claw#claw", "magnet_targets", {
 			targets = targets
 		})
 
-		-- timer.delay(0.3, false, function()
-			check_game_end(self)
-		-- end)
-		-- 
+		check_game_end(self)
 	end
+	
 end

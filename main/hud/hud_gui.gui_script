@@ -2,20 +2,6 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 end
 
-local function is_inside(node, action)
-	local pos = gui.get_position(node)
-	local size = gui.get_size(node)
-	local pivot = gui.get_pivot(node)
-
-	if pivot == gui.PIVOT_CENTER then
-		pos = pos - size / 2
-	end
-
-	local max = pos + size
-	return action.x >= pos.x and action.x <= max.x and
-	action.y >= pos.y and action.y <= max.y
-end
-
 function on_message(self, message_id, message)
 	if message_id == hash("show_pause_panel") then
 		gui.set_enabled(gui.get_node("pause_button"), false)

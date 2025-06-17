@@ -1,0 +1,31 @@
+images {
+  image: "/assets/images/loading/loading_bar.png"
+}
+images {
+  image: "/assets/images/loading/loading_fill.png"
+  pivot_x: 0.0
+}
+images {
+  image: "/custom/custom_splash.png"
+}
+images {
+  image: "/assets/images/loading/loading_bar_top.png"
+}
+animations {
+  id: "loading_charge"
+  images {
+    image: "/assets/images/loading/loading_1.png"
+  }
+  images {
+    image: "/assets/images/loading/loading_2.png"
+  }
+  images {
+    image: "/assets/images/loading/loading_3.png"
+  }
+  images {
+    image: "/assets/images/loading/loading_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+}
+extrude_borders: 2

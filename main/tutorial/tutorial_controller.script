@@ -1,0 +1,18 @@
+function init(self)
+	self.tutorial_instance = nil
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("show_tutorial") then
+		if not self.tutorial_instance then
+			self.tutorial_instance = factory.create("#tutorial_factory")
+		end
+
+	elseif message_id == hash("tutorial_hidden") then
+		if self.tutorial_instance and go.exists(self.tutorial_instance) then
+			go.delete(self.tutorial_instance)
+			self.tutorial_instance = nil
+		end
+		msg.post("grid_controller#grid", "tutorial_hidden")
+	end
+end

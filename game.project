@@ -16,6 +16,9 @@ input_method = HiddenInputField
 
 [html5]
 scale_mode = fit
+splash_image = /custom/custom_splash.png
+show_fullscreen_button = 0
+show_made_with_defold = 0
 
 [project]
 title = Clawtopia

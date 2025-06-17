@@ -1,0 +1,43 @@
+local PROGRESS_STEPS = { 0.0, 0.2, 0.3, 0.5, 1.0 } -- progreso acumulado
+local STEP_INTERVAL = 0.4 -- segundos entre pasos
+
+local function next_step(self)
+	local value = self.progress_steps[self.current_step]
+	if value then
+		go.set("load#fill", "scale.x", value)
+		print("🌀 Cargando: " .. math.floor(value * 100) .. "%")
+
+		self.current_step = self.current_step + 1
+		timer.delay(STEP_INTERVAL, false, function()
+			next_step(self)
+		end)
+	end
+end
+
+function init(self)
+	print("✅ init cargando")
+
+	msg.post("load#bear_anim", "play_animation", { id = hash("loading_charge") })
+	go.set("load#fill", "scale.x", 0)
+	msg.post("game#collectionproxy", "load")
+
+	self.progress_steps = PROGRESS_STEPS
+	self.current_step = 1
+	self.done = false
+
+	next_step(self)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("proxy_loaded") and sender == hash("game#collectionproxy") then
+		msg.post(sender, "enable")
+		self.done = true
+		print("✅ Carga completa")
+		go.set("load#fill", "scale.x", 1)
+
+		timer.delay(0.5, false, function()
+			msg.post("loader#collectionproxy", "disable")
+			msg.post("loader#collectionproxy", "final")
+		end)
+	end
+end

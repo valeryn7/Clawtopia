@@ -1,0 +1,9 @@
+function init(self)
+	msg.post("loader#collectionproxy", "load")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("proxy_loaded") and sender == hash("loader#collectionproxy") then
+		msg.post(sender, "enable")
+	end
+end

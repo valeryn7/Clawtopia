@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui, shrink-to-fit=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>{{project.title}} {{project.version}}</title>
+
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #ffffff;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			font-family: sans-serif;
+		}
+
+		.canvas-app-container {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			background: linear-gradient(135deg, #fafcff 0%, #fafcff 50%, #f5f9ff 50%, #f5f9ff 100%);
+		}
+
+		#canvas-container {
+			position: relative;
+		}
+
+		#canvas {
+			outline: none;
+			border: 0;
+			width: 100%;
+			vertical-align: bottom;
+		}
+
+		canvas:focus, canvas:active {
+			outline: none;
+			border: 0;
+		}
+
+		#custom-splash {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			max-height: 100vh;
+			max-width: 100vw;
+			width: auto;
+			height: auto;
+			z-index: 1000;
+			pointer-events: none;
+		}
+
+		.canvas-app-progress {
+			position: absolute;
+			bottom: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #d1dbeb;
+			height: 6px;
+			width: 80%;
+			border-radius: 3px;
+			overflow: hidden;
+			z-index: 1001;
+		}
+
+		.canvas-app-progress-bar {
+			height: 6px;
+			background-color: #1a72eb;
+			transition: transform 0.5s ease;
+			transform-origin: left;
+			transform: scaleX(0.0);
+		}
+
+		.buttons-background {
+			background-color: #ffffff;
+			width: 100%;
+			height: 42px;
+		}
+
+		.button {
+			background-color: transparent;
+			color: #006fff;
+			padding-left: 20px;
+			cursor: pointer;
+			margin-left: 2px;
+			font-size: 14px;
+		}
+
+		.link {
+			text-align: right;
+			color: #4e5258;
+			margin-right: 2px;
+			font-size: 14px;
+		}
+
+		a {
+			color: #006fff;
+			text-decoration: none;
+			font-weight: 600;
+		}
+
+		{{{DEFOLD_CUSTOM_CSS_INLINE}}}
+	</style>
+</head>
+
+<body>
+
+	<!-- Splash personalizado -->
+	<img id="custom-splash" src="/custom/custom_splash.png" />
+
+	<!-- Barra de progreso -->
+	<div id="progress-container" class="canvas-app-progress">
+		<div id="progress-bar" class="canvas-app-progress-bar"></div>
+	</div>
+
+	<!-- Contenedor principal -->
+	<div id="app-container" class="canvas-app-container">
+		<div id="canvas-container">
+			<canvas id="canvas" class="canvas-app-canvas" tabindex="1" width="{{display.width}}" height="{{display.height}}"></canvas>
+		</div>
+	</div>
+
+	<!-- JS para splash y carga -->
+	<script>
+		if (typeof globalThis === 'undefined') {
+			window.globalThis = window;
+		}
+	</script>
+
+	<script id='engine-loader' type='text/javascript' src="dmloader.js"></script>
+	<script id='engine-setup' type='text/javascript'></script>
+	<script id='engine-start' type='text/javascript'>
+		const splash = document.getElementById("custom-splash");
+		const progressBar = document.getElementById("progress-bar");
+		const progressContainer = document.getElementById("progress-container");
+
+		const originalSetProgress = Module.setProgress;
+		Module.setProgress = function(p) {
+			if (progressBar) {
+				progressBar.style.transform = "scaleX(" + p + ")";
+			}
+			if (originalSetProgress) {
+				originalSetProgress(p);
+			}
+		};
+
+		EngineLoader.load("canvas", "{{exe-name}}").then(() => {
+			if (splash) splash.remove();
+			if (progressContainer) progressContainer.remove();
+		});
+	</script>
+
+</body>
+</html>
