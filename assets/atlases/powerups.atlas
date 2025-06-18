@@ -10,4 +10,13 @@ images {
 images {
   image: "/assets/images/powerups/powerup_magnet_button_pressed.png"
 }
+images {
+  image: "/assets/images/powerups/powerup_add.png"
+}
+images {
+  image: "/assets/images/powerups/powerup_count.png"
+}
+images {
+  image: "/assets/images/powerups/powerup_locked.png"
+}
 extrude_borders: 2
