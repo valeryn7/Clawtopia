@@ -352,7 +352,7 @@ function init(self)
 	if not has_seen_tutorial() then
 		print("show tuto")
 		self.showing_tutorial = true
-		msg.post("tutorial_controller#tutorial_controller", "show_tutorial")
+		msg.post("tutorial_controller#tutorial", "show_tutorial")
 		disableTouch(self)
 	else
 		enableTouch(self)
@@ -485,6 +485,15 @@ function on_message(self, message_id, message, sender)
 		self.showing_tutorial = false
 		mark_tutorial_as_seen()
 		enableTouch(self)
+
+	elseif message_id == hash("force_show_tutorial") then
+		msg.post("tutorial_controller#tutorial", "show_tutorial")
+		disableTouch(self)
+		print("show tuto")
+
+	-- elseif message_id == hash("force_hide_tutorial") then
+	-- 	print("hide tuto")
+	-- 	enableTouch(self)
 
 	elseif message_id == hash("enable_touch") then
 		enableTouch(self)

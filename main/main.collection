@@ -365,14 +365,8 @@ embedded_instances {
 embedded_instances {
   id: "tutorial_controller"
   data: "components {\n"
-  "  id: \"tutorial_controller\"\n"
-  "  component: \"/main/tutorial/tutorial_controller.script\"\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tutorial_factory\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/tutorial/tutorial.go\\\"\\n"
-  "\"\n"
+  "  id: \"tutorial\"\n"
+  "  component: \"/main/tutorial/tutorial.gui\"\n"
   "}\n"
   ""
 }

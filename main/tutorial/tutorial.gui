@@ -1,0 +1,49 @@
+script: "/main/tutorial/tutorial.gui_script"
+textures {
+  name: "background"
+  texture: "/assets/atlases/background.atlas"
+}
+textures {
+  name: "tutorial"
+  texture: "/assets/atlases/tutorial.atlas"
+}
+textures {
+  name: "hud_icons"
+  texture: "/assets/atlases/hud_icons.atlas"
+}
+nodes {
+  position {
+    x: 360.0
+    y: 640.0
+  }
+  type: TYPE_BOX
+  texture: "background/white_pixel"
+  id: "white_pixel"
+  inherit_alpha: true
+  alpha: 0.3
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 372.0
+    y: 597.0
+  }
+  type: TYPE_BOX
+  texture: "tutorial/tutorial_anim"
+  id: "sprite"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 594.0
+    y: 812.0
+  }
+  type: TYPE_BOX
+  texture: "hud_icons/close_button"
+  id: "close_button"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

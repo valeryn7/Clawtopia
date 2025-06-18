@@ -85,4 +85,7 @@ images {
 images {
   image: "/assets/images/hud/tutorial_button.png"
 }
+images {
+  image: "/assets/images/hud/close_button.png"
+}
 extrude_borders: 2
