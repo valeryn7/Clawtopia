@@ -71,6 +71,7 @@ output_spirv = 0
 
 [sound]
 gain = 1
+use_linear_gain = 1
 max_sound_data = 128
 max_sound_buffers = 32
 max_sound_sources = 16
@@ -167,12 +168,13 @@ custom_heap_size = 0
 heap_size = 256
 htmlfile = /builtins/manifests/web/engine_template.html
 cssfile = /builtins/manifests/web/light_theme.css
+splash_image = /custom/custom_splash.png
 archive_location_prefix = archive
 archive_location_suffix = 
 engine_arguments = --verify-graphics-calls=false
 wasm_streaming = 0
-show_fullscreen_button = 1
-show_made_with_defold = 1
+show_fullscreen_button = 0
+show_made_with_defold = 0
 show_console_banner = 1
 scale_mode = fit
 transparent_graphics_context = 0
@@ -200,6 +202,7 @@ subpixels = 1
 
 [profiler]
 track_cpu = 0
+enabled = true
 sleep_between_server_updates = 0
 
 [liveupdate]
