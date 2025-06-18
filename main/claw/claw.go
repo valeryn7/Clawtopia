@@ -30,12 +30,6 @@ embedded_components {
   ""
 }
 embedded_components {
-  id: "victory_layer_factory"
-  type: "factory"
-  data: "prototype: \"/main/panels/victory_layer.go\"\n"
-  ""
-}
-embedded_components {
   id: "debug_dot_factory"
   type: "factory"
   data: "prototype: \"/main/debug/debug_dot.go\"\n"

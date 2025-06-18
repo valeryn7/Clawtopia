@@ -1,16 +1,25 @@
+local function set_buttons_visible(visible)
+	local nodes = {
+		gui.get_node("pause_button"),
+		gui.get_node("sound_button"),
+		gui.get_node("tutorial_button")
+	}
+
+	for _, node in ipairs(nodes) do
+		gui.set_enabled(node, visible)
+	end
+end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	set_buttons_visible(false)
 end
 
 function on_message(self, message_id, message)
 	if message_id == hash("show_pause_panel") then
-		gui.set_enabled(gui.get_node("pause_button"), false)
-		gui.set_enabled(gui.get_node("sound_button"), false)
-		gui.set_enabled(gui.get_node("tutorial_button"), false)
+		set_buttons_visible(true)
 	elseif message_id == hash("hide_pause_panel") then
-		gui.set_enabled(gui.get_node("pause_button"), true)
-		gui.set_enabled(gui.get_node("sound_button"), true)
-		gui.set_enabled(gui.get_node("tutorial_button"), true)
+		set_buttons_visible(false)
 	end
 end
 

@@ -311,6 +311,9 @@ local function reset_grid(self)
 
 		self.creating_grid = false
 		apply_level_movements(self)
+		if not self.showing_tutorial then
+			msg.post("buttons#hud_gui", "show_pause_panel")
+		end
 		if (self.level >= 4) then
 			msg.post("/powerups#powerups_hud", "enable")
 		end
@@ -373,6 +376,7 @@ local function check_game_end(self)
 	end
 
 	if completed then
+		msg.post("buttons#hud_gui", "hide_pause_panel")
 		self.game_over = true
 		self.total_points = 0
 		for _, goal in ipairs(self.goals) do
@@ -481,20 +485,15 @@ function on_message(self, message_id, message, sender)
 		print("show tuto")
 
 	elseif message_id == hash("tutorial_hidden") then
-		print("hide tuto")
 		self.showing_tutorial = false
 		mark_tutorial_as_seen()
 		enableTouch(self)
-
+		
 	elseif message_id == hash("force_show_tutorial") then
 		msg.post("tutorial_controller#tutorial", "show_tutorial")
 		disableTouch(self)
 		print("show tuto")
-
-	-- elseif message_id == hash("force_hide_tutorial") then
-	-- 	print("hide tuto")
-	-- 	enableTouch(self)
-
+		
 	elseif message_id == hash("enable_touch") then
 		enableTouch(self)
 
@@ -556,7 +555,12 @@ function on_message(self, message_id, message, sender)
 								end
 							end)
 						end
-
+						
+						if cell.locked then
+							print("❌ BUG: Se intentó capturar una celda aún bloqueada")
+							return
+						end
+						
 						msg.post(cell.id, "capture")
 						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
 						cell.captured = true

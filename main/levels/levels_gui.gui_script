@@ -43,7 +43,7 @@ end
 
 function on_message(self, message_id, message)
 	if message_id == hash("show_level_selector") then
-		msg.post("claw#claw", "disable_touch")
+		msg.post("grid_controller#grid", "disable_touch")
 		self.panel_active = true
 
 		gui.set_enabled(self.panel_node, true)
@@ -54,7 +54,7 @@ function on_message(self, message_id, message)
 		end
 
 	elseif message_id == hash("hide_panels") then
-		msg.post("claw#claw", "enable_touch")
+		msg.post("grid_controller#grid", "enable_touch")
 		self.panel_active = false
 
 		gui.set_enabled(self.panel_node, false)

@@ -7,7 +7,7 @@ local function show_panel(self, panel_node_id)
 	gui.set_color(gui.get_node("panel_overlay"), vmath.vector4(1, 1, 1, 1)) -- Mostramos textura completa
 	self.panel_overlay_angle = 0  -- Reiniciar rotación
 
-	msg.post("buttons#hud_gui", "show_pause_panel")
+	msg.post("buttons#hud_gui", "hide_pause_panel")
 	self.panel_active = true
 end
 
@@ -23,7 +23,6 @@ local function hide_all_panels(self)
 	hide_panel(self, "defeat_gui")
 	hide_panel(self, "pause_gui")
 	gui.set_enabled(gui.get_node("panel_overlay"), false)
-	msg.post("buttons#hud_gui", "hide_pause_panel")
 	self.panel_active = false
 
 	msg.post("/powerups#powerups_hud", "disable")
