@@ -78,4 +78,48 @@ animations {
   playback: PLAYBACK_LOOP_PINGPONG
   fps: 20
 }
+animations {
+  id: "explosion_orange"
+  images {
+    image: "/assets/images/explosion/explosion_orange_1.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_orange_2.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_orange_3.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_orange_4.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_orange_5.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_orange_6.png"
+  }
+  fps: 13
+}
+animations {
+  id: "explosion_purple"
+  images {
+    image: "/assets/images/explosion/explosion_purple_1.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_purple_2.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_purple_3.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_purple_4.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_purple_5.png"
+  }
+  images {
+    image: "/assets/images/explosion/explosion_purple_6.png"
+  }
+  fps: 13
+}
 extrude_borders: 2

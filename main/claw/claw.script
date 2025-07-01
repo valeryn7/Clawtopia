@@ -8,536 +8,536 @@ local CLAW_SPEED = 400
 local ROPE_LENGTH = 30
 local MAX_ANGLE = math.rad(45)
 local PENDULUM_SPEED = 2
-local GRAB_OFFSET = 20 
+local GRAB_OFFSET = 20
 local INPUT_MIN_Y = 150
 local INPUT_MAX_Y = 1048
 
 local function update_claw_rotation(self)
-	self.current_angle = math.sin(self.time * PENDULUM_SPEED) * MAX_ANGLE
-	go.set_rotation(vmath.quat_rotation_z(self.current_angle), "claw#claw_sprite")
+    self.current_angle = math.sin(self.time * PENDULUM_SPEED) * MAX_ANGLE
+    go.set_rotation(vmath.quat_rotation_z(self.current_angle), "claw#claw_sprite")
+end
+
+local function set_current_bear_color(self, sprite)
+    if sprite == "bear_blue" then
+        self.current_bear_color = "blue"
+    elseif sprite == "bear_pink" then
+        self.current_bear_color = "pink"
+    elseif sprite == "fox" then
+        self.current_bear_color = "orange"
+    elseif sprite == "rabbit" then
+        self.current_bear_color = "purple"
+    else
+        self.current_bear_color = "pink"
+    end
 end
 
 local function calculate_strength(angle_deg)
-	local min_strength = 0.2
-	local max_strength = 1.0
-	local clamped_angle = math.min(math.max(angle_deg, 0), 120)
-	local normalized = clamped_angle / 120
-	local curved = math.pow(normalized, 1.3) -- curva más progresiva
-	return min_strength + curved * (max_strength - min_strength)
+    local min_strength = 0.2
+    local max_strength = 1.0
+    local clamped_angle = math.min(math.max(angle_deg, 0), 120)
+    local normalized = clamped_angle / 120
+    local curved = math.pow(normalized, 1.3) -- curva más progresiva
+    return min_strength + curved * (max_strength - min_strength)
 end
 
 function init(self)
-	local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
-	self.activeTouch = false
-	self.speed_multiplier = 1
-	self.anchor_x = start_x + 2 * CELL_SIZE
-	self.anchor_y = CLAW_START_Y
-	self.time = 0
-	self.pendulum_active = true
-	self.loading = false
-	self.load_amount = 0
-	self.max_load = 1.0
-	self.descending = false
-	self.ascending = false
-	self.total_drop = 0
-	self.drop_progress = 0
-	self.carrying_object = nil
-	self.start_y = 0
-	self.start_x = 0
-	self.target_x = 0
-	self.target_y = 0
-	self.waiting_for_grab_response = false
-	self.grab_response_timer = 0
-	self.GRAB_RESPONSE_TIMEOUT = 0.2
-	self.strength = 0.5
-	self.captured_angle = math.rad(0)
-	self.displayed_angle = 0
-	self.target_charge_angle = 0
-	self.smoothed_dy = 0
-	self.state = "pendulum"
-	
-	-- self.debug_dot = factory.create("#debug_dot_factory", vmath.vector3(0, 0, 10))
-	-- go.set_scale(vmath.vector3(0.3, 0.3, 1), self.debug_dot)
+    local start_x = -((GRID_COLS - 1) * CELL_SIZE) / 2
+    self.activeTouch = false
+    self.speed_multiplier = 1
+    self.anchor_x = start_x + 2 * CELL_SIZE
+    self.anchor_y = CLAW_START_Y
+    self.time = 0
+    self.pendulum_active = true
+    self.loading = false
+    self.load_amount = 0
+    self.max_load = 1.0
+    self.descending = false
+    self.ascending = false
+    self.total_drop = 0
+    self.drop_progress = 0
+    self.carrying_object = nil
+    self.start_y = 0
+    self.start_x = 0
+    self.target_x = 0
+    self.target_y = 0
+    self.waiting_for_grab_response = false
+    self.grab_response_timer = 0
+    self.GRAB_RESPONSE_TIMEOUT = 0.2
+    self.strength = 0.5
+    self.captured_angle = math.rad(0)
+    self.displayed_angle = 0
+    self.target_charge_angle = 0
+    self.smoothed_dy = 0
+    self.state = "pendulum"
 
-	--effect
-	self.magnet_effect = false
-	go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0)) 
-	go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0)) 
-	self.fx_timer = 0
-	self.selecting_with_magnet = false
-	self.magnet_attract_bears = false
-	
-	
-	msg.post(".", "acquire_input_focus")
-	go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-	update_claw_rotation(self)
+    -- self.debug_dot = factory.create("#debug_dot_factory", vmath.vector3(0, 0, 10))
+    -- go.set_scale(vmath.vector3(0.3, 0.3, 1), self.debug_dot)
+
+    --effect
+    self.magnet_effect = false
+    go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0))
+    go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0))
+    self.fx_timer = 0
+    self.selecting_with_magnet = false
+    self.magnet_attract_bears = false
+
+
+    msg.post(".", "acquire_input_focus")
+    go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+    update_claw_rotation(self)
 end
 
 function math.sign(x)
-	return x > 0 and 1 or (x < 0 and -1 or 0)
+    return x > 0 and 1 or (x < 0 and -1 or 0)
 end
 
 function update(self, dt)
-	dt = dt * self.speed_multiplier
+    dt = dt * self.speed_multiplier
 
-	if self.pendulum_active then
-		self.time = self.time + dt
-		update_claw_rotation(self)
-	end
+    if self.pendulum_active then
+        self.time = self.time + dt
+        update_claw_rotation(self)
+    end
 
-	if self.loading then
-		msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.target_charge_angle })
-	end
+    if self.loading then
+        msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.target_charge_angle })
+        self.target_charge_angle = self.current_angle
+    end
 
-	if self.waiting_for_grab_response then
-		self.grab_response_timer = self.grab_response_timer + dt
-		if self.grab_response_timer >= self.GRAB_RESPONSE_TIMEOUT then
-			self.waiting_for_grab_response = false
-			self.ascending = true
-			self.descending = false
-		end
-	end
+    
+    if self.waiting_for_grab_response then
+        self.grab_response_timer = self.grab_response_timer + dt
+        if self.grab_response_timer >= self.GRAB_RESPONSE_TIMEOUT then
+            self.waiting_for_grab_response = false
+            self.ascending = true
+            self.descending = false
+        end
+    end
 
-	if self.magnet_effect then
-		self.fx_timer = self.fx_timer + dt * 2
-		local angle = math.sin(self.fx_timer) * math.rad(10)
-		go.set_rotation(vmath.quat_rotation_z(angle), "fx_electro_glow_go")  -- ✅ correcto
-	end
-	print("🌀 Estado selecting_with_magnet:", self.selecting_with_magnet)
+    -- if self.magnet_effect then
+    -- 	self.fx_timer = self.fx_timer + dt * 2
+    -- 	local angle = math.sin(self.fx_timer) * math.rad(10)
+    -- 	-- go.set_rotation(vmath.quat_rotation_z(angle), "fx_electro_glow_go")  -- ✅ correcto
+    -- end
+    print("🌀 Estado selecting_with_magnet:", self.selecting_with_magnet)
 
-	if self.selecting_with_magnet then
-		print("🧲 Enviando highlight desde input")
-		msg.post("grid_controller#grid", "update_magnet_highlight", { angle = self.current_angle })
-	end
-	
-	msg.post("stick", "set_bottom", { x = self.anchor_x, y = self.anchor_y - ROPE_LENGTH })
-	
-	if not self.descending and not self.ascending and not self.selecting_with_magnet then
-		return
-	end
-	
-	if self.descending or self.ascending then
-		local move = CLAW_SPEED * dt
-		if self.descending then
-			self.drop_progress = self.drop_progress + move
-			local raw_t = math.min(self.drop_progress / self.total_drop, 1.0)
-			local t = 1 - (1 - raw_t) * (1 - raw_t)
-			self.anchor_x = self.start_x + (self.target_x - self.start_x) * t
-			self.anchor_y = self.start_y + (self.target_y - self.start_y) * t
+    if self.selecting_with_magnet then
+        print("🧲 Enviando highlight desde input")
+        msg.post("grid_controller#grid", "update_magnet_highlight", { angle = self.current_angle })
+    end
 
-			if self.drop_progress >= self.total_drop then
-				self.descending = false
-				if self.total_drop < 10 then
-					self.anchor_y = self.start_y
-					self.anchor_x = self.start_x
-					self.pendulum_active = true
-					local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
-					self.time = math.asin(ratio) / PENDULUM_SPEED
-				else
-					local claw_pos = go.get_position()
-					local angle = self.current_angle
-					local offset = vmath.vector3(
-						math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-						-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-						0
-					)
-					local grab_point = claw_pos + offset
+    msg.post("stick", "set_bottom", { x = self.anchor_x, y = self.anchor_y - ROPE_LENGTH })
 
-					msg.post("grid_controller#grid", "grab_object_at_column", {
-						x = grab_point.x,
-						y = grab_point.y
-					})
+    if not self.descending and not self.ascending and not self.selecting_with_magnet then
+        return
+    end
 
-					-- 🔴 DEBUG DOT
--- 					local dot = factory.create("#debug_dot_factory", vmath.vector3(grab_point.x, grab_point.y, 10))
--- 					go.set_scale(vmath.vector3(0.3, 0.3, 1), dot)
--- 
--- 					timer.delay(0.4, false, function()
--- 						if go.exists(dot) then
--- 							go.delete(dot)
--- 						end
--- 					end)
+    if self.descending or self.ascending then
+        local move = CLAW_SPEED * dt
+        if self.descending then
+            self.drop_progress = self.drop_progress + move
+            local raw_t = math.min(self.drop_progress / self.total_drop, 1.0)
+            local t = 1 - (1 - raw_t) * (1 - raw_t)
+            self.anchor_x = self.start_x + (self.target_x - self.start_x) * t
+            self.anchor_y = self.start_y + (self.target_y - self.start_y) * t
 
-					msg.post("grid_controller#grid", "consume_drop")
-					self.waiting_for_grab_response = true
-					self.grab_response_timer = 0
-				end
-			end
-		elseif self.ascending then
-			self.drop_progress = self.drop_progress - move
-			local raw_t = math.max(self.drop_progress / self.total_drop, 0)
-			local t = raw_t * raw_t
-			self.anchor_x = self.start_x + (self.target_x - self.start_x) * t
-			self.anchor_y = self.start_y + (self.target_y - self.start_y) * t
+            if self.drop_progress >= self.total_drop then
+                self.descending = false
+                if self.total_drop < 10 then
+                    self.anchor_y = self.start_y
+                    self.anchor_x = self.start_x
+                    self.pendulum_active = true
+                    local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
+                    self.time = math.asin(ratio) / PENDULUM_SPEED
+                else
+                    local claw_pos = go.get_position()
+                    local angle = self.current_angle
+                    local offset = vmath.vector3(
+                        math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                        -math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                        0
+                    )
+                    local grab_point = claw_pos + offset
 
-			if self.drop_progress <= 0 then
-				self.anchor_y = self.start_y
-				self.anchor_x = self.start_x
-				self.ascending = false
-				self.pendulum_active = true
-				local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
-				self.time = math.asin(ratio) / PENDULUM_SPEED
-				if self.carrying_object then
-					local pos = go.get_position(self.carrying_object)
-					pos.z = 10
+                    msg.post("grid_controller#grid", "grab_object_at_column", {
+                        x = grab_point.x,
+                        y = grab_point.y
+                    })
 
-					-- Determinar animación
-					local anim = (self.current_bear_color == "blue") and hash("explosion_blue") or hash("explosion_pink")
+                    -- 🔴 DEBUG DOT
+                    -- 					local dot = factory.create("#debug_dot_factory", vmath.vector3(grab_point.x, grab_point.y, 10))
+                    -- 					go.set_scale(vmath.vector3(0.3, 0.3, 1), dot)
+                    --
+                    -- 					timer.delay(0.4, false, function()
+                    -- 						if go.exists(dot) then
+                    -- 							go.delete(dot)
+                    -- 						end
+                    -- 					end)
 
-					-- Crear el puff y guardar su ID
-					local puff = factory.create("#explosion_factory", pos)
+                    msg.post("grid_controller#grid", "consume_drop")
+                    self.waiting_for_grab_response = true
+                    self.grab_response_timer = 0
+                end
+            end
+        elseif self.ascending then
+            self.drop_progress = self.drop_progress - move
+            local raw_t = math.max(self.drop_progress / self.total_drop, 0)
+            local t = raw_t * raw_t
+            self.anchor_x = self.start_x + (self.target_x - self.start_x) * t
+            self.anchor_y = self.start_y + (self.target_y - self.start_y) * t
 
-					-- Mandar mensaje para elegir animación
-					msg.post(puff, "play_explosion", { animation = anim })
+            if self.drop_progress <= 0 then
+                self.anchor_y = self.start_y
+                self.anchor_x = self.start_x
+                self.ascending = false
+                self.pendulum_active = true
+                local ratio = math.max(-1, math.min(1, self.current_angle / MAX_ANGLE))
+                self.time = math.asin(ratio) / PENDULUM_SPEED
+                if self.carrying_object then
+                    local pos = go.get_position(self.carrying_object)
+                    pos.z = 10
 
-					-- Escala opcional
-					go.set_scale(vmath.vector3(1, 1, 1), puff)
-					
-					print(self.current_bear_color)
-					-- Esperar un pequeño delay antes de eliminar el osito (para dejar ver la animación)
-					timer.delay(0.1, false, function()
-						if go.exists(self.carrying_object) then
-							go.delete(self.carrying_object)
-						end
-						self.carrying_object = nil
+                    -- Determinar animación
+                    local anim = hash("explosion_" .. self.current_bear_color)
 
-						-- ✅ Restaurar estado visual y lógico
-						self.anchor_y = CLAW_START_Y
-						self.anchor_x = self.anchor_x  -- opcional, ya está en el lugar
-						self.pendulum_active = true
-						self.ascending = false
-						self.descending = false
-						self.drop_progress = 0
+                    -- Crear el puff y guardar su ID
+                    local puff = factory.create("#explosion_factory", pos)
 
-						-- ✅ Forzar que la garra quede en la posición correcta
-						go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-					end)
-					
-					
+                    -- Mandar mensaje para elegir animación
+                    msg.post(puff, "play_explosion", { animation = anim })
 
--- 					timer.delay(0.2, false, function()
--- 						local pos = vmath.vector3(0, 100, 10)  -- Ajustá según el centro de tu pantalla
--- 						local victory_id = factory.create("#victory_layer_factory", pos)
--- 
--- 						-- Escalar el GO principal
--- 						go.set_scale(vmath.vector3(1, 1, 1), victory_id)
--- 
--- 						-- Forzar rotación normal
--- 						go.set_rotation(vmath.quat_rotation_z(0), victory_id)
--- 					end)
-					
-				end
-			end
-		end
-		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-		if self.carrying_object then
-			local angle = self.current_angle
-			local offset = vmath.vector3(
-				math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-				-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-				0
-			)
-			local target_pos = vmath.vector3(self.anchor_x, self.anchor_y, 4) + offset
-		
-			local current_pos = go.get_position(self.carrying_object)
+                    -- Escala opcional
+                    go.set_scale(vmath.vector3(1, 1, 1), puff)
 
-			-- Interpolación suave hacia el centro durante el ascenso
-			local lerp_speed = 30
-			local new_pos = vmath.lerp(dt * lerp_speed, current_pos, target_pos)
-			go.set_position(new_pos, self.carrying_object)
-		end
-		
-	end
+                    print(self.current_bear_color)
+                    -- Esperar un pequeño delay antes de eliminar el osito (para dejar ver la animación)
+                    timer.delay(0.1, false, function()
+                        if go.exists(self.carrying_object) then
+                            go.delete(self.carrying_object)
+                        end
+                        self.carrying_object = nil
 
-	-- if self.debug_dot and go.exists(self.debug_dot) then
-	-- 	local claw_pos = go.get_position()
-	-- 	local angle = self.current_angle - math.pi / 2  -- Ajuste de orientación
-	-- 	local offset = vmath.vector3(
-	-- 		math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-	-- 		math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-	-- 		0
-	-- 	)
-	-- 	local grab_point = claw_pos + offset
-	-- 	go.set_position(vmath.vector3(grab_point.x, grab_point.y, 10), self.debug_dot)
-	-- end
--- 
--- 	if self.magnet_attract_bears then
--- 		print("🧲 Modo imán activado: Segundo toque")
--- 
--- 		self.selecting_with_magnet = false
--- 		self.pendulum_active = false
--- 		self.magnet_effect = false
--- 
--- 		go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0)) 
--- 		go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0)) 
--- 		go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
--- 
--- 		msg.post("grid_controller#grid", "request_magnet_target", { angle = self.current_angle })
--- 		return
--- 	end
+                        -- ✅ Restaurar estado visual y lógico
+                        self.anchor_y = CLAW_START_Y
+                        self.anchor_x = self.anchor_x -- opcional, ya está en el lugar
+                        self.pendulum_active = true
+                        self.ascending = false
+                        self.descending = false
+                        self.drop_progress = 0
 
+                        -- ✅ Forzar que la garra quede en la posición correcta
+                        go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+                    end)
+
+
+
+                    -- 					timer.delay(0.2, false, function()
+                    -- 						local pos = vmath.vector3(0, 100, 10)  -- Ajustá según el centro de tu pantalla
+                    -- 						local victory_id = factory.create("#victory_layer_factory", pos)
+                    --
+                    -- 						-- Escalar el GO principal
+                    -- 						go.set_scale(vmath.vector3(1, 1, 1), victory_id)
+                    --
+                    -- 						-- Forzar rotación normal
+                    -- 						go.set_rotation(vmath.quat_rotation_z(0), victory_id)
+                    -- 					end)
+                end
+            end
+        end
+        go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+        if self.carrying_object then
+            local angle = self.current_angle
+            local offset = vmath.vector3(
+                math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                -math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                0
+            )
+            local target_pos = vmath.vector3(self.anchor_x, self.anchor_y, 4) + offset
+
+            local current_pos = go.get_position(self.carrying_object)
+
+            -- Interpolación suave hacia el centro durante el ascenso
+            local lerp_speed = 30
+            local new_pos = vmath.lerp(dt * lerp_speed, current_pos, target_pos)
+            go.set_position(new_pos, self.carrying_object)
+        end
+    end
+
+    -- if self.debug_dot and go.exists(self.debug_dot) then
+    -- 	local claw_pos = go.get_position()
+    -- 	local angle = self.current_angle - math.pi / 2  -- Ajuste de orientación
+    -- 	local offset = vmath.vector3(
+    -- 		math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+    -- 		math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+    -- 		0
+    -- 	)
+    -- 	local grab_point = claw_pos + offset
+    -- 	go.set_position(vmath.vector3(grab_point.x, grab_point.y, 10), self.debug_dot)
+    -- end
+    --
+    -- 	if self.magnet_attract_bears then
+    -- 		print("🧲 Modo imán activado: Segundo toque")
+    --
+    -- 		self.selecting_with_magnet = false
+    -- 		self.pendulum_active = false
+    -- 		self.magnet_effect = false
+    --
+    -- 		go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0))
+    -- 		go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0))
+    -- 		go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
+    --
+    -- 		msg.post("grid_controller#grid", "request_magnet_target", { angle = self.current_angle })
+    -- 		return
+    -- 	end
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("touch") or action_id == hash("mouse_button_1") or action_id == hash("space") then
-		-- 🚫 Nueva protección para evitar que actúe si fue consumido
-		if action.touch and action.consumed and not self.selecting_with_magnet then
-			return
-		end
+    if action_id == hash("touch") or action_id == hash("mouse_button_1") or action_id == hash("space") then
+        -- 🚫 Nueva protección para evitar que actúe si fue consumido
+        if action.touch and action.consumed and not self.selecting_with_magnet then
+            return
+        end
 
-		if not self.activeTouch then
-			return
-		end
+        if not self.activeTouch then
+            return
+        end
 
-		if action.y > INPUT_MAX_Y  or action.y < INPUT_MIN_Y then
-			return
-		end
+        if action.y > INPUT_MAX_Y or action.y < INPUT_MIN_Y then
+            return
+        end
 
-		if action.pressed then
-			if self.selecting_with_magnet then
-				print("🧲 Modo imán activado: Segundo toque")
+        if action.pressed then
+            if self.selecting_with_magnet then
+                print("🧲 Modo imán activado: Segundo toque")
 
-				self.selecting_with_magnet = false
-				self.pendulum_active = false
-				self.magnet_effect = false
-				self.magnet_mode_ready = false
+                self.selecting_with_magnet = false
+                self.pendulum_active = false
+                self.magnet_effect = false
+                self.magnet_mode_ready = false
 
-				go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0)) 
-				go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0)) 
-				go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
+                go.set_position(vmath.vector3(-7.0, -40.0, 0), "fx_electro_glow_go#fx_electro_glow")
 
-				msg.post("grid_controller#grid", "magnet_attract_bears", { angle = self.current_angle })
-				return
-			end
+                go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0))
+                go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0))
+                go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
 
-			if self.pendulum_active then
-				self.pendulum_active = false
-				self.loading = true
-				self.target_charge_angle = math.rad(1)
-				self.displayed_angle = self.target_charge_angle
-				msg.post("charge_arrow#charge_bar", "start_charge")
-				msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.target_charge_angle })
-			end
-		elseif action.released then
-			if self.loading then
-				self.loading = false
-				msg.post("charge_arrow#charge_bar", "stop_charge")
-			end
-		end
-	end
+                msg.post("grid_controller#grid", "magnet_attract_bears", { angle = self.current_angle })
+                return
+            end
+
+            if self.pendulum_active then
+                self.pendulum_active = false
+                self.loading = true
+                self.target_charge_angle = math.rad(1)
+                self.displayed_angle = self.target_charge_angle
+                msg.post("charge_arrow#charge_bar", "start_charge")
+                msg.post("charge_arrow#charge_bar", "set_manual_angle", { angle = self.target_charge_angle })
+            end
+        elseif action.released then
+            if self.loading then
+                self.loading = false
+                msg.post("charge_arrow#charge_bar", "stop_charge")
+            end
+        end
+    end
 end
 
 function on_message(self, message_id, message)
-	if message_id == hash("object_grabbed") then
-		self.waiting_for_grab_response = false
-		if message.object_sprite then
-			local angle = self.current_angle
-			local offset = vmath.vector3(
-				math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-				-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-				0
-			)
-		
-			local pos = go.get_position() + offset
-			pos.z = 2
+    if message_id == hash("object_grabbed") then
+        self.waiting_for_grab_response = false
+        if message.object_sprite then
+            local angle = self.current_angle
+            local offset = vmath.vector3(
+                math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                -math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                0
+            )
 
-			self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
-			-- if (self.magnet_effect) then
-			-- 	msg.post(self.carrying_object, "play_magnet_effect")
-			-- end
-			
-			if message.object_sprite == "bear_blue" then
-				self.current_bear_color = "blue"
-			else
-				self.current_bear_color = "pink"
-			end
+            local pos = go.get_position() + offset
+            pos.z = 2
 
-			if self.carrying_object then
-				go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
-				go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-				go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-			end
-		end
-	
-		self.ascending = true
-		self.descending = false
+            self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
+            -- if (self.magnet_effect) then
+            -- 	msg.post(self.carrying_object, "play_magnet_effect")
+            -- end
+            print("message.object_sprite", message.object_sprite)
+            set_current_bear_color(self, message.object_sprite)
 
-		msg.post("grid_controller#grid", "object_collected", {
-			sprite = message.object_sprite
-		})
-	elseif message_id == hash("set_charge_angle") then
-		local angle_deg = math.min(math.deg(message.angle), 120)
-		local strength = calculate_strength(angle_deg)
-		print("Recibí ángulo:", angle_deg)
-		print("Fuerza:", strength)
+            if self.carrying_object then
+                go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
+                go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+                go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+            end
+        end
 
-		self.start_y = self.anchor_y
-		self.start_x = self.anchor_x
+        self.ascending = true
+        self.descending = false
 
-		local full_range = CELL_SIZE * 10
-		local full_drop = strength * full_range
-		self.total_drop = full_drop
-		self.target_y = self.start_y - self.total_drop
+        msg.post("grid_controller#grid", "object_collected", {
+            sprite = message.object_sprite
+        })
+    elseif message_id == hash("set_charge_angle") then
+        local angle_deg = math.min(math.deg(message.angle), 120)
+        local strength = calculate_strength(angle_deg)
+        print("Recibí ángulo:", angle_deg)
+        print("Fuerza:", strength)
 
-		local offset_x = full_drop * math.sin(self.current_angle)
-		local grid_half_width = ((GRID_COLS - 1) / 2) * CELL_SIZE
-		self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.start_x + offset_x))
-		self.drop_progress = 0
-		self.descending = true
+        self.start_y = self.anchor_y
+        self.start_x = self.anchor_x
 
-		print("Drop:", full_drop)
-		print("Target Y:", self.target_y)
-		print("Offset X:", offset_x)
-	elseif message_id == hash("disable_touch") then
-		self.activeTouch = false
-	elseif message_id == hash("enable_touch") then
-		self.activeTouch = true
-	elseif message_id == hash("set_speed_multiplier") then
-		self.speed_multiplier = message.value or 1
-	elseif message_id == hash("enable_magnet_effect") then
-		self.selecting_with_magnet = true
-		self.magnet_effect = true
-		self.magnet_level = message.level or 1
+        local full_range = CELL_SIZE * 10
+        local full_drop = strength * full_range
+        self.total_drop = full_drop
+        self.target_y = self.start_y - self.total_drop
 
-		-- Mostrar efectos visuales
-		go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0.2, 0.2, 1)) 
-		go.set("#area_sprite", "scale", vmath.vector3(1, 1, 1)) 
-		go.set("#area_sprite", "tint", vmath.vector4(0.6, 0.8, 1.0, 0.15))
+        local offset_x = full_drop * math.sin(self.current_angle)
+        local grid_half_width = ((GRID_COLS - 1) / 2) * CELL_SIZE
+        self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.start_x + offset_x))
+        self.drop_progress = 0
+        self.descending = true
 
-		-- Configurar modo péndulo visual + osito seleccionado
-		-- self.pendulum_active = true
-		self.selected_targets = {}
-		self.magnet_timer = 0
+        print("Drop:", full_drop)
+        print("Target Y:", self.target_y)
+        print("Offset X:", offset_x)
+    elseif message_id == hash("disable_touch") then
+        self.activeTouch = false
+    elseif message_id == hash("enable_touch") then
+        self.activeTouch = true
+    elseif message_id == hash("set_speed_multiplier") then
+        self.speed_multiplier = message.value or 1
+    elseif message_id == hash("enable_magnet_effect") then
+        self.selecting_with_magnet = true
+        self.magnet_effect = true
+        self.magnet_level = message.level or 1
 
-	elseif message_id == hash("disable_magnet_effect") then
-		self.magnet_effect = false
-		self.selecting_with_magnet = false
-		self.selected_targets = {}
-		go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0)) 
-		go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0)) 
-		go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
+        -- Mostrar efectos visuales
+        go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0.3, 0.3, 1))
+        go.set("#area_sprite", "scale", vmath.vector3(1, 1, 1))
+        go.set("#area_sprite", "tint", vmath.vector4(0.6, 0.8, 1.0, 0.15))
 
-	elseif message_id == hash("magnet_targets") then
-		if message.targets and #message.targets > 0 then
-			local target = message.targets[1]
+        -- Configurar modo péndulo visual + osito seleccionado
+        -- self.pendulum_active = true
+        self.selected_targets = {}
+        self.magnet_timer = 0
+    elseif message_id == hash("disable_magnet_effect") then
+        self.magnet_effect = false
+        self.selecting_with_magnet = false
+        self.selected_targets = {}
+        go.set("fx_electro_glow_go#fx_electro_glow", "scale", vmath.vector3(0, 0, 0))
+        go.set("#area_sprite", "scale", vmath.vector3(0, 0, 0))
+        go.set("#area_sprite", "tint", vmath.vector4(1, 1, 1, 0))
+    elseif message_id == hash("magnet_targets") then
+        if message.targets and #message.targets > 0 then
+            local target = message.targets[1]
 
-			-- 🧸 Crear objeto visual
-			local object_instance = factory.create("#object_factory", target.position, nil, { sprite = hash(target.sprite) })
-			go.set_scale(vmath.vector3(0.8, 0.8, 1), object_instance)
+            -- 🧸 Crear objeto visual
+            local object_instance = factory.create("#object_factory", target.position, nil,
+                { sprite = hash(target.sprite) })
+            go.set_scale(vmath.vector3(0.8, 0.8, 1), object_instance)
 
-			-- 📍 Calcular destino exacto bajo la garra
-			local angle = self.current_angle
-			local claw_pos = go.get_position()
-			local offset = vmath.vector3(
-			math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-			-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-			0
-		)
-		local final_pos = claw_pos + offset
+            -- 📍 Calcular destino exacto bajo la garra
+            local angle = self.current_angle
+            local claw_pos = go.get_position()
+            local offset = vmath.vector3(
+                math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                -math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+                0
+            )
+            local final_pos = claw_pos + offset
 
-		-- 🕹️ Animar subida más suave
-		go.animate(object_instance, "position", go.PLAYBACK_ONCE_FORWARD, final_pos, go.EASING_OUTSINE, 0.5, 0, function()
-			-- 🔸 Eliminar el osito temporal
-			go.delete(object_instance)
+            -- 🕹️ Animar subida más suave
+            go.animate(object_instance, "position", go.PLAYBACK_ONCE_FORWARD, final_pos, go.EASING_OUTSINE, 0.5, 0,
+                function()
+                    -- 🔸 Eliminar el osito temporal
+                    go.delete(object_instance)
 
-			-- 🔸 Avisar que fue capturado
-			msg.post(target.id, "capture")
-			msg.post("grid_controller#grid", "consume_drop")
+                    -- 🔸 Avisar que fue capturado
+                    msg.post(target.id, "capture")
+                    msg.post("grid_controller#grid", "consume_drop")
 
-			-- 🔸 Crear el osito real en posición final
-			local pos = final_pos
-			pos.z = 2
-			self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(target.sprite) })
+                    -- 🔸 Crear el osito real en posición final
+                    local pos = final_pos
+                    pos.z = 2
+                    self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(target.sprite) })
 
-			if target.sprite == "bear_blue" then
-				self.current_bear_color = "blue"
-			else
-				self.current_bear_color = "pink"
-			end
+                    set_current_bear_color(self, target.sprite)
+                    
+                    go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
+                    go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+                    go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
 
-			go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
-			go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-			go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+                    -- 🧨 Puff de explosión después de delay
+                    timer.delay(0.3, false, function()
+                        if self.carrying_object and go.exists(self.carrying_object) then
+                            local anim = hash("explosion_" .. self.current_bear_color)
+                            local puff = factory.create("#explosion_factory", go.get_position(self.carrying_object))
+                            msg.post(puff, "play_explosion", { animation = anim })
+                            go.set_scale(vmath.vector3(1, 1, 1), puff)
+                            go.delete(self.carrying_object)
+                            self.carrying_object = nil
+                        end
 
-			-- 🧨 Puff de explosión después de delay
-			timer.delay(0.3, false, function()
-				if self.carrying_object and go.exists(self.carrying_object) then
-					local anim = (self.current_bear_color == "blue") and hash("explosion_blue") or hash("explosion_pink")
-					local puff = factory.create("#explosion_factory", go.get_position(self.carrying_object))
-					msg.post(puff, "play_explosion", { animation = anim })
-					go.set_scale(vmath.vector3(1, 1, 1), puff)
-					go.delete(self.carrying_object)
-					self.carrying_object = nil
-				end
+                        -- ✅ Reset de garra
+                        self.anchor_y = CLAW_START_Y
+                        self.pendulum_active = true
+                        self.ascending = false
+                        self.descending = false
+                        self.drop_progress = 0
+                        go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+                    end)
+                end)
+        end
+    elseif message_id == hash("magnet_object_grabbed") then
+        self.waiting_for_grab_response = false
+        self.descending = false
+        self.ascending = true
+        self.pendulum_active = false
 
-				-- ✅ Reset de garra
-				self.anchor_y = CLAW_START_Y
-				self.pendulum_active = true
-				self.ascending = false
-				self.descending = false
-				self.drop_progress = 0
-				go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-			end)
-		end)
-	end
-	
-	elseif message_id == hash("magnet_object_grabbed") then
-		self.waiting_for_grab_response = false
-		self.descending = false
-		self.ascending = true
-		self.pendulum_active = false
+        -- 🚫 Si no hay sprite, no hacemos nada y seguimos como siempre
+        if not message.object_sprite then
+            return
+        end
 
-		-- 🚫 Si no hay sprite, no hacemos nada y seguimos como siempre
-		if not message.object_sprite then
-			return
-		end
+        -- Crear objeto igual que antes
+        local angle = self.current_angle
+        local offset = vmath.vector3(
+            math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+            -math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
+            0
+        )
 
-		-- Crear objeto igual que antes
-		local angle = self.current_angle
-		local offset = vmath.vector3(
-			math.sin(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-			-math.cos(angle) * (ROPE_LENGTH + GRAB_OFFSET),
-			0
-		)
+        local pos = go.get_position() + offset
+        pos.z = 2
+        self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
 
-		local pos = go.get_position() + offset
-		pos.z = 2
-		self.carrying_object = factory.create("#object_factory", pos, nil, { sprite = hash(message.object_sprite) })
+        set_current_bear_color(self, message.object_sprite)
 
-		if message.object_sprite == "bear_blue" then
-			self.current_bear_color = "blue"
-		else
-			self.current_bear_color = "pink"
-		end
+        if self.carrying_object then
+            go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
+            go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+            go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
+        end
 
-		if self.carrying_object then
-			go.set_scale(vmath.vector3(0.1, 0.1, 1), self.carrying_object)
-			go.animate(self.carrying_object, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-			go.animate(self.carrying_object, "scale.y", go.PLAYBACK_ONCE_FORWARD, 0.8, go.EASING_OUTBACK, 0.3)
-		end
-		
-		self.anchor_y = CLAW_START_Y
-		self.pendulum_active = true
-		self.ascending = false
-		self.descending = false
-		self.drop_progress = 0
-		go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-			
-	elseif message_id == hash("fallback_grab") then
-		self.waiting_for_grab_response = false
-		self.ascending = true
-		self.descending = false
+        self.anchor_y = CLAW_START_Y
+        self.pendulum_active = true
+        self.ascending = false
+        self.descending = false
+        self.drop_progress = 0
+        go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+    elseif message_id == hash("fallback_grab") then
+        self.waiting_for_grab_response = false
+        self.ascending = true
+        self.descending = false
 
-		-- 🟡 Restaurar datos de animación de subida
-		self.start_x = self.anchor_x
-		self.start_y = self.anchor_y
+        -- 🟡 Restaurar datos de animación de subida
+        self.start_x = self.anchor_x
+        self.start_y = self.anchor_y
 
-		-- Por si acaso no se había seteado:
-		if not self.total_drop or self.total_drop == 0 then
-			self.total_drop = CLAW_START_Y - self.anchor_y
-		end
+        -- Por si acaso no se había seteado:
+        if not self.total_drop or self.total_drop == 0 then
+            self.total_drop = CLAW_START_Y - self.anchor_y
+        end
 
-		self.drop_progress = self.total_drop
-	end
-	
+        self.drop_progress = self.total_drop
+    end
 end

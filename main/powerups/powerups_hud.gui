@@ -17,15 +17,15 @@ nodes {
     y: 0.8
   }
   type: TYPE_BOX
-  texture: "powerups/powerup_magnet_button"
-  id: "btn_magnet"
+  texture: "powerups/powerup_magnet_grab_button"
+  id: "btn_powerup_1"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 232.0
-    y: 125.0
+    x: 45.750004
+    y: 40.0
   }
   scale {
     x: 0.35
@@ -33,7 +33,8 @@ nodes {
   }
   type: TYPE_BOX
   texture: "powerups/powerup_count"
-  id: "count"
+  id: "count1"
+  parent: "btn_powerup_1"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
@@ -54,14 +55,14 @@ nodes {
   type: TYPE_TEXT
   text: "<text>"
   font: "power_up_count"
-  id: "label_magnet_count"
-  parent: "count"
+  id: "label_magnet_count1"
+  parent: "count1"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 228.0
-    y: 54.0
+    x: 45.500004
+    y: -47.249996
   }
   scale {
     x: 0.5
@@ -69,7 +70,144 @@ nodes {
   }
   type: TYPE_BOX
   texture: "powerups/powerup_add"
-  id: "btn_powerup_add"
+  id: "btn_powerup1_add"
+  parent: "btn_powerup_1"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 392.0
+    y: 94.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_magnet_grab_button"
+  id: "btn_powerup_2"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 45.750004
+    y: 40.0
+  }
+  scale {
+    x: 0.35
+    y: 0.35
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_count"
+  id: "count2"
+  parent: "btn_powerup_2"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 0.476188
+    y: -5.238098
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.102
+    y: 0.102
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "power_up_count"
+  id: "label_magnet_count2"
+  parent: "count2"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 45.500004
+    y: -47.249996
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_add"
+  id: "btn_powerup2_add"
+  parent: "btn_powerup_2"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 572.0
+    y: 94.0
+  }
+  scale {
+    x: 0.8
+    y: 0.8
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_magnet_grab_button"
+  id: "btn_powerup_3"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 45.750004
+    y: 40.0
+  }
+  scale {
+    x: 0.35
+    y: 0.35
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_count"
+  id: "count3"
+  parent: "btn_powerup_3"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 0.476188
+    y: -5.238098
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  color {
+    x: 0.102
+    y: 0.102
+    z: 0.102
+  }
+  type: TYPE_TEXT
+  text: "<text>"
+  font: "power_up_count"
+  id: "label_magnet_count3"
+  parent: "count3"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 45.500004
+    y: -47.249996
+  }
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  type: TYPE_BOX
+  texture: "powerups/powerup_add"
+  id: "btn_powerup3_add"
+  parent: "btn_powerup_3"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }

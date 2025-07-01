@@ -1,6 +1,8 @@
-go.property("move_speed", 1.5) -- Velocidad angular en radianes/segundo
+local MOVE_SPEED = 0.3
 go.property("min_angle_deg", 0)
 go.property("max_angle_deg", 120)
+local CELL_SIZE = 90
+local GRID_COLS = 5
 
 function init(self)
 	self.moving = false
@@ -11,19 +13,51 @@ function init(self)
 
 	self.target_charge_angle = 0
 	self.displayed_angle = 0
+	self.claw_angle = 0
 	self.charging = false
 	self.charge_timer = 0
 	self.charge_direction = 1
 	self.activeTouch = true
 	go.set_rotation(vmath.quat_rotation_z(self.angle))
+	msg.post("aim_dot", "disable")
 	msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 	msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 end
 
+local function calculate_strength(angle_deg)
+	local min_strength = 0.2
+	local max_strength = 1.0
+	local clamped_angle = math.min(math.max(angle_deg, 0), 120)
+	local normalized = clamped_angle / 120
+	local curved = math.pow(normalized, 1.3) -- curva más progresiva
+	return min_strength + curved * (max_strength - min_strength)
+end
+
 function update(self, dt)
+
+	if self.charging then
+		-- Ángulo congelado de la garra
+		local claw_angle = self.claw_angle or 0
+		local displayed_angle = self.displayed_angle or 0
+		local strength = calculate_strength(math.deg(displayed_angle))
+
+		local claw_pos = go.get_position("claw")
+
+		local full_range = CELL_SIZE * 10
+		local full_drop = strength * full_range
+
+		-- Cálculo real del target_x como en set_charge_angle
+		local offset_x = full_drop * math.sin(claw_angle)
+		local grid_half_width = ((GRID_COLS - 1) / 2) * CELL_SIZE
+		local target_x = math.max(-grid_half_width, math.min(grid_half_width, claw_pos.x + offset_x))
+		local target_y = claw_pos.y - full_drop
+
+		local predicted_pos = vmath.vector3(target_x, target_y, 7)
+		go.set_position(predicted_pos, "aim_dot")
+	end
 	
 	if self.moving then
-		self.angle = self.angle + self.direction * self.move_speed * dt
+		self.angle = self.angle + self.direction * MOVE_SPEED * dt
 
 		if self.angle >= self.max_angle then
 			self.angle = self.max_angle
@@ -55,17 +89,18 @@ function update(self, dt)
 		local diff = self.target_charge_angle - self.displayed_angle
 		local abs_diff = math.abs(diff)
 
-		local base_speed = 0.6
-		local accel_factor = math.pow(math.max(0.15, abs_diff), 1.8) * 25
+		local base_speed = 0.45
+		local accel_factor = math.pow(math.max(0.15, abs_diff), 1.8) * 20
 		local speed = base_speed + accel_factor
 		local step = diff * speed * dt
 
-		local max_step = math.rad(25)
+		local max_step = math.rad(20)
 		step = math.max(-max_step, math.min(step, max_step))
 
 		self.displayed_angle = self.displayed_angle + step
 		go.set_rotation(vmath.quat_rotation_z(-self.displayed_angle))
 	end
+	
 end
 
 function on_input(self, action_id, action)
@@ -94,13 +129,18 @@ function on_message(self, message_id, message)
 		go.set_rotation(vmath.quat_rotation_z(-self.angle))
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "enable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "enable")
+		msg.post("aim_dot", "enable")
 
 	elseif message_id == hash("stop_charge") then
 		self.charging = false
+		msg.post("aim_dot", "disable")
 		msg.post("claw", "set_charge_angle", { angle = self.displayed_angle or 0 })
 		msg.post(msg.url(nil, "charge_bar_arc", nil), "disable")
 		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
+	elseif message_id == hash("set_manual_angle") then
+		self.claw_angle = message.angle
 		
+		print("self.claw_angle", self.claw_angle)
 	elseif message_id == hash("disable_touch") then
 		self.activeTouch = false
 	elseif message_id == hash("enable_touch") then

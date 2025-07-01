@@ -13,7 +13,8 @@ return {
         },
         goals = {
             { type = "bear_blue", required = 1 }
-        }
+        },
+        powerups = { nil, nil, nil },
     },
     [2] = {
         max_drops = 10,
@@ -28,7 +29,8 @@ return {
         goals = {
             { type = "bear_blue", required = 2 },
             { type = "bear_pink", required = 1 }
-        }
+        },
+        powerups = { nil, nil, nil },
     },
     [3] = {
         max_drops = 14,
@@ -42,7 +44,8 @@ return {
         },
         goals = {
             { type = "bear_pink", required = 1 }
-        }
+        },
+        powerups = { nil, nil, nil },
     },
     [4] = {
         max_drops = 10,
@@ -60,7 +63,8 @@ return {
         goals = {
             { type = "rabbit", required = 1 },
             { type = "bear_pink", required = 2 },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [5] = {
         max_drops = 12,
@@ -79,7 +83,8 @@ return {
         goals = {
             { type = "bear_blue", required = 1 },
             { type = "rabbit", required = 2 },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [6] = {
         max_drops = 14,
@@ -124,7 +129,8 @@ return {
                 wait = 1.2,
                 speed = 4
             },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [7] = {
         max_drops = 16,
@@ -169,7 +175,8 @@ return {
                 wait = 1.2,
                 speed = 4
             },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [8] = {
         max_drops = 16,
@@ -218,7 +225,8 @@ return {
                 wait = 1,
                 speed = 2
             },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [9] = {
         max_drops = 18,
@@ -259,7 +267,8 @@ return {
                 wait = 1,
                 speed = 3
             },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     },
     [10] = {
         max_drops = 16,
@@ -332,6 +341,7 @@ return {
                 wait = 1,
                 speed = 1
             },
-        }
+        },
+        powerups = { "magnet_grab", nil, nil },
     }
 }

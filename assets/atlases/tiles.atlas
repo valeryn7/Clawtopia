@@ -14,4 +14,7 @@ images {
 images {
   image: "/assets/images/levels/level_cell.png"
 }
+images {
+  image: "/assets/images/claw/dot.png"
+}
 extrude_borders: 2

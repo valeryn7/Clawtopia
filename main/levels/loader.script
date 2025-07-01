@@ -17,6 +17,10 @@ local function load_level(self, level)
 		return
 	end
 
+	msg.post("powerups#powerups_hud", "set_powerups", {
+		slots = LEVELS[level].powerups or { nil, nil, nil }
+	})
+	
 	print("🔄 Cargando nivel:", level)
 	msg.post("grid_controller#grid", "set_level", { level = level })
 	msg.post("grid_controller#grid", "restart_level")

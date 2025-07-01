@@ -11,7 +11,7 @@ function on_message(self, message_id, message)
 		local scale_factor = 0.1 + level * 0.05  -- ajusta el glow según el nivel del power-up
 
 		-- Ocultar primero (reset)
-		go.set("#fx_bear_glow", "scale", vmath.vector3(0, 0, 1))
+		go.set("#fx_bear_glow", "scale", vmath.vector3(0, 0, 0))
 
 		-- Fade in del glow
 		go.animate("#fx_bear_glow", "scale.x", go.PLAYBACK_ONCE_FORWARD, scale_factor, go.EASING_OUTSINE, 0.2)

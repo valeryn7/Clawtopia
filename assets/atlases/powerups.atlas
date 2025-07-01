@@ -1,14 +1,8 @@
 images {
-  image: "/assets/images/powerups/fx_bear_glow.png"
+  image: "/assets/images/powerups/powerup_magnet_grab_button.png"
 }
 images {
-  image: "/assets/images/powerups/fx_electro_glow.png"
-}
-images {
-  image: "/assets/images/powerups/powerup_magnet_button.png"
-}
-images {
-  image: "/assets/images/powerups/powerup_magnet_button_pressed.png"
+  image: "/assets/images/powerups/powerup_magnet_grab_button_pressed.png"
 }
 images {
   image: "/assets/images/powerups/powerup_add.png"
@@ -17,6 +11,46 @@ images {
   image: "/assets/images/powerups/powerup_count.png"
 }
 images {
-  image: "/assets/images/powerups/powerup_locked.png"
+  image: "/assets/images/powerups/powerup_blocked.png"
+}
+animations {
+  id: "fx_bear_glow"
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_1.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_2.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_3.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_4.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_5.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_bear_glow_6.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
+animations {
+  id: "fx_electro_glow"
+  images {
+    image: "/assets/images/powerups/fx_electro_glow_1.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_electro_glow_2.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_electro_glow_3.png"
+  }
+  images {
+    image: "/assets/images/powerups/fx_electro_glow_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 6
 }
 extrude_borders: 2
