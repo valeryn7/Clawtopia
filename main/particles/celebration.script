@@ -1,18 +1,32 @@
 function on_message(self, message_id, message, sender)
 	if message_id == hash("play_celebration") then
-		particlefx.play("#celebration")  -- efecto principal
+		-- Partícula principal + sonido boom
+		particlefx.play("#celebration")
+		sound.play("#sfx_victory")
 
+		-- Fuegos artificiales + chispitas
 		timer.delay(0.1, false, function()
 			particlefx.play("#fw_splat_blue")
+			sound.play("#sfx_boom")
+			timer.delay(0.15, false, function()
+				sound.play("#sfx_sparkle")
+			end)
 		end)
 
 		timer.delay(0.3, false, function()
 			particlefx.play("#fw_splat_red")
+			sound.play("#sfx_boom")
+			timer.delay(0.15, false, function()
+				sound.play("#sfx_sparkle")
+			end)
 		end)
 
 		timer.delay(0.5, false, function()
 			particlefx.play("#fw_splat_green")
+			sound.play("#sfx_boom")
+			timer.delay(0.15, false, function()
+				sound.play("#sfx_sparkle")
+			end)
 		end)
 	end
-	
 end

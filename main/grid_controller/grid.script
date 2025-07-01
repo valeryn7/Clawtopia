@@ -351,7 +351,9 @@ function init(self)
 
 	self.showing_tutorial = false
 	self.level = 1
-
+	
+	sound.play(msg.url("music#bg_music"))
+	
 	if not has_seen_tutorial() then
 		print("show tuto")
 		self.showing_tutorial = true

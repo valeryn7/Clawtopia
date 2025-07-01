@@ -13,3 +13,10 @@ embedded_components {
   "}\n"
   ""
 }
+embedded_components {
+  id: "sfx_explosion"
+  type: "sound"
+  data: "sound: \"/assets/sounds/explosion_sound.ogg\"\n"
+  "gain: 0.6\n"
+  ""
+}

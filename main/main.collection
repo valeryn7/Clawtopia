@@ -11,6 +11,7 @@ instances {
   id: "grid_controller"
   prototype: "/main/grid_controller/grid.go"
   children: "background_grid"
+  children: "music"
 }
 instances {
   id: "powerups"
@@ -288,6 +289,27 @@ embedded_instances {
   "    y: 155.0\n"
   "  }\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"sfx_sparkle\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/assets/sounds/firework_sparkle.ogg\\\"\\n"
+  "gain: 0.5\\n"
+  "\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"sfx_boom\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/assets/sounds/firework_boom.ogg\\\"\\n"
+  "gain: 0.5\\n"
+  "\"\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"sfx_victory\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/assets/sounds/victory.ogg\\\"\\n"
+  "gain: 0.8\\n"
+  "\"\n"
+  "}\n"
   ""
 }
 embedded_instances {
@@ -387,4 +409,15 @@ embedded_instances {
   position {
     z: 7.0
   }
+}
+embedded_instances {
+  id: "music"
+  data: "embedded_components {\n"
+  "  id: \"bg_music\"\n"
+  "  type: \"sound\"\n"
+  "  data: \"sound: \\\"/assets/sounds/music_background.ogg\\\"\\n"
+  "looping: 1\\n"
+  "\"\n"
+  "}\n"
+  ""
 }
