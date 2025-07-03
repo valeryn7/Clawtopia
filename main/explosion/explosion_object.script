@@ -1,7 +1,7 @@
 function on_message(self, message_id, message)
 	if message_id == hash("play_explosion") and message.animation then
 		msg.post("#sprite", "play_animation", { id = message.animation })
-		sound.play("#sfx_explosion")
+		msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_explosion") })
 	elseif message_id == hash("animation_done") then
 		go.delete()
 	end

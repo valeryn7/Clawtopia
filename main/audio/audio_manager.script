@@ -1,0 +1,33 @@
+-- audio_manager.script
+function init(self)
+	self.sound_enabled = true
+	sound.play("#bg_music", { loop = true }) -- música de fondo
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("toggle_sound") then
+		self.sound_enabled = not self.sound_enabled
+		print(self.sound_enabled and "🔊 Sonido activado" or "🔇 Sonido desactivado")
+
+		if self.sound_enabled then
+			sound.play("#bg_music", { loop = true })
+		else
+			sound.stop("#bg_music")
+		end
+
+		-- Actualizar el ícono del botón en HUD
+		msg.post("buttons#hud_gui", "update_sound_icon", { enabled = self.sound_enabled })
+		
+	elseif message_id == hash("play_sfx") then
+		if self.sound_enabled and message and message.sound then
+			local options = {}
+			if message.volume then
+				options.gain = message.volume
+			end
+
+			-- Reproducir el sonido dentro de este mismo GO
+			local sound_url = msg.url(nil, nil, message.sound)
+			sound.play(sound_url, options)
+		end
+	end
+end

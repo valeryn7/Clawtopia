@@ -1,31 +1,31 @@
 function on_message(self, message_id, message, sender)
 	if message_id == hash("play_celebration") then
-		-- Partícula principal + sonido boom
+		-- Partícula principal + sonido victoria
 		particlefx.play("#celebration")
-		sound.play("#sfx_victory")
+		msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_victory") })
 
 		-- Fuegos artificiales + chispitas
 		timer.delay(0.1, false, function()
 			particlefx.play("#fw_splat_blue")
-			sound.play("#sfx_boom")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_boom") })
 			timer.delay(0.15, false, function()
-				sound.play("#sfx_sparkle")
+				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_sparkle") })
 			end)
 		end)
 
 		timer.delay(0.3, false, function()
 			particlefx.play("#fw_splat_red")
-			sound.play("#sfx_boom")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_boom") })
 			timer.delay(0.15, false, function()
-				sound.play("#sfx_sparkle")
+				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_sparkle") })
 			end)
 		end)
 
 		timer.delay(0.5, false, function()
 			particlefx.play("#fw_splat_green")
-			sound.play("#sfx_boom")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_boom") })
 			timer.delay(0.15, false, function()
-				sound.play("#sfx_sparkle")
+				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_sparkle") })
 			end)
 		end)
 	end

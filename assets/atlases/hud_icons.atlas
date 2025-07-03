@@ -35,9 +35,6 @@ images {
   image: "/assets/images/panels/button_home.png"
 }
 images {
-  image: "/assets/images/hud/sound_button.png"
-}
-images {
   image: "/assets/images/hud/pause_button.png"
 }
 images {
@@ -87,5 +84,11 @@ images {
 }
 images {
   image: "/assets/images/hud/close_button.png"
+}
+images {
+  image: "/assets/images/hud/sound_off.png"
+}
+images {
+  image: "/assets/images/hud/sound_on.png"
 }
 extrude_borders: 2
