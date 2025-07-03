@@ -24,7 +24,8 @@ local POINTS = {
 	rabbit = 30,
 	fox = 35,
 	frog = 40,
-	bear_panda = 50
+	bear_panda = 50,
+	duck = 10,
 }
 
 -- Rango de ángulos en grados (relativo al frente de la garra) → qué celdas revisar
@@ -41,23 +42,6 @@ local ANGLE_CELLS_VERTICAL = {
 }
 
 local LEVELS = require("main.levels.levels")
-
-local function explode_adjacent_cells(self, row, col)
-	local directions = {
-		{ d_row = -1, d_col = 0 }, { d_row = 1, d_col = 0 },
-		{ d_row = 0, d_col = -1 }, { d_row = 0, d_col = 1 }
-	}
-	for _, dir in ipairs(directions) do
-		local r, c = row + dir.d_row, col + dir.d_col
-		if r >= 0 and r < GRID_ROWS and c >= 0 and c < GRID_COLS then
-			local neighbor = self.grid[r][c]
-			if neighbor and not neighbor.captured then
-				msg.post(neighbor.id, "explode")
-				neighbor.captured = true
-			end
-		end
-	end
-end
 
 local function has_seen_tutorial()
 	-- local data = sys.load(SAVE_FILE)
@@ -314,9 +298,9 @@ local function reset_grid(self)
 		if not self.showing_tutorial then
 			msg.post("buttons#hud_gui", "show_pause_panel")
 		end
-		if (self.level >= 4) then
-			msg.post("/powerups#powerups_hud", "enable")
-		end
+		-- if (self.level >= 4) then
+		-- 	msg.post("/powerups#powerups_hud", "enable")
+		-- end
 	end)
 end
 
@@ -565,6 +549,10 @@ function on_message(self, message_id, message, sender)
 						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
 						cell.captured = true
 
+						if cell.sprite == "duck" then
+							msg.post("duck_party#duck_fx", "start")
+						end
+						
 						if self.magnet_grab_active then
 							msg.post("claw#claw", "disable_magnet_effect")
 							msg.post(cell.id, "play_magnet_effect")
@@ -718,6 +706,11 @@ function on_message(self, message_id, message, sender)
 		})
 
 		check_game_end(self)
+	elseif message_id == hash("duck_explode_event") then
+		-- 🎁 Soltar 3 a 5 drops al azar
+		for i = 1, math.random(3, 5) do
+			msg.post("grid#grid_controller", "spawn_bonus_drop")
+		end
 	end
 	
 end

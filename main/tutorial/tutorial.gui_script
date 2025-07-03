@@ -30,6 +30,7 @@ function on_input(self, action_id, action)
 		local node = gui.get_node("close_button")
 		if gui.pick_node(node, action.x, action.y) then
 			print("❌ Botón de cerrar tocado (GUI)")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 
 			gui.set_enabled(gui.get_node("sprite"), false)
 			gui.set_enabled(gui.get_node("close_button"), false)

@@ -91,6 +91,24 @@ function math.sign(x)
     return x > 0 and 1 or (x < 0 and -1 or 0)
 end
 
+local function explode_and_reset(self)
+    if self.carrying_object and go.exists(self.carrying_object) then
+        local anim = hash("explosion_" .. self.current_bear_color)
+        local puff = factory.create("#explosion_factory", go.get_position(self.carrying_object))
+        msg.post(puff, "play_explosion", { animation = anim })
+        go.set_scale(vmath.vector3(1, 1, 1), puff)
+        go.delete(self.carrying_object)
+        self.carrying_object = nil
+    end
+
+    self.anchor_y = CLAW_START_Y
+    self.pendulum_active = true
+    self.ascending = false
+    self.descending = false
+    self.drop_progress = 0
+    go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+end
+
 function update(self, dt)
     dt = dt * self.speed_multiplier
 
@@ -197,50 +215,50 @@ function update(self, dt)
                     local pos = go.get_position(self.carrying_object)
                     pos.z = 10
 
-                    -- Determinar animación
-                    local anim = hash("explosion_" .. self.current_bear_color)
-
-                    -- Crear el puff y guardar su ID
-                    local puff = factory.create("#explosion_factory", pos)
-
-                    -- Mandar mensaje para elegir animación
-                    msg.post(puff, "play_explosion", { animation = anim })
+--                     -- Determinar animación
+--                     local anim = hash("explosion_" .. self.current_bear_color)
+-- 
+--                     -- Crear el puff y guardar su ID
+--                     local puff = factory.create("#explosion_factory", pos)
+-- 
+--                     -- Mandar mensaje para elegir animación
+--                     msg.post(puff, "play_explosion", { animation = anim })
 
                     -- Escala opcional
-                    go.set_scale(vmath.vector3(1, 1, 1), puff)
+                   
+                    -- go.set_scale(vmath.vector3(1, 1, 1), puff)
+
+                    if self.carrying_object == "duck" then
+                        msg.post("audio_manager", "play_music", { track = "duck_theme" })  -- opcional
+                        timer.delay(15.0, false, function()
+                            explode_and_reset(self)
+                        end)
+                    else
+                        timer.delay(0.1, false, function()
+                            explode_and_reset(self)
+                        end)
+                    end
 
                     print(self.current_bear_color)
                     -- Esperar un pequeño delay antes de eliminar el osito (para dejar ver la animación)
-                    timer.delay(0.1, false, function()
-                        if go.exists(self.carrying_object) then
-                            go.delete(self.carrying_object)
-                        end
-                        self.carrying_object = nil
-
-                        -- ✅ Restaurar estado visual y lógico
-                        self.anchor_y = CLAW_START_Y
-                        self.anchor_x = self.anchor_x -- opcional, ya está en el lugar
-                        self.pendulum_active = true
-                        self.ascending = false
-                        self.descending = false
-                        self.drop_progress = 0
-
-                        -- ✅ Forzar que la garra quede en la posición correcta
-                        go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
-                    end)
-
-
-
-                    -- 					timer.delay(0.2, false, function()
-                    -- 						local pos = vmath.vector3(0, 100, 10)  -- Ajustá según el centro de tu pantalla
-                    -- 						local victory_id = factory.create("#victory_layer_factory", pos)
-                    --
-                    -- 						-- Escalar el GO principal
-                    -- 						go.set_scale(vmath.vector3(1, 1, 1), victory_id)
-                    --
-                    -- 						-- Forzar rotación normal
-                    -- 						go.set_rotation(vmath.quat_rotation_z(0), victory_id)
-                    -- 					end)
+--                     timer.delay(0.1, false, function()
+--                         if go.exists(self.carrying_object) then
+--                             go.delete(self.carrying_object)
+--                         end
+--                         self.carrying_object = nil
+-- 
+--                         -- ✅ Restaurar estado visual y lógico
+--                         self.anchor_y = CLAW_START_Y
+--                         self.anchor_x = self.anchor_x -- opcional, ya está en el lugar
+--                         self.pendulum_active = true
+--                         self.ascending = false
+--                         self.descending = false
+--                         self.drop_progress = 0
+-- 
+--                         -- ✅ Forzar que la garra quede en la posición correcta
+--                         go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
+--                     end)
+-- 
                 end
             end
         end

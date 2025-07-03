@@ -94,4 +94,32 @@ images {
 images {
   image: "/assets/images/objects/bear_panda.png"
 }
+animations {
+  id: "duck"
+  images {
+    image: "/assets/images/objects/duck_1.png"
+  }
+  images {
+    image: "/assets/images/objects/duck_2.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 6
+}
+animations {
+  id: "disco"
+  images {
+    image: "/assets/images/objects/disco_1.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_2.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_3.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
 extrude_borders: 2

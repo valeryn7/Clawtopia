@@ -1,7 +1,26 @@
--- audio_manager.script
+local steps = 10
+local interval =  1.5 / 10
+local current_step = 0
+
+local function fade_step()
+	current_step = current_step + 1
+	local new_gain = 1.0 - (current_step / steps)
+	sound.set_gain("#duck_music", new_gain)
+
+	if current_step < steps then
+		timer.delay(interval, false, fade_step)
+	else
+		sound.stop("#duck_music")
+		sound.set_gain("#duck_music", 1.0)
+		sound.play("#bg_music", { loop = true })
+	end
+end
+
 function init(self)
 	self.sound_enabled = true
-	sound.play("#bg_music", { loop = true }) -- música de fondo
+
+	-- Reproducir música de fondo al inicio
+	sound.play("#bg_music", { loop = true })
 end
 
 function on_message(self, message_id, message)
@@ -13,11 +32,11 @@ function on_message(self, message_id, message)
 			sound.play("#bg_music", { loop = true })
 		else
 			sound.stop("#bg_music")
+			sound.stop("#duck_music")
 		end
 
-		-- Actualizar el ícono del botón en HUD
 		msg.post("buttons#hud_gui", "update_sound_icon", { enabled = self.sound_enabled })
-		
+
 	elseif message_id == hash("play_sfx") then
 		if self.sound_enabled and message and message.sound then
 			local options = {}
@@ -25,9 +44,24 @@ function on_message(self, message_id, message)
 				options.gain = message.volume
 			end
 
-			-- Reproducir el sonido dentro de este mismo GO
 			local sound_url = msg.url(nil, nil, message.sound)
 			sound.play(sound_url, options)
 		end
+
+	elseif message_id == hash("play_music") then
+		if not self.sound_enabled then return end
+
+		-- Parar todas las músicas
+		sound.stop("#bg_music")
+		sound.stop("#duck_music")
+
+		if message and message.track == "duck_theme" then
+			sound.play("#duck_music", { loop = true })
+		else
+			sound.play("#bg_music", { loop = true })
+		end
+
+	elseif message_id == hash("fade_to_main_music") then
+		fade_step()
 	end
 end
