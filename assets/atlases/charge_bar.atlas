@@ -1,7 +1,7 @@
 images {
   image: "/assets/images/charge_bar/arrow_black.png"
-  pivot_x: 0.366235
-  pivot_y: 0.912106
+  pivot_x: 0.354453
+  pivot_y: 0.841414
 }
 images {
   image: "/assets/images/charge_bar/color_arc.png"

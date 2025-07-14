@@ -1,8 +1,41 @@
+local discos = {
+	{ id = "disco_left", phase = 0 },
+	{ id = "disco_right", phase = math.pi }, -- desfase de 180°
+	{ id = "disco_left_star_1", phase = 0 },
+	{ id = "disco_left_star_2", phase = 0 },
+	{ id = "disco_right_star_1", phase = math.pi },
+	{ id = "disco_right_star_2", phase = math.pi },
+}
+
+local sticks = { "disco_left_stick", "disco_right_stick" }
+
 function init(self)
 	self.timer = nil
-	local discos = { "disco_left", "disco_right" }
-	for _, id in ipairs(discos) do
+	self.time = 0
+	self.disco_objs = {}
+
+	-- Ocultar discos y guardar sus posiciones
+	for _, d in ipairs(discos) do
+		local url = msg.url(nil, go.get_id(), d.id)
+		local base_pos = go.get_position(url)
+		table.insert(self.disco_objs, { url = url, base = base_pos, phase = d.phase })
+		msg.post("#" .. d.id, "disable")
+	end
+
+	-- Ocultar palitos también
+	for _, id in ipairs(sticks) do
 		msg.post("#" .. id, "disable")
+	end
+end
+
+function update(self, dt)
+	if self.animating then
+		self.time = self.time + dt
+		for _, disco in ipairs(self.disco_objs) do
+			local offset_y = math.sin(self.time * 4 + disco.phase) * 6
+			local new_pos = vmath.vector3(disco.base.x, disco.base.y + offset_y, disco.base.z)
+			go.set_position(new_pos, disco.url)
+		end
 	end
 end
 
@@ -10,31 +43,33 @@ function on_message(self, message_id, message)
 	if message_id == hash("start") then
 		print("🦆 ¡Evento Patito activado!")
 
-		-- 🔁 Reproducir música tipo discoteca en loop
 		msg.post("audio_manager#script", "play_music", { track = "duck_theme" })
-
-		-- 🔊 Sonido cuac
 		msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_cuac") })
 
-		-- ✨ Activar bolas de disco (loop animación)
-		local discos = { "disco_left", "disco_right" }
-		for _, id in ipairs(discos) do
+		-- Mostrar discos
+		for _, d in ipairs(discos) do
+			msg.post("#" .. d.id, "enable")
+		end
+		self.animating = true
+
+		-- Mostrar sticks
+		for _, id in ipairs(sticks) do
 			msg.post("#" .. id, "enable")
-			-- msg.post("#" .. id, "play_animation", { id = hash("disco_spin") })
 		end
 
-		-- ⏳ Después de 6 segundos: explosión + cambio de música + ocultar FX
-		self.timer = timer.delay(6.0, false, function()
-			-- 💥 Lanzar drops sorpresa
-			-- msg.post("grid#grid_controller", "duck_explode_event")
-
-			-- 🎵 Fade suave a música principal
+		-- Detener evento tras 6 segundos
+		self.timer = timer.delay(3.0, false, function()
 			msg.post("audio_manager#script", "fade_to_main_music", { duration = 1.5 })
 
-			-- ❌ Ocultar bolas de disco
-			for _, id in ipairs(discos) do
+			for _, d in ipairs(discos) do
+				msg.post("#" .. d.id, "disable")
+			end
+
+			for _, id in ipairs(sticks) do
 				msg.post("#" .. id, "disable")
 			end
+
+			self.animating = false
 		end)
 	end
 end

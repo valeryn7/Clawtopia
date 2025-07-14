@@ -94,6 +94,9 @@ images {
 images {
   image: "/assets/images/objects/bear_panda.png"
 }
+images {
+  image: "/assets/images/objects/disco_stick.png"
+}
 animations {
   id: "duck"
   images {
@@ -102,8 +105,17 @@ animations {
   images {
     image: "/assets/images/objects/duck_2.png"
   }
+  images {
+    image: "/assets/images/objects/duck_3.png"
+  }
+  images {
+    image: "/assets/images/objects/duck_4.png"
+  }
+  images {
+    image: "/assets/images/objects/duck_5.png"
+  }
   playback: PLAYBACK_LOOP_PINGPONG
-  fps: 6
+  fps: 10
 }
 animations {
   id: "disco"
@@ -118,6 +130,164 @@ animations {
   }
   images {
     image: "/assets/images/objects/disco_4.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_5.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_6.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_7.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_8.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_9.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_10.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_11.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_12.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_13.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_14.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_15.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_16.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_17.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_18.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_19.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_20.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_21.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_22.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_23.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_24.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_25.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_26.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_27.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_28.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_29.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_30.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_31.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_32.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_33.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_34.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_35.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_36.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_37.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_38.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_39.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_40.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_41.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_42.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_43.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_44.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_45.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_46.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_47.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_48.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_49.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_50.png"
+  }
+  images {
+    image: "/assets/images/objects/disco_51.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 15
+}
+animations {
+  id: "star"
+  images {
+    image: "/assets/images/objects/star_disco_1.png"
+  }
+  images {
+    image: "/assets/images/objects/star_disco_2.png"
+  }
+  images {
+    image: "/assets/images/objects/star_disco_3.png"
+  }
+  images {
+    image: "/assets/images/objects/star_disco_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 10

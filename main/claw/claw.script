@@ -18,11 +18,14 @@ local function update_claw_rotation(self)
 end
 
 local function set_current_bear_color(self, sprite)
+    self.current_sprite = sprite
     if sprite == "bear_blue" then
         self.current_bear_color = "blue"
     elseif sprite == "bear_pink" then
         self.current_bear_color = "pink"
     elseif sprite == "fox" then
+        self.current_bear_color = "orange"
+    elseif sprite == "duck" then
         self.current_bear_color = "orange"
     elseif sprite == "rabbit" then
         self.current_bear_color = "purple"
@@ -137,10 +140,8 @@ function update(self, dt)
     -- 	local angle = math.sin(self.fx_timer) * math.rad(10)
     -- 	-- go.set_rotation(vmath.quat_rotation_z(angle), "fx_electro_glow_go")  -- ✅ correcto
     -- end
-    print("🌀 Estado selecting_with_magnet:", self.selecting_with_magnet)
 
     if self.selecting_with_magnet then
-        print("🧲 Enviando highlight desde input")
         msg.post("grid_controller#grid", "update_magnet_highlight", { angle = self.current_angle })
     end
 
@@ -227,10 +228,17 @@ function update(self, dt)
                     -- Escala opcional
                    
                     -- go.set_scale(vmath.vector3(1, 1, 1), puff)
-
-                    if self.carrying_object == "duck" then
-                        msg.post("audio_manager", "play_music", { track = "duck_theme" })  -- opcional
-                        timer.delay(15.0, false, function()
+                    print(self.current_sprite)
+                    if self.current_sprite== "duck" then
+                        self.pendulum_active = false
+                        self.ascending = false
+                        self.descending = false
+                        
+                        local pos_duck = go.get_position(self.carrying_object)
+                        pos_duck.z = 8
+                        go.set_position(pos_duck, self.carrying_object)
+                        
+                        timer.delay(1.5, false, function()
                             explode_and_reset(self)
                         end)
                     else
@@ -239,7 +247,6 @@ function update(self, dt)
                         end)
                     end
 
-                    print(self.current_bear_color)
                     -- Esperar un pequeño delay antes de eliminar el osito (para dejar ver la animación)
 --                     timer.delay(0.1, false, function()
 --                         if go.exists(self.carrying_object) then
@@ -413,10 +420,6 @@ function on_message(self, message_id, message)
         self.target_x = math.max(-grid_half_width, math.min(grid_half_width, self.start_x + offset_x))
         self.drop_progress = 0
         self.descending = true
-
-        print("Drop:", full_drop)
-        print("Target Y:", self.target_y)
-        print("Offset X:", offset_x)
     elseif message_id == hash("disable_touch") then
         self.activeTouch = false
     elseif message_id == hash("enable_touch") then
