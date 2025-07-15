@@ -49,10 +49,18 @@ function on_message(self, message_id, message)
 		gui.set_enabled(self.panel_node, true)
 		gui.set_enabled(self.title_node, true)
 
-		for _, btn in ipairs(self.buttons) do
+		for i, btn in ipairs(self.buttons) do
 			gui.set_enabled(btn, true)
-		end
 
+			gui.set_scale(btn, vmath.vector3(0.2))
+			local original_pos = gui.get_position(btn)
+			gui.set_position(btn, original_pos - vmath.vector3(0, 40, 0))
+
+			local delay = 0.05 * i
+			gui.animate(btn, "scale", vmath.vector3(0.7), gui.EASING_OUTBACK, 0.4, delay)
+			gui.animate(btn, "position", original_pos, gui.EASING_OUTBACK, 0.4, delay)
+		end
+		
 	elseif message_id == hash("hide_panels") then
 		msg.post("grid_controller#grid", "enable_touch")
 		self.panel_active = false
@@ -75,6 +83,7 @@ function on_input(self, action_id, action)
 		for i, btn in ipairs(self.buttons) do
 			if gui.pick_node(btn, action.x, action.y) then
 				print("🔢 Nivel seleccionado:", i)
+				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 				msg.post("loader_level#loader", "set_level", { level = i })
 				msg.post("panels#panels_gui", "hide_panels")
 				self.panel_active = false

@@ -39,16 +39,19 @@ function on_input(self, action_id, action)
 
 		if gui.pick_node(pause_node, action.x, action.y) then
 			print("⏸️ Pausa presionada")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 			msg.post("panels#panels_gui", "show_pause_panel")
 			return true
 
 		elseif gui.pick_node(sound_node, action.x, action.y) then
 			print("🔈 Sonido alternado")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 			msg.post("audio_manager#script", "toggle_sound")
 			return true
 
 		elseif gui.pick_node(tutorial_node, action.x, action.y) then
 			print("❓ Tutorial")
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 			msg.post("grid_controller#grid", "force_show_tutorial")
 			return true
 		end

@@ -34,6 +34,18 @@ local function set_current_bear_color(self, sprite)
     end
 end
 
+local function show_bonus_text(self, amount, position)
+    local text_pos = vmath.vector3(position.x, position.y + 50, 20)
+    local bonus = gui.new_text_node(text_pos, "+" .. amount)
+    gui.set_font(bonus, hash("system_font")) -- o el que uses
+    gui.set_color(bonus, vmath.vector4(1, 1, 0.3, 1)) -- amarillo claro
+
+    gui.animate(bonus, "position.y", text_pos.y + 50, gui.EASING_OUTSINE, 0.8)
+    gui.animate(bonus, "color.w", 0, gui.EASING_INQUAD, 0.8, 0, function()
+        gui.delete_node(bonus)
+    end)
+end
+
 local function calculate_strength(angle_deg)
     local min_strength = 0.2
     local max_strength = 1.0
@@ -86,6 +98,7 @@ function init(self)
 
 
     msg.post(".", "acquire_input_focus")
+    go.set("bonus_text_go", "scale", vmath.vector3(0, 0, 0))
     go.set_position(vmath.vector3(self.anchor_x, self.anchor_y, 6))
     update_claw_rotation(self)
 end
@@ -228,19 +241,37 @@ function update(self, dt)
                     -- Escala opcional
                    
                     -- go.set_scale(vmath.vector3(1, 1, 1), puff)
-                    print(self.current_sprite)
-                    if self.current_sprite== "duck" then
+                    if self.current_sprite == "duck" then
                         self.pendulum_active = false
                         self.ascending = false
                         self.descending = false
-                        
+
                         local pos_duck = go.get_position(self.carrying_object)
                         pos_duck.z = 8
                         go.set_position(pos_duck, self.carrying_object)
-                        
+
+                        -- Mostrar y animar el texto "+2"
+                        go.set("bonus_text_go", "scale", vmath.vector3(1, 1, 1))
+                        go.set_position(vmath.vector3(pos_duck.x, pos_duck.y + 50, 8), "bonus_text_go")
+
+                        -- Posición del ícono de drops (ajustá si tu icono está en otro lugar)
+                        local target = go.get_position("drops#claw_icon") + vmath.vector3(10, 10, 0)
+
+                        -- Animaciones hacia el ícono de drops
+                        go.animate("bonus_text_go", "position", go.PLAYBACK_ONCE_FORWARD, target, go.EASING_INQUAD, 1.0)
+                        go.animate("bonus_text_go", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(0.3, 0.3, 1), go.EASING_INQUAD, 1.0, 0, function()
+                            -- Ocultar y sumar drops
+                            go.set("bonus_text_go", "scale", vmath.vector3(0, 0, 1))
+                            msg.post("drops#drops", "add_drops", { amount = 2 })
+                        end)
+
+                        -- Explotar pato y resetear
                         timer.delay(1.5, false, function()
                             explode_and_reset(self)
                         end)
+                    
+                        
+                    
                     else
                         timer.delay(0.1, false, function()
                             explode_and_reset(self)

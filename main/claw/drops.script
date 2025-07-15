@@ -4,6 +4,12 @@ local function update_drops_display(self)
 	label.set_text("#drops_label", tostring(self.drops))
 end
 
+local function animate_label_pop()
+	go.animate("#drops_label", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1.4, 1.4, 1), go.EASING_OUTBACK, 0.15, 0, function()
+		go.animate("#drops_label", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1, 1, 1), go.EASING_INBACK, 0.15)
+	end)
+end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	update_drops_display(self)
@@ -13,5 +19,9 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("set_drops") then
 		self.drops = message.drops
 		update_drops_display(self)
+	elseif message_id == hash("add_drops") then
+		self.drops = self.drops + (message.amount or 0)
+		update_drops_display(self)
+		animate_label_pop()
 	end
 end
