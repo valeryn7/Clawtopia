@@ -146,12 +146,10 @@ local function generate_goals_from_level(self)
 			points_total = g.required * POINTS[g.type]
 		})
 	end
-	print(" self.goals ",  self.goals )
 	msg.post("hud", "init_goals", { goals = self.goals })
 end
 
 local function get_magnet_targets(self, angle)
-	print("angle", angle)
 	local angle_deg = math.deg(angle)
 	local found_col = nil
 
@@ -206,7 +204,6 @@ end
 
 local function reset_grid(self)
 	if self.creating_grid then
-		print("⏳ Ya se está creando la grilla, ignorando este llamado")
 		return
 	end
 	self.creating_grid = true
@@ -337,7 +334,6 @@ function init(self)
 	self.level = 1
 	
 	if not has_seen_tutorial() then
-		print("show tuto")
 		self.showing_tutorial = true
 		msg.post("tutorial_controller#tutorial", "show_tutorial")
 		disableTouch(self)
@@ -366,7 +362,6 @@ local function check_game_end(self)
 		for _, goal in ipairs(self.goals) do
 			self.total_points = self.total_points + goal.points_total
 		end
-		print("🎉 VICTORIA: todos los objetivos cumplidos")
 
 		disableTouch(self)
 
@@ -466,7 +461,6 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("tutorial_shown") then
 		self.showing_tutorial = true
-		print("show tuto")
 
 	elseif message_id == hash("tutorial_hidden") then
 		self.showing_tutorial = false
@@ -476,7 +470,6 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("force_show_tutorial") then
 		msg.post("tutorial_controller#tutorial", "show_tutorial")
 		disableTouch(self)
-		print("show tuto")
 		
 	elseif message_id == hash("enable_touch") then
 		enableTouch(self)
@@ -599,6 +592,10 @@ function on_message(self, message_id, message, sender)
 		msg.post("drops#drops", "set_drops", { drops = self.remaining_drops })
 		check_game_end(self)
 
+	elseif message_id == hash("add_drops_duck") then
+		self.remaining_drops = self.remaining_drops + (message.amount or 0)
+		msg.post("drops#drops", "add_drops", { drops = self.remaining_drops })
+
 	elseif message_id == hash("restart_level") then
 		self.game_over = false
 		self.total_points = 0
@@ -614,7 +611,6 @@ function on_message(self, message_id, message, sender)
 		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
-		print("self.showing_tutorial", self.showing_tutorial)
 		if (self.showing_tutorial == false) then
 			enableTouch(self)
 		end
@@ -641,10 +637,7 @@ function on_message(self, message_id, message, sender)
 	
 	elseif message_id == hash("update_magnet_highlight") then
 		local targets = get_magnet_targets(self, message.angle)
-		pprint(targets)
-		print("🔍 Cantidad de targets seleccionados:", #targets)
 		
-		-- 🔄 Apagar todos los glows anteriores
 		if self.highlighted_cells then
 			for _, id in ipairs(self.highlighted_cells) do
 				if go.exists(id) then
@@ -653,10 +646,8 @@ function on_message(self, message_id, message, sender)
 			end
 		end
 
-		-- 🧼 Limpiar la tabla antes de llenarla de nuevo
 		self.highlighted_cells = {}
 
-		-- ✅ Encender el glow en todos los targets nuevos
 		for _, target in ipairs(targets) do
 			if go.exists(target.id) then
 				msg.post(target.id, "set_glow_visible", { visible = true })
@@ -667,17 +658,11 @@ function on_message(self, message_id, message, sender)
 		
 	elseif message_id == hash("magnet_attract_bears") then
 		local targets = get_magnet_targets(self, message.angle)
-		print("🐻 Recibido magnet_attract_bears con targets:")
-		print(targets)
 
 		if #targets == 0 then
-			print("⚠️ No se encontraron targets válidos para el imán.")
-
-			-- 🚫 Cancelar el modo imán visualmente
 			self.magnet_grab_active = false
 			msg.post("claw#claw", "disable_magnet_effect")
 
-			-- 🧲 Continuar con descenso como si fuera un intento normal
 			msg.post("claw#claw", "fallback_grab")
 			return
 		end

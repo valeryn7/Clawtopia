@@ -229,48 +229,31 @@ function update(self, dt)
                     local pos = go.get_position(self.carrying_object)
                     pos.z = 10
 
---                     -- Determinar animación
---                     local anim = hash("explosion_" .. self.current_bear_color)
--- 
---                     -- Crear el puff y guardar su ID
---                     local puff = factory.create("#explosion_factory", pos)
--- 
---                     -- Mandar mensaje para elegir animación
---                     msg.post(puff, "play_explosion", { animation = anim })
-
-                    -- Escala opcional
-                   
-                    -- go.set_scale(vmath.vector3(1, 1, 1), puff)
                     if self.current_sprite == "duck" then
                         self.pendulum_active = false
                         self.ascending = false
                         self.descending = false
 
                         local pos_duck = go.get_position(self.carrying_object)
-                        pos_duck.z = 8
+                        pos_duck.z = 9
                         go.set_position(pos_duck, self.carrying_object)
-
-                        -- Mostrar y animar el texto "+2"
+                        local random_amount = math.random(2, 4)
+                        label.set_text("bonus_text_go#label", "+" .. random_amount)
                         go.set("bonus_text_go", "scale", vmath.vector3(1, 1, 1))
-                        go.set_position(vmath.vector3(pos_duck.x, pos_duck.y + 50, 8), "bonus_text_go")
+                        go.set_position(vmath.vector3(pos_duck.x, pos_duck.y + 50, 1), "bonus_text_go")
 
-                        -- Posición del ícono de drops (ajustá si tu icono está en otro lugar)
-                        local target = go.get_position("drops#claw_icon") + vmath.vector3(10, 10, 0)
+                        local target = vmath.vector3(-189.0, 538.0, 1) 
 
-                        -- Animaciones hacia el ícono de drops
                         go.animate("bonus_text_go", "position", go.PLAYBACK_ONCE_FORWARD, target, go.EASING_INQUAD, 1.0)
                         go.animate("bonus_text_go", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(0.3, 0.3, 1), go.EASING_INQUAD, 1.0, 0, function()
-                            -- Ocultar y sumar drops
-                            go.set("bonus_text_go", "scale", vmath.vector3(0, 0, 1))
-                            msg.post("drops#drops", "add_drops", { amount = 2 })
+                            go.set("bonus_text_go", "scale", vmath.vector3(0, 0, 0))
+                            msg.post("grid_controller#grid", "add_drops_duck", { amount = random_amount })
                         end)
 
                         -- Explotar pato y resetear
                         timer.delay(1.5, false, function()
                             explode_and_reset(self)
                         end)
-                    
-                        
                     
                     else
                         timer.delay(0.1, false, function()
@@ -364,7 +347,6 @@ function on_input(self, action_id, action)
 
         if action.pressed then
             if self.selecting_with_magnet then
-                print("🧲 Modo imán activado: Segundo toque")
 
                 self.selecting_with_magnet = false
                 self.pendulum_active = false
@@ -416,7 +398,6 @@ function on_message(self, message_id, message)
             -- if (self.magnet_effect) then
             -- 	msg.post(self.carrying_object, "play_magnet_effect")
             -- end
-            print("message.object_sprite", message.object_sprite)
             set_current_bear_color(self, message.object_sprite)
 
             if self.carrying_object then
@@ -435,8 +416,6 @@ function on_message(self, message_id, message)
     elseif message_id == hash("set_charge_angle") then
         local angle_deg = math.min(math.deg(message.angle), 120)
         local strength = calculate_strength(angle_deg)
-        print("Recibí ángulo:", angle_deg)
-        print("Fuerza:", strength)
 
         self.start_y = self.anchor_y
         self.start_x = self.anchor_x

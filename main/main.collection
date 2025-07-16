@@ -2,7 +2,6 @@ name: "main"
 instances {
   id: "claw"
   prototype: "/main/claw/claw.go"
-  children: "bonus_text_go"
   children: "fx_electro_glow_go"
   position {
     z: 5.0
@@ -669,10 +668,12 @@ embedded_instances {
   "material: \\\"/builtins/fonts/label-df.material\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 59.0\n"
-  "    y: 297.0\n"
   "    z: 8.0\n"
   "  }\n"
   "}\n"
   ""
+  position {
+    x: 6.0
+    y: 308.0
+  }
 }
