@@ -50,22 +50,10 @@ images {
   image: "/assets/images/objects/box_wood.png"
 }
 images {
-  image: "/assets/images/glow/glow_pink.png"
-}
-images {
-  image: "/assets/images/glow/glow_blue.png"
-}
-images {
-  image: "/assets/images/glow/glow_empty.png"
-}
-images {
   image: "/assets/images/objects/lock.png"
 }
 images {
   image: "/assets/images/objects/key.png"
-}
-images {
-  image: "/assets/images/glow/empty.png"
 }
 images {
   image: "/assets/images/locks/key_golden.png"
@@ -96,6 +84,9 @@ images {
 }
 images {
   image: "/assets/images/objects/disco_stick.png"
+}
+images {
+  image: "/assets/images/objects/empty.png"
 }
 animations {
   id: "duck"

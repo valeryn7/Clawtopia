@@ -1,5 +1,5 @@
 images {
-  image: "/assets/images/backgrounds/background.png"
+  image: "/assets/images/backgrounds/background.jpg"
 }
 images {
   image: "/assets/images/backgrounds/top.png"
@@ -8,12 +8,9 @@ images {
   image: "/assets/images/levels/background_level.png"
 }
 images {
-  image: "/assets/images/backgrounds/background_panel.png"
+  image: "/assets/images/backgrounds/background_panel.jpg"
 }
 images {
-  image: "/assets/images/panels/confetti_bg.png"
-}
-images {
-  image: "/assets/images/backgrounds/white_pixel.png"
+  image: "/assets/images/backgrounds/white_pixel.jpg"
 }
 extrude_borders: 2

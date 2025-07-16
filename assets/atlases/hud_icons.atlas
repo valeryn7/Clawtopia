@@ -14,12 +14,6 @@ images {
   image: "/assets/images/objects/candy.png"
 }
 images {
-  image: "/assets/images/panels/bg_defeat.png"
-}
-images {
-  image: "/assets/images/panels/bg_victory.png"
-}
-images {
   image: "/assets/images/panels/reset_button.png"
 }
 images {

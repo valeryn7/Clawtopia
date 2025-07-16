@@ -92,21 +92,27 @@ var CUSTOM_PARAMETERS = {
         var targetRatio = width / height;
         var actualRatio = innerWidth / innerHeight;
     
-    
-    
-        //Fit
-        if (actualRatio > targetRatio) {
-            width = innerHeight * targetRatio;
-            height = innerHeight;
-            app_container.style.marginLeft = ((innerWidth - width) / 2) + "px";
-            app_container.style.marginTop = "0px";
+        //Downscale fit
+        if (innerWidth < width || innerHeight < height) {
+            if (actualRatio > targetRatio) {
+                width = innerHeight * targetRatio;
+                height = innerHeight;
+                app_container.style.marginLeft = ((innerWidth - width) / 2) + "px";
+                app_container.style.marginTop = "0px";
+            }
+            else {
+                width = innerWidth;
+                height = innerWidth / targetRatio;
+                app_container.style.marginLeft = "0px";
+                app_container.style.marginTop = ((innerHeight - height) / 2) + "px";
+            }
         }
         else {
-            width = innerWidth;
-            height = innerWidth / targetRatio;
-            app_container.style.marginLeft = "0px";
+            app_container.style.marginLeft = ((innerWidth - width) / 2) + "px";
             app_container.style.marginTop = ((innerHeight - height) / 2) + "px";
         }
+    
+    
     
     
         var dpi = 1;
@@ -225,9 +231,9 @@ var FileLoader = {
 var EngineLoader = {
     arc_sha1: "",
     wasm_sha1: "",
-    wasm_size: 3077401,
+    wasm_size: 2530740,
     wasmjs_sha1: "",
-    wasmjs_size: 273435,
+    wasmjs_size: 273436,
     wasm_pthread_sha1: "",
     wasm_pthread_size: 2000000,
     wasmjs_pthread_sha1: "",
@@ -891,8 +897,8 @@ var Progress = {
 /* ********************************************************************* */
 
 var Module = {
-    engineVersion: "1.10.2",
-    engineSdkSha1: "7a0e23b3fcab4c5db82f2b32f5d8ac5df9467c9d",
+    engineVersion: "1.10.3",
+    engineSdkSha1: "1c76521bb8b08c63ef619aa8a5ab563dddf7b3cf",
     noInitialRun: true,
 
     _filesToPreload: [],

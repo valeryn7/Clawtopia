@@ -93,24 +93,6 @@ embedded_components {
   }
 }
 embedded_components {
-  id: "glow"
-  type: "sprite"
-  data: "default_animation: \"glow_empty\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
-  "textures {\n"
-  "  sampler: \"texture_sampler\"\n"
-  "  texture: \"/assets/atlases/objects.atlas\"\n"
-  "}\n"
-  ""
-  position {
-    z: 0.5
-  }
-  scale {
-    x: 0.8
-    y: 0.8
-  }
-}
-embedded_components {
   id: "lock_sprite"
   type: "sprite"
   data: "default_animation: \"empty\"\n"

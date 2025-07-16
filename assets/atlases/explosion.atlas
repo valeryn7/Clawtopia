@@ -50,35 +50,6 @@ animations {
   fps: 13
 }
 animations {
-  id: "explosion_victory"
-  images {
-    image: "/assets/images/explosion/star_1.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_2.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_3.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_4.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_6.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_7.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_8.png"
-  }
-  images {
-    image: "/assets/images/explosion/star_9.png"
-  }
-  playback: PLAYBACK_LOOP_PINGPONG
-  fps: 20
-}
-animations {
   id: "explosion_orange"
   images {
     image: "/assets/images/explosion/explosion_orange_1.png"
