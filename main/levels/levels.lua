@@ -111,7 +111,7 @@ return {
             { type = "rabbit", required = 1 },
             { type = "bear_pink", required = 2 },
         },
-        powerups = { "magnet_grab", nil, nil },
+        powerups = { nil, nil, nil },
     },
     [8] = {
         max_drops = 12,
@@ -131,7 +131,7 @@ return {
             { type = "bear_blue", required = 1 },
             { type = "rabbit", required = 2 },
         },
-        powerups = { "magnet_grab", nil, nil },
+        powerups = { nil, nil, nil },
     },
     [9] = {
         max_drops = 14,

@@ -44,9 +44,8 @@ local ANGLE_CELLS_VERTICAL = {
 local LEVELS = require("main.levels.levels")
 
 local function has_seen_tutorial()
-	-- local data = sys.load(SAVE_FILE)
-	-- return data.tutorial_shown == true
-	return false
+	local data = sys.load(SAVE_FILE)
+	return data.tutorial_shown == true
 end
 
 local function mark_tutorial_as_seen()
@@ -167,9 +166,15 @@ local function get_magnet_targets(self, angle)
 		for row = 0, GRID_ROWS - 1 do
 			local cell = self.grid[row] and self.grid[row][found_col]
 			if cell and not cell.captured and not cell.locked then
+				local is_locked = cell.locked
+				local lock_color = cell.lock_color
+
+				if is_locked and (not lock_color or not self.collected_keys[lock_color]) then
+					break 
+				end
+				
 				local valid = false
 
-				-- Es un objetivo válido
 				for _, goal in ipairs(self.goals or {}) do
 					if cell.sprite == goal.type and goal.collected < goal.required then
 						valid = true
@@ -177,7 +182,6 @@ local function get_magnet_targets(self, angle)
 					end
 				end
 
-				-- Es una llave aún no recolectada
 				if not valid and cell.sprite:match("^key_") then
 					local color = cell.sprite:match("^key_(.+)$")
 					if color and not self.collected_keys[color] then
@@ -191,7 +195,7 @@ local function get_magnet_targets(self, angle)
 						sprite = cell.sprite,
 						position = go.get_position(cell.id)
 					})
-					break -- ⛔ Rompe el bucle, ya encontramos el más arriba
+					break
 				end
 				
 			end

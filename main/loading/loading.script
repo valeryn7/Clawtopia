@@ -5,7 +5,6 @@ local function next_step(self)
 	local value = self.progress_steps[self.current_step]
 	if value then
 		go.set("load#fill", "scale.x", value)
-		print("🌀 Cargando: " .. math.floor(value * 100) .. "%")
 
 		self.current_step = self.current_step + 1
 		timer.delay(STEP_INTERVAL, false, function()
@@ -15,8 +14,6 @@ local function next_step(self)
 end
 
 function init(self)
-	print("✅ init cargando")
-
 	msg.post("load#bear_anim", "play_animation", { id = hash("loading_charge") })
 	go.set("load#fill", "scale.x", 0)
 	msg.post("game#collectionproxy", "load")

@@ -139,8 +139,6 @@ function on_message(self, message_id, message)
 		msg.post(msg.url(nil, "charge_arrow", nil), "disable")
 	elseif message_id == hash("set_manual_angle") then
 		self.claw_angle = message.angle
-		
-		print("self.claw_angle", self.claw_angle)
 	elseif message_id == hash("disable_touch") then
 		self.activeTouch = false
 	elseif message_id == hash("enable_touch") then
