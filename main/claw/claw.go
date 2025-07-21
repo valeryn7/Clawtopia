@@ -9,7 +9,7 @@ embedded_components {
   "material: \"/builtins/materials/sprite.material\"\n"
   "textures {\n"
   "  sampler: \"texture_sampler\"\n"
-  "  texture: \"/assets/atlases/tiles.atlas\"\n"
+  "  texture: \"/assets/atlases/objects.atlas\"\n"
   "}\n"
   ""
   scale {
@@ -42,7 +42,7 @@ embedded_components {
   "material: \"/builtins/materials/sprite.material\"\n"
   "textures {\n"
   "  sampler: \"texture_sampler\"\n"
-  "  texture: \"/assets/atlases/tiles.atlas\"\n"
+  "  texture: \"/assets/atlases/objects.atlas\"\n"
   "}\n"
   ""
 }

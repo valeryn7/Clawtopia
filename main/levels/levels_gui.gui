@@ -9,7 +9,7 @@ textures {
 }
 textures {
   name: "tiles"
-  texture: "/assets/atlases/tiles.atlas"
+  texture: "/assets/atlases/objects.atlas"
 }
 nodes {
   position {
@@ -44,6 +44,10 @@ nodes {
   inherit_alpha: true
 }
 nodes {
+  position {
+    x: 1139.0
+    y: 370.0
+  }
   scale {
     x: 0.7
     y: 0.7
@@ -71,6 +75,14 @@ nodes {
   id: "level_button_label"
   parent: "level_button_template"
   inherit_alpha: true
+}
+nodes {
+  type: TYPE_BOX
+  texture: "tiles/lock"
+  id: "lock_icon"
+  parent: "level_button_template"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

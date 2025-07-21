@@ -36,3 +36,9 @@ max_count = 128
 max_emitter_count = 128
 max_particle_count = 2048
 
+[liveupdate]
+mount_on_start = 0
+
+[graphics]
+texture_profiles = /main/graphics/optimized.texture_profiles
+

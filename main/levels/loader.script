@@ -30,13 +30,23 @@ end
 
 function init(self)
 	print("🟢 loader.script iniciado")
-	self.current_level = 1
+	local data = sys.load("clawtopia_data")
+	self.highest_level_unlocked = data.highest_level_unlocked or 1
+	self.current_level = self.highest_level_unlocked
 	load_level(self, self.current_level)
 end
 
 function on_message(self, message_id, message)
 	if message_id == hash("load_next_level") then
 		self.current_level = self.current_level + 1
+
+		local data = sys.load("clawtopia_data")
+		if self.current_level > (data.highest_level_unlocked or 1) then
+			data.highest_level_unlocked = self.current_level
+			sys.save("clawtopia_data", data)
+			print("🔓 Nivel desbloqueado (por avanzar):", self.current_level)
+		end
+		
 		load_level(self, self.current_level)
 
 	elseif message_id == hash("restart_level") then

@@ -110,7 +110,9 @@ end
 local function explode_and_reset(self)
     if self.carrying_object and go.exists(self.carrying_object) then
         local anim = hash("explosion_" .. self.current_bear_color)
-        local puff = factory.create("#explosion_factory", go.get_position(self.carrying_object))
+        local pos = go.get_position(self.carrying_object)
+        pos.z = 9
+        local puff = factory.create("#explosion_factory", pos)
         msg.post(puff, "play_explosion", { animation = anim })
         go.set_scale(vmath.vector3(1, 1, 1), puff)
         go.delete(self.carrying_object)

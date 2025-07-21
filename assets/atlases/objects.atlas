@@ -88,6 +88,79 @@ images {
 images {
   image: "/assets/images/objects/empty.png"
 }
+images {
+  image: "/assets/images/charge_bar/arrow_black.png"
+}
+images {
+  image: "/assets/images/charge_bar/color_arc.png"
+}
+images {
+  image: "/assets/images/cell/cell.png"
+}
+images {
+  image: "/assets/images/claw/claw.png"
+  pivot_y: 0.05524
+}
+images {
+  image: "/assets/images/claw/stick.png"
+}
+images {
+  image: "/assets/images/objects/timer_badge.png"
+}
+images {
+  image: "/assets/images/levels/level_cell.png"
+}
+images {
+  image: "/assets/images/claw/dot.png"
+}
+images {
+  image: "/assets/images/panels/levels_button.png"
+}
+images {
+  image: "/assets/images/panels/victory_label.png"
+}
+images {
+  image: "/assets/images/claw/claw_icon.png"
+}
+images {
+  image: "/assets/images/panels/victory_bear_icon_negative.png"
+}
+images {
+  image: "/assets/images/panels/resume_button.png"
+}
+images {
+  image: "/assets/images/panels/victory_bear_icon_positive.png"
+}
+images {
+  image: "/assets/images/panels/button_home.png"
+}
+images {
+  image: "/assets/images/hud/sound_on.png"
+}
+images {
+  image: "/assets/images/hud/tutorial_button.png"
+}
+images {
+  image: "/assets/images/hud/close_button.png"
+}
+images {
+  image: "/assets/images/panels/next_button.png"
+}
+images {
+  image: "/assets/images/panels/reset_button.png"
+}
+images {
+  image: "/assets/images/panels/reset_level_button.png"
+}
+images {
+  image: "/assets/images/panels/victory_level.png"
+}
+images {
+  image: "/assets/images/hud/pause_button.png"
+}
+images {
+  image: "/assets/images/hud/sound_off.png"
+}
 animations {
   id: "duck"
   images {

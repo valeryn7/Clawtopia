@@ -25,7 +25,7 @@ textures {
 }
 textures {
   name: "hud_icons"
-  texture: "/assets/atlases/hud_icons.atlas"
+  texture: "/assets/atlases/objects.atlas"
 }
 nodes {
   position {
@@ -63,7 +63,7 @@ nodes {
     y: 0.5
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_panel"
+  texture: "background/bg_panel"
   id: "victory_bg"
   parent: "victory_gui"
   inherit_alpha: true
@@ -124,7 +124,7 @@ nodes {
     y: 0.6
   }
   type: TYPE_BOX
-  texture: "hud_icons/victory_title"
+  texture: "background/victory_title"
   id: "victory_title"
   parent: "victory_gui"
   inherit_alpha: true
@@ -306,7 +306,7 @@ nodes {
     y: 0.5
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_panel"
+  texture: "background/bg_panel"
   id: "defeat_bg"
   parent: "defeat_gui"
   inherit_alpha: true
@@ -414,7 +414,7 @@ nodes {
     y: 0.6
   }
   type: TYPE_BOX
-  texture: "hud_icons/defeat_title"
+  texture: "background/defeat_title"
   id: "defeat_title"
   parent: "defeat_gui"
   inherit_alpha: true
@@ -479,7 +479,7 @@ nodes {
     y: 0.4
   }
   type: TYPE_BOX
-  texture: "hud_icons/bg_panel"
+  texture: "background/bg_panel"
   id: "pause_panel"
   parent: "pause_gui"
   inherit_alpha: true
@@ -561,7 +561,7 @@ nodes {
     y: 926.0
   }
   type: TYPE_BOX
-  texture: "hud_icons/pause_title"
+  texture: "background/pause_title"
   id: "pause_title"
   parent: "pause_gui"
   inherit_alpha: true

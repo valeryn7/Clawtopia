@@ -13,4 +13,19 @@ images {
 images {
   image: "/assets/images/backgrounds/white_pixel.jpg"
 }
+images {
+  image: "/assets/images/panels/bg_panel.png"
+}
+images {
+  image: "/assets/images/panels/victory_title.png"
+}
+images {
+  image: "/assets/images/panels/defeat_title.png"
+}
+images {
+  image: "/assets/images/panels/pause_title.png"
+}
+images {
+  image: "/assets/images/levels/level_background.png"
+}
 extrude_borders: 2

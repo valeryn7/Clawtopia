@@ -1,5 +1,5 @@
-local PROGRESS_STEPS = { 0.0, 0.2, 0.3, 0.5, 1.0 } -- progreso acumulado
-local STEP_INTERVAL = 0.4 -- segundos entre pasos
+local PROGRESS_STEPS = { 0.0, 0.2, 0.3, 0.5, 1.0 }
+local STEP_INTERVAL = 0.4
 
 local function next_step(self)
 	local value = self.progress_steps[self.current_step]
@@ -26,15 +26,25 @@ function init(self)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("proxy_loaded") and sender == hash("game#collectionproxy") then
+	print("📩 Mensaje recibido:", message_id, sender)
+
+	if message_id == hash("proxy_loaded") then
+		print("✅ Collection cargada. Habilitando...")
+
+		-- Activar la colección cargada
 		msg.post(sender, "enable")
 		self.done = true
-		print("✅ Carga completa")
+
+		-- Asegurar progreso completo
 		go.set("load#fill", "scale.x", 1)
 
-		timer.delay(0.5, false, function()
-			msg.post("loader#collectionproxy", "disable")
-			msg.post("loader#collectionproxy", "final")
+		-- Fade-out visual del loader
+		go.animate("load#fill", "scale.y", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_INOUTSINE, 0.3)
+		go.animate("load#bear_anim", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(0, 0, 1), go.EASING_INOUTSINE, 0.3)
+
+		-- Eliminar loader después del fade
+		timer.delay(0.35, false, function()
+			go.delete(".")
 		end)
 	end
 end

@@ -9,7 +9,7 @@ textures {
 }
 textures {
   name: "hud_icons"
-  texture: "/assets/atlases/hud_icons.atlas"
+  texture: "/assets/atlases/objects.atlas"
 }
 nodes {
   position {

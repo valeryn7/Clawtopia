@@ -317,7 +317,7 @@ return {
         },
         powerups = { "magnet_grab", nil, nil },
     },
-    [12] = {
+    [13] = {
         max_drops = 16,
         grid = {
             { "", "", "", "", "" },
@@ -390,5 +390,34 @@ return {
             },
         },
         powerups = { "magnet_grab", nil, nil },
+    },
+    [14] = {
+        max_drops = 8,
+        grid = {
+            { "", "", "fox", "", "" },
+            { "", "bear_pink", "bear_pink", "bear_pink", "" },
+            { "bear_blue", "bear_blue", "bear_panda", "bear_blue", "bear_blue" },
+            { "bear_blue", "bear_blue", "bear_panda", "bear_blue", "bear_blue" },
+            { "", "bear_pink", "bear_pink", "bear_pink", "" },           
+            { "", "", "fox", "", "" },
+        },
+        goals = {
+            { type = "fox", required = 2 },
+            { type = "bear_panda", required = 2 }
+        },
+    },
+    [15] = {
+        max_drops = 15,
+        grid = {
+            { "", "", "bear_blue", "", "" },
+            { "", "bear_pink", "", "bear_pink", "" },
+            { "bear_blue", "", "", "", "bear_blue" },
+            { "bear_blue", "", "", "", "bear_blue" },
+            { "", "bear_pink", "", "bear_pink", "" },           
+            { "", "", "bear_blue", "", "" },
+        },
+        goals = {
+            { type = "bear_pink", required = 4 },
+        },
     }
 }

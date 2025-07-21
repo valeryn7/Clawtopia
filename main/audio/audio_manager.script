@@ -62,6 +62,7 @@ function on_message(self, message_id, message)
 		end
 
 	elseif message_id == hash("fade_to_main_music") then
+		if not self.sound_enabled then return end
 		fade_step()
 	end
 end

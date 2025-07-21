@@ -615,6 +615,7 @@ function on_message(self, message_id, message, sender)
 		self.has_key = false
 		reset_grid(self)
 		generate_goals_from_level(self)
+		label.set_text("level#label", "Level " .. tostring(self.level))
 		if (self.showing_tutorial == false) then
 			enableTouch(self)
 		end
