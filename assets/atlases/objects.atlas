@@ -90,6 +90,8 @@ images {
 }
 images {
   image: "/assets/images/charge_bar/arrow_black.png"
+  pivot_x: 0.355614
+  pivot_y: 0.787045
 }
 images {
   image: "/assets/images/charge_bar/color_arc.png"

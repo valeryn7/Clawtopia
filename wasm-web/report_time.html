@@ -56,7 +56,7 @@
     var data = {
   "data" : [ {
     "start" : 0,
-    "duration" : 2876,
+    "duration" : 19291,
     "name" : "Main thread",
     "children" : [ {
       "start" : 0,
@@ -64,165 +64,165 @@
       "name" : "Time Profiler init"
     }, {
       "start" : 0,
-      "duration" : 1,
+      "duration" : 0,
       "name" : "ParseCommandLine"
     }, {
-      "start" : 1,
-      "duration" : 112,
+      "start" : 0,
+      "duration" : 128,
       "name" : "loadProjectFile"
     }, {
-      "start" : 113,
-      "duration" : 542,
+      "start" : 128,
+      "duration" : 928,
       "name" : "setupProject",
       "children" : [ {
-        "start" : 113,
-        "duration" : 538,
+        "start" : 128,
+        "duration" : 923,
         "name" : "Resolve libs",
         "children" : [ {
-          "start" : 114,
-          "duration" : 537,
+          "start" : 129,
+          "duration" : 922,
           "name" : "Lib  0",
           "status code" : 304,
           "url" : "https://github.com/rgrams/rendercam/archive/master.zip"
         } ]
       } ]
     }, {
-      "start" : 655,
-      "duration" : 0,
+      "start" : 1056,
+      "duration" : 1,
       "name" : "setOptions"
     }, {
-      "start" : 655,
-      "duration" : 127,
+      "start" : 1057,
+      "duration" : 122,
       "name" : "loadProjectFile"
     }, {
-      "start" : 782,
+      "start" : 1179,
       "duration" : 6,
       "name" : "Prepare cache"
     }, {
-      "start" : 1231,
-      "duration" : 130,
+      "start" : 1522,
+      "duration" : 123,
       "name" : "scanJavaClasses",
       "children" : [ {
-        "start" : 1344,
-        "duration" : 10,
+        "start" : 1629,
+        "duration" : 11,
         "name" : "scan com.dynamo.bob",
         "children" : [ {
-          "start" : 1349,
+          "start" : 1635,
           "duration" : 5,
           "name" : "doScan"
         } ]
       }, {
-        "start" : 1354,
-        "duration" : 7,
+        "start" : 1640,
+        "duration" : 5,
         "name" : "scan com.defold.extension.pipeline",
         "children" : [ {
-          "start" : 1361,
+          "start" : 1645,
           "duration" : 0,
           "name" : "doScan"
         } ]
       } ]
     }, {
-      "start" : 1361,
+      "start" : 1645,
       "duration" : 0,
       "name" : "resolve"
     }, {
-      "start" : 1361,
-      "duration" : 938,
+      "start" : 1645,
+      "duration" : 17110,
       "name" : "build",
       "children" : [ {
-        "start" : 1361,
-        "duration" : 292,
+        "start" : 1645,
+        "duration" : 248,
         "name" : "PrepExtensions"
       }, {
-        "start" : 1653,
+        "start" : 1893,
         "duration" : 0,
         "name" : "transpileLua"
       }, {
-        "start" : 1653,
-        "duration" : 151,
+        "start" : 1893,
+        "duration" : 109,
         "name" : "installTextureCompressorPresets"
       }, {
-        "start" : 1804,
+        "start" : 2002,
         "duration" : 1,
         "shouldBuildRemoteEngine" : false,
         "name" : "PrepEngine"
       }, {
-        "start" : 1805,
-        "duration" : 424,
+        "start" : 2005,
+        "duration" : 403,
         "name" : "Create tasks",
         "TasksCount" : 160,
         "children" : [ {
-          "start" : 1805,
-          "duration" : 424,
+          "start" : 2005,
+          "duration" : 402,
           "output" : "[build/default_bundle/game.projectc, build/default_bundle/game.arci, build/default_bundle/game.arcd, build/default_bundle/game.dmanifest, build/default_bundle/game.public.der, build/default_bundle/game.graph.json]",
           "name" : "GameProjectBuilder",
           "type" : "createTask",
           "children" : [ {
-            "start" : 1805,
+            "start" : 2005,
             "duration" : 0,
             "name" : "Add outputs"
           }, {
-            "start" : 1805,
-            "duration" : 1,
+            "start" : 2005,
+            "duration" : 0,
             "output" : "[]",
             "name" : "Copy Custom Resources",
             "type" : "createTask"
           }, {
-            "start" : 1806,
-            "duration" : 342,
+            "start" : 2005,
+            "duration" : 330,
             "output" : "[build/default_bundle/main/main.collectionc, build/default_bundle/main/main.compcount_col]",
             "name" : "Collection",
             "type" : "createTask",
             "children" : [ {
-              "start" : 1810,
-              "duration" : 52,
+              "start" : 2008,
+              "duration" : 43,
               "output" : "[build/default_bundle/main/claw/claw.goc, build/default_bundle/main/claw/claw.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1812,
-                "duration" : 8,
+                "start" : 2009,
+                "duration" : 9,
                 "output" : "[build/default_bundle/main/claw/claw.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1812,
-                  "duration" : 8,
+                  "start" : 2010,
+                  "duration" : 7,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 1823,
-                "duration" : 7,
+                "start" : 2020,
+                "duration" : 6,
                 "output" : "[build/default_bundle/_generated_a84101821715fd86.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1823,
-                  "duration" : 7,
+                  "start" : 2021,
+                  "duration" : 5,
                   "output" : "[build/default_bundle/main/debug/debug_dot.goc, build/default_bundle/main/debug/debug_dot.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1824,
-                    "duration" : 6,
+                    "start" : 2022,
+                    "duration" : 4,
                     "output" : "[build/default_bundle/_generated_5519d8096572f65.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1825,
-                      "duration" : 4,
+                      "start" : 2022,
+                      "duration" : 3,
                       "output" : "[build/default_bundle/builtins/materials/sprite.materialc]",
                       "name" : "Material",
                       "type" : "createTask",
                       "children" : [ {
-                        "start" : 1828,
+                        "start" : 2024,
                         "duration" : 1,
                         "output" : "[build/default_bundle/shader_-7170045909771754498.spc]",
                         "name" : "ShaderProgram",
                         "type" : "createTask"
                       } ]
                     }, {
-                      "start" : 1829,
+                      "start" : 2025,
                       "duration" : 1,
                       "output" : "[build/default_bundle/assets/atlases/particle.a.texturesetc, build/default_bundle/assets/atlases/particle.texturec]",
                       "name" : "Atlas",
@@ -231,62 +231,62 @@
                   } ]
                 } ]
               }, {
-                "start" : 1830,
-                "duration" : 2,
+                "start" : 2026,
+                "duration" : 1,
                 "output" : "[build/default_bundle/_generated_583393f2d2903330.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1830,
-                  "duration" : 2,
+                  "start" : 2026,
+                  "duration" : 1,
                   "output" : "[build/default_bundle/assets/atlases/objects.a.texturesetc, build/default_bundle/assets/atlases/objects.texturec]",
                   "name" : "Atlas",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 1832,
-                "duration" : 24,
+                "start" : 2027,
+                "duration" : 20,
                 "output" : "[build/default_bundle/_generated_77316f4e88b1c9ea.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1832,
-                  "duration" : 24,
+                  "start" : 2027,
+                  "duration" : 20,
                   "output" : "[build/default_bundle/main/explosion/explosion_object.goc, build/default_bundle/main/explosion/explosion_object.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1833,
+                    "start" : 2028,
                     "duration" : 1,
                     "output" : "[build/default_bundle/main/explosion/explosion_object.scriptc]",
                     "name" : "Script",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1834,
+                      "start" : 2029,
                       "duration" : 0,
                       "name" : "Parse"
                     } ]
                   }, {
-                    "start" : 1834,
-                    "duration" : 20,
+                    "start" : 2029,
+                    "duration" : 16,
                     "output" : "[build/default_bundle/_generated_b637e0feeca5e8ee.soundc]",
                     "name" : "SoundDesc",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1835,
-                      "duration" : 19,
+                      "start" : 2030,
+                      "duration" : 15,
                       "output" : "[build/default_bundle/assets/sounds/explosion_sound.oggc]",
                       "name" : "Ogg",
                       "type" : "createTask"
                     } ]
                   }, {
-                    "start" : 1854,
+                    "start" : 2045,
                     "duration" : 2,
                     "output" : "[build/default_bundle/_generated_291608e9aff11963.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1854,
+                      "start" : 2045,
                       "duration" : 2,
                       "output" : "[build/default_bundle/assets/atlases/explosion.a.texturesetc, build/default_bundle/assets/atlases/explosion.texturec]",
                       "name" : "Atlas",
@@ -295,48 +295,48 @@
                   } ]
                 } ]
               }, {
-                "start" : 1856,
+                "start" : 2047,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_e1003420141c8cd.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 1856,
-                "duration" : 6,
+                "start" : 2047,
+                "duration" : 4,
                 "output" : "[build/default_bundle/_generated_ccb429a9038976eb.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1856,
-                  "duration" : 6,
+                  "start" : 2047,
+                  "duration" : 4,
                   "output" : "[build/default_bundle/main/claw/object/object.goc, build/default_bundle/main/claw/object/object.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1857,
-                    "duration" : 2,
+                    "start" : 2048,
+                    "duration" : 1,
                     "output" : "[build/default_bundle/main/claw/object/object.scriptc]",
                     "name" : "Script",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1858,
-                      "duration" : 1,
+                      "start" : 2048,
+                      "duration" : 0,
                       "name" : "Parse"
                     } ]
                   }, {
-                    "start" : 1860,
+                    "start" : 2049,
                     "duration" : 1,
                     "output" : "[build/default_bundle/_generated_4542a28e47036a8d.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask"
                   }, {
-                    "start" : 1861,
+                    "start" : 2050,
                     "duration" : 1,
                     "output" : "[build/default_bundle/_generated_65fef5871078b847.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1861,
+                      "start" : 2050,
                       "duration" : 1,
                       "output" : "[build/default_bundle/assets/atlases/powerups.a.texturesetc, build/default_bundle/assets/atlases/powerups.texturec]",
                       "name" : "Atlas",
@@ -346,70 +346,70 @@
                 } ]
               } ]
             }, {
-              "start" : 1862,
-              "duration" : 36,
+              "start" : 2051,
+              "duration" : 32,
               "output" : "[build/default_bundle/main/grid_controller/grid.goc, build/default_bundle/main/grid_controller/grid.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1863,
-                "duration" : 12,
+                "start" : 2053,
+                "duration" : 10,
                 "output" : "[build/default_bundle/main/grid_controller/grid.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1864,
-                  "duration" : 7,
+                  "start" : 2054,
+                  "duration" : 6,
                   "name" : "Parse"
                 }, {
-                  "start" : 1871,
-                  "duration" : 4,
+                  "start" : 2060,
+                  "duration" : 3,
                   "output" : "[build/default_bundle/main/levels/levels.luac]",
                   "name" : "Lua",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1872,
+                    "start" : 2061,
                     "duration" : 2,
                     "name" : "Parse"
                   } ]
                 } ]
               }, {
-                "start" : 1876,
-                "duration" : 22,
+                "start" : 2063,
+                "duration" : 20,
                 "output" : "[build/default_bundle/_generated_6ee03cc349dffb13.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1876,
-                  "duration" : 22,
+                  "start" : 2064,
+                  "duration" : 19,
                   "output" : "[build/default_bundle/main/cell/cell.goc, build/default_bundle/main/cell/cell.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1878,
-                    "duration" : 5,
+                    "start" : 2065,
+                    "duration" : 6,
                     "output" : "[build/default_bundle/main/cell/cell.scriptc]",
                     "name" : "Script",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1879,
-                      "duration" : 3,
+                      "start" : 2066,
+                      "duration" : 5,
                       "name" : "Parse"
                     } ]
                   }, {
-                    "start" : 1883,
-                    "duration" : 5,
+                    "start" : 2071,
+                    "duration" : 4,
                     "output" : "[build/default_bundle/main/particles/explosion_fx.particlefxc]",
                     "name" : "ParticleFX",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1885,
+                      "start" : 2073,
                       "duration" : 2,
                       "output" : "[build/default_bundle/builtins/materials/particlefx.materialc]",
                       "name" : "Material",
                       "type" : "createTask",
                       "children" : [ {
-                        "start" : 1886,
+                        "start" : 2074,
                         "duration" : 1,
                         "output" : "[build/default_bundle/shader_7080802899218083337.spc]",
                         "name" : "ShaderProgram",
@@ -417,61 +417,61 @@
                       } ]
                     } ]
                   }, {
-                    "start" : 1888,
-                    "duration" : 1,
+                    "start" : 2075,
+                    "duration" : 2,
                     "output" : "[build/default_bundle/main/particles/blue_glow_particles.particlefxc]",
                     "name" : "ParticleFX",
                     "type" : "createTask"
                   }, {
-                    "start" : 1889,
-                    "duration" : 2,
+                    "start" : 2077,
+                    "duration" : 1,
                     "output" : "[build/default_bundle/main/particles/pink_glow_particles.particlefxc]",
                     "name" : "ParticleFX",
                     "type" : "createTask"
                   }, {
-                    "start" : 1893,
-                    "duration" : 1,
+                    "start" : 2080,
+                    "duration" : 0,
                     "output" : "[build/default_bundle/_generated_33fdd5273911889.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask"
                   }, {
-                    "start" : 1894,
+                    "start" : 2080,
                     "duration" : 0,
                     "output" : "[build/default_bundle/_generated_a8007ae7ac23447d.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask"
                   }, {
-                    "start" : 1894,
-                    "duration" : 1,
+                    "start" : 2080,
+                    "duration" : 0,
                     "output" : "[build/default_bundle/_generated_4167422fcb12dd07.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask"
                   }, {
-                    "start" : 1895,
+                    "start" : 2080,
                     "duration" : 3,
                     "output" : "[build/default_bundle/_generated_88ad72cfa9f0d12d.labelc]",
                     "name" : "LabelDesc",
                     "type" : "createTask",
                     "children" : [ {
-                      "start" : 1896,
-                      "duration" : 2,
+                      "start" : 2081,
+                      "duration" : 1,
                       "output" : "[build/default_bundle/builtins/fonts/default.fontc]",
                       "name" : "Font",
                       "type" : "createTask",
                       "children" : [ {
-                        "start" : 1896,
+                        "start" : 2081,
                         "duration" : 0,
                         "output" : "[build/default_bundle/_generated_vera_mo_bd_2e9565c19ca35f02.glyph_bankc]",
                         "name" : "Glyph Bank",
                         "type" : "createTask"
                       }, {
-                        "start" : 1896,
-                        "duration" : 2,
+                        "start" : 2081,
+                        "duration" : 1,
                         "output" : "[build/default_bundle/builtins/fonts/font-df.materialc]",
                         "name" : "Material",
                         "type" : "createTask",
                         "children" : [ {
-                          "start" : 1897,
+                          "start" : 2081,
                           "duration" : 1,
                           "output" : "[build/default_bundle/shader_6592067761991147028.spc]",
                           "name" : "ShaderProgram",
@@ -479,8 +479,8 @@
                         } ]
                       } ]
                     }, {
-                      "start" : 1898,
-                      "duration" : 0,
+                      "start" : 2082,
+                      "duration" : 1,
                       "output" : "[build/default_bundle/builtins/fonts/label-df.materialc]",
                       "name" : "Material",
                       "type" : "createTask"
@@ -489,61 +489,61 @@
                 } ]
               } ]
             }, {
-              "start" : 1899,
-              "duration" : 12,
+              "start" : 2083,
+              "duration" : 9,
               "output" : "[build/default_bundle/main/powerups/powerups.goc, build/default_bundle/main/powerups/powerups.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1899,
-                "duration" : 2,
+                "start" : 2084,
+                "duration" : 3,
                 "output" : "[build/default_bundle/main/powerups/powerups.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1900,
-                  "duration" : 1,
+                  "start" : 2085,
+                  "duration" : 2,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 1901,
-                "duration" : 9,
+                "start" : 2087,
+                "duration" : 5,
                 "output" : "[build/default_bundle/main/powerups/powerups_hud.guic]",
                 "name" : "Gui",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1903,
-                  "duration" : 2,
+                  "start" : 2088,
+                  "duration" : 1,
                   "output" : "[build/default_bundle/main/powerups/powerups_hud.gui_scriptc]",
                   "name" : "GuiScript",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1904,
-                    "duration" : 1,
+                    "start" : 2089,
+                    "duration" : 0,
                     "name" : "Parse"
                   } ]
                 }, {
-                  "start" : 1905,
+                  "start" : 2090,
                   "duration" : 1,
                   "output" : "[build/default_bundle/fonts/power_up_count.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1906,
+                    "start" : 2091,
                     "duration" : 0,
                     "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_4a5b04ba4c5cfbc0.glyph_bankc]",
                     "name" : "Glyph Bank",
                     "type" : "createTask"
                   } ]
                 }, {
-                  "start" : 1907,
-                  "duration" : 3,
+                  "start" : 2091,
+                  "duration" : 1,
                   "output" : "[build/default_bundle/builtins/materials/gui.materialc]",
                   "name" : "Material",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1908,
-                    "duration" : 2,
+                    "start" : 2092,
+                    "duration" : 0,
                     "output" : "[build/default_bundle/shader_2713870051161532414.spc]",
                     "name" : "ShaderProgram",
                     "type" : "createTask"
@@ -551,19 +551,19 @@
                 } ]
               } ]
             }, {
-              "start" : 1916,
-              "duration" : 2,
+              "start" : 2098,
+              "duration" : 3,
               "output" : "[build/default_bundle/_generated_9b762ef330baee9f.goc, build/default_bundle/_generated_9b762ef330baee9f.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1917,
-                "duration" : 1,
+                "start" : 2099,
+                "duration" : 2,
                 "output" : "[build/default_bundle/_generated_7d3741d60976b623.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1917,
+                  "start" : 2099,
                   "duration" : 1,
                   "output" : "[build/default_bundle/assets/atlases/background.a.texturesetc, build/default_bundle/assets/atlases/background.texturec]",
                   "name" : "Atlas",
@@ -571,141 +571,141 @@
                 } ]
               } ]
             }, {
-              "start" : 1918,
-              "duration" : 1,
+              "start" : 2101,
+              "duration" : 0,
               "output" : "[build/default_bundle/_generated_0.goc, build/default_bundle/_generated_0.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask"
             }, {
-              "start" : 1919,
-              "duration" : 11,
+              "start" : 2101,
+              "duration" : 8,
               "output" : "[build/default_bundle/_generated_2413af3c707a4d95.goc, build/default_bundle/_generated_2413af3c707a4d95.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1919,
-                "duration" : 11,
+                "start" : 2101,
+                "duration" : 8,
                 "output" : "[build/default_bundle/rendercam/camera.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1919,
+                  "start" : 2102,
                   "duration" : 3,
                   "name" : "Parse"
                 }, {
-                  "start" : 1924,
-                  "duration" : 6,
+                  "start" : 2105,
+                  "duration" : 4,
                   "output" : "[build/default_bundle/rendercam/rendercam.luac]",
                   "name" : "Lua",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1924,
-                    "duration" : 5,
+                    "start" : 2105,
+                    "duration" : 4,
                     "name" : "Parse"
                   } ]
                 } ]
               } ]
             }, {
-              "start" : 1930,
-              "duration" : 0,
+              "start" : 2109,
+              "duration" : 1,
               "output" : "[build/default_bundle/_generated_eeae860c70928a13.goc, build/default_bundle/_generated_eeae860c70928a13.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1930,
+                "start" : 2110,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_1cafba463b5af04c.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 1930,
+              "start" : 2110,
               "duration" : 1,
               "output" : "[build/default_bundle/_generated_b75197ed9659e281.goc, build/default_bundle/_generated_b75197ed9659e281.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1931,
+                "start" : 2111,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_f15c042609d59708.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 1931,
-              "duration" : 4,
+              "start" : 2111,
+              "duration" : 5,
               "output" : "[build/default_bundle/_generated_d3c4197daa781ec6.goc, build/default_bundle/_generated_d3c4197daa781ec6.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1931,
-                "duration" : 4,
+                "start" : 2112,
+                "duration" : 3,
                 "output" : "[build/default_bundle/main/charge_bar/charge_bar.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1932,
-                  "duration" : 2,
+                  "start" : 2112,
+                  "duration" : 3,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 1935,
+                "start" : 2116,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_fba3bd66235322b3.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 1935,
+              "start" : 2116,
               "duration" : 1,
               "output" : "[build/default_bundle/_generated_4050666130904886.goc, build/default_bundle/_generated_4050666130904886.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1936,
+                "start" : 2117,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_c26ff08acb9ede9a.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 1936,
-              "duration" : 1,
+              "start" : 2117,
+              "duration" : 2,
               "output" : "[build/default_bundle/_generated_dd33252d35d44480.goc, build/default_bundle/_generated_dd33252d35d44480.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1936,
+                "start" : 2118,
                 "duration" : 1,
                 "output" : "[build/default_bundle/_generated_49f8ecbd01519994.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 1937,
-              "duration" : 4,
+              "start" : 2119,
+              "duration" : 6,
               "output" : "[build/default_bundle/_generated_979114f429ee7b01.goc, build/default_bundle/_generated_979114f429ee7b01.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1937,
-                "duration" : 4,
+                "start" : 2120,
+                "duration" : 5,
                 "output" : "[build/default_bundle/main/tutorial/tutorial.guic]",
                 "name" : "Gui",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1938,
-                  "duration" : 1,
+                  "start" : 2122,
+                  "duration" : 2,
                   "output" : "[build/default_bundle/main/tutorial/tutorial.gui_scriptc]",
                   "name" : "GuiScript",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 1938,
+                    "start" : 2123,
                     "duration" : 1,
                     "name" : "Parse"
                   } ]
                 }, {
-                  "start" : 1939,
+                  "start" : 2124,
                   "duration" : 1,
                   "output" : "[build/default_bundle/assets/atlases/tutorial.a.texturesetc, build/default_bundle/assets/atlases/tutorial.texturec]",
                   "name" : "Atlas",
@@ -713,160 +713,160 @@
                 } ]
               } ]
             }, {
-              "start" : 1941,
+              "start" : 2125,
               "duration" : 130,
               "output" : "[build/default_bundle/_generated_3220ae7f2d0f0d7c.goc, build/default_bundle/_generated_3220ae7f2d0f0d7c.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 1941,
-                "duration" : 4,
+                "start" : 2126,
+                "duration" : 2,
                 "output" : "[build/default_bundle/main/audio/audio_manager.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1942,
+                  "start" : 2126,
                   "duration" : 2,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 1948,
-                "duration" : 16,
+                "start" : 2131,
+                "duration" : 12,
                 "output" : "[build/default_bundle/_generated_19e64f8016f36ff5.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1948,
-                  "duration" : 16,
+                  "start" : 2131,
+                  "duration" : 12,
                   "output" : "[build/default_bundle/assets/sounds/cuac-sound.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 1964,
-                "duration" : 14,
+                "start" : 2143,
+                "duration" : 13,
                 "output" : "[build/default_bundle/_generated_8cd6ff5526c8f77a.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1964,
-                  "duration" : 14,
+                  "start" : 2143,
+                  "duration" : 13,
                   "output" : "[build/default_bundle/assets/sounds/music_background.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 1978,
-                "duration" : 11,
+                "start" : 2156,
+                "duration" : 18,
                 "output" : "[build/default_bundle/_generated_31b2853d26d78cfb.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1978,
-                  "duration" : 11,
+                  "start" : 2157,
+                  "duration" : 17,
                   "output" : "[build/default_bundle/assets/sounds/victory.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 1989,
-                "duration" : 16,
+                "start" : 2174,
+                "duration" : 14,
                 "output" : "[build/default_bundle/_generated_f8dd6c38475fe09e.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 1989,
-                  "duration" : 16,
+                  "start" : 2174,
+                  "duration" : 14,
                   "output" : "[build/default_bundle/assets/sounds/defeat_panel.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 2005,
-                "duration" : 14,
+                "start" : 2188,
+                "duration" : 12,
                 "output" : "[build/default_bundle/_generated_a82aa57b150aaf3c.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2005,
-                  "duration" : 14,
+                  "start" : 2188,
+                  "duration" : 12,
                   "output" : "[build/default_bundle/assets/sounds/firework_boom.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 2019,
+                "start" : 2200,
                 "duration" : 12,
                 "output" : "[build/default_bundle/_generated_59b9943f010f2701.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2019,
+                  "start" : 2200,
                   "duration" : 12,
                   "output" : "[build/default_bundle/assets/sounds/pop-sound.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 2031,
-                "duration" : 10,
+                "start" : 2212,
+                "duration" : 14,
                 "output" : "[build/default_bundle/_generated_1e65ab1bf5fbee5c.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2031,
-                  "duration" : 10,
+                  "start" : 2213,
+                  "duration" : 13,
                   "output" : "[build/default_bundle/assets/sounds/victory_panel.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 2041,
-                "duration" : 17,
+                "start" : 2226,
+                "duration" : 14,
                 "output" : "[build/default_bundle/_generated_c3340a5691616008.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2041,
-                  "duration" : 17,
+                  "start" : 2227,
+                  "duration" : 13,
                   "output" : "[build/default_bundle/assets/sounds/firework_sparkle.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               }, {
-                "start" : 2058,
-                "duration" : 13,
+                "start" : 2240,
+                "duration" : 15,
                 "output" : "[build/default_bundle/_generated_3715e280bcc8a450.soundc]",
                 "name" : "SoundDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2058,
-                  "duration" : 13,
+                  "start" : 2240,
+                  "duration" : 15,
                   "output" : "[build/default_bundle/assets/sounds/duck_party.oggc]",
                   "name" : "Ogg",
                   "type" : "createTask"
                 } ]
               } ]
             }, {
-              "start" : 2071,
-              "duration" : 2,
+              "start" : 2255,
+              "duration" : 3,
               "output" : "[build/default_bundle/_generated_beed708f5ee572ea.goc, build/default_bundle/_generated_beed708f5ee572ea.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2072,
+                "start" : 2256,
                 "duration" : 1,
                 "output" : "[build/default_bundle/_generated_b764c06870e5ed13.labelc]",
                 "name" : "LabelDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2073,
+                  "start" : 2257,
                   "duration" : 0,
                   "output" : "[build/default_bundle/fonts/title.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2073,
+                    "start" : 2257,
                     "duration" : 0,
                     "output" : "[build/default_bundle/_generated_vera_mo_bd_dd098507f8dab6cd.glyph_bankc]",
                     "name" : "Glyph Bank",
@@ -875,133 +875,133 @@
                 } ]
               } ]
             }, {
-              "start" : 2073,
-              "duration" : 4,
+              "start" : 2258,
+              "duration" : 2,
               "output" : "[build/default_bundle/_generated_2e52e97120894b24.goc, build/default_bundle/_generated_2e52e97120894b24.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2074,
+                "start" : 2258,
                 "duration" : 2,
                 "output" : "[build/default_bundle/main/levels/loader.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2074,
+                  "start" : 2258,
                   "duration" : 2,
                   "name" : "Parse"
                 } ]
               } ]
             }, {
-              "start" : 2077,
-              "duration" : 5,
+              "start" : 2260,
+              "duration" : 6,
               "output" : "[build/default_bundle/_generated_a7d2ea6b45efdf38.goc, build/default_bundle/_generated_a7d2ea6b45efdf38.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2078,
+                "start" : 2261,
                 "duration" : 2,
                 "output" : "[build/default_bundle/main/special_events/duck_fx.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2079,
-                  "duration" : 1,
+                  "start" : 2261,
+                  "duration" : 2,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 2081,
-                "duration" : 0,
+                "start" : 2264,
+                "duration" : 1,
                 "output" : "[build/default_bundle/_generated_3dccdd448c604628.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2081,
-                "duration" : 1,
+                "start" : 2265,
+                "duration" : 0,
                 "output" : "[build/default_bundle/_generated_5193d8c515d02fc7.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2082,
+                "start" : 2265,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_e06f61beb9726087.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2082,
-                "duration" : 0,
+                "start" : 2265,
+                "duration" : 1,
                 "output" : "[build/default_bundle/_generated_b3ff59df12d33dc6.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2082,
+                "start" : 2266,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_6f54607fcb929153.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2082,
+                "start" : 2266,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_9c5c5e6a30b9dd40.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 2082,
-              "duration" : 5,
+              "start" : 2266,
+              "duration" : 9,
               "output" : "[build/default_bundle/_generated_e11abf6cda65ae5c.goc, build/default_bundle/_generated_e11abf6cda65ae5c.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2082,
-                "duration" : 4,
+                "start" : 2266,
+                "duration" : 9,
                 "output" : "[build/default_bundle/main/levels/levels_gui.guic]",
                 "name" : "Gui",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2083,
-                  "duration" : 3,
+                  "start" : 2270,
+                  "duration" : 4,
                   "output" : "[build/default_bundle/main/levels/levels_gui.gui_scriptc]",
                   "name" : "GuiScript",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2084,
+                    "start" : 2272,
                     "duration" : 2,
                     "name" : "Parse"
                   } ]
                 } ]
               } ]
             }, {
-              "start" : 2087,
-              "duration" : 4,
+              "start" : 2275,
+              "duration" : 6,
               "output" : "[build/default_bundle/_generated_934ab6c570f6cfa8.goc, build/default_bundle/_generated_934ab6c570f6cfa8.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2087,
-                "duration" : 2,
+                "start" : 2275,
+                "duration" : 3,
                 "output" : "[build/default_bundle/main/claw/stick/stick.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2088,
-                  "duration" : 1,
+                  "start" : 2276,
+                  "duration" : 2,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 2090,
-                "duration" : 1,
+                "start" : 2279,
+                "duration" : 2,
                 "output" : "[build/default_bundle/_generated_28795657ad8ef998.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2090,
+                  "start" : 2280,
                   "duration" : 1,
                   "output" : "[build/default_bundle/main/claw/stick/segment.goc, build/default_bundle/main/claw/stick/segment.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2091,
+                    "start" : 2281,
                     "duration" : 0,
                     "output" : "[build/default_bundle/_generated_87b2cf8d428651cc.spritec]",
                     "name" : "SpriteDesc",
@@ -1010,48 +1010,48 @@
                 } ]
               } ]
             }, {
-              "start" : 2091,
+              "start" : 2281,
               "duration" : 10,
               "output" : "[build/default_bundle/_generated_d1cbf163245d4502.goc, build/default_bundle/_generated_d1cbf163245d4502.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2092,
+                "start" : 2282,
                 "duration" : 6,
                 "output" : "[build/default_bundle/main/hud/hud.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2092,
-                  "duration" : 4,
+                  "start" : 2283,
+                  "duration" : 2,
                   "name" : "Parse"
                 }, {
-                  "start" : 2096,
+                  "start" : 2286,
                   "duration" : 2,
                   "output" : "[build/default_bundle/main/hud/absolute_positions.luac]",
                   "name" : "Lua",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2097,
-                    "duration" : 1,
+                    "start" : 2286,
+                    "duration" : 2,
                     "name" : "Parse"
                   } ]
                 } ]
               }, {
-                "start" : 2099,
+                "start" : 2289,
                 "duration" : 2,
                 "output" : "[build/default_bundle/_generated_b42063a79ca0c08.factoryc]",
                 "name" : "Factory",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2099,
+                  "start" : 2289,
                   "duration" : 2,
                   "output" : "[build/default_bundle/main/hud/object_icon.goc, build/default_bundle/main/hud/object_icon.compcount_go]",
                   "name" : "GameObject",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2101,
-                    "duration" : 0,
+                    "start" : 2290,
+                    "duration" : 1,
                     "output" : "[build/default_bundle/_generated_74a0e2e244433c62.spritec]",
                     "name" : "SpriteDesc",
                     "type" : "createTask"
@@ -1059,83 +1059,83 @@
                 } ]
               } ]
             }, {
-              "start" : 2101,
-              "duration" : 4,
+              "start" : 2291,
+              "duration" : 3,
               "output" : "[build/default_bundle/_generated_a2cbf5a10da8527b.goc, build/default_bundle/_generated_a2cbf5a10da8527b.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2103,
+                "start" : 2292,
                 "duration" : 2,
                 "output" : "[build/default_bundle/_generated_16deedc6327d1e72.labelc]",
                 "name" : "LabelDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2103,
-                  "duration" : 2,
+                  "start" : 2293,
+                  "duration" : 1,
                   "output" : "[build/default_bundle/fonts/level_font.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2104,
-                    "duration" : 1,
+                    "start" : 2294,
+                    "duration" : 0,
                     "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_c8725d41c053a90e.glyph_bankc]",
                     "name" : "Glyph Bank",
                     "type" : "createTask"
                   } ]
                 } ]
               }, {
-                "start" : 2105,
+                "start" : 2294,
                 "duration" : 0,
                 "output" : "[build/default_bundle/_generated_d08a4f1ce9cb71b3.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 2105,
-              "duration" : 13,
+              "start" : 2294,
+              "duration" : 11,
               "output" : "[build/default_bundle/_generated_3aff693c1402eb1a.goc, build/default_bundle/_generated_3aff693c1402eb1a.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2105,
-                "duration" : 13,
+                "start" : 2294,
+                "duration" : 11,
                 "output" : "[build/default_bundle/main/panels/panels_gui.guic]",
                 "name" : "Gui",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2109,
-                  "duration" : 5,
+                  "start" : 2296,
+                  "duration" : 4,
                   "output" : "[build/default_bundle/main/panels/panels.gui_scriptc]",
                   "name" : "GuiScript",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2110,
-                    "duration" : 4,
+                    "start" : 2297,
+                    "duration" : 3,
                     "name" : "Parse"
                   } ]
                 }, {
-                  "start" : 2115,
+                  "start" : 2300,
                   "duration" : 1,
                   "output" : "[build/default_bundle/fonts/score.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2116,
+                    "start" : 2301,
                     "duration" : 0,
                     "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_1149a8699ebb4400.glyph_bankc]",
                     "name" : "Glyph Bank",
                     "type" : "createTask"
                   } ]
                 }, {
-                  "start" : 2116,
-                  "duration" : 1,
+                  "start" : 2301,
+                  "duration" : 3,
                   "output" : "[build/default_bundle/fonts/score_description.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2117,
-                    "duration" : 0,
+                    "start" : 2303,
+                    "duration" : 1,
                     "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_9b25d1ba92218aba.glyph_bankc]",
                     "name" : "Glyph Bank",
                     "type" : "createTask"
@@ -1143,67 +1143,67 @@
                 } ]
               } ]
             }, {
-              "start" : 2118,
+              "start" : 2305,
               "duration" : 4,
               "output" : "[build/default_bundle/_generated_65e858ae9d308e4d.goc, build/default_bundle/_generated_65e858ae9d308e4d.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2118,
+                "start" : 2305,
                 "duration" : 4,
                 "output" : "[build/default_bundle/main/hud/hud_gui.guic]",
                 "name" : "Gui",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2119,
-                  "duration" : 2,
+                  "start" : 2306,
+                  "duration" : 3,
                   "output" : "[build/default_bundle/main/hud/hud_gui.gui_scriptc]",
                   "name" : "GuiScript",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2120,
-                    "duration" : 1,
+                    "start" : 2307,
+                    "duration" : 2,
                     "name" : "Parse"
                   } ]
                 } ]
               } ]
             }, {
-              "start" : 2122,
-              "duration" : 7,
+              "start" : 2309,
+              "duration" : 6,
               "output" : "[build/default_bundle/_generated_84546f8f54bd353a.goc, build/default_bundle/_generated_84546f8f54bd353a.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2122,
-                "duration" : 2,
+                "start" : 2310,
+                "duration" : 1,
                 "output" : "[build/default_bundle/main/claw/drops.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2123,
+                  "start" : 2310,
                   "duration" : 1,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 2125,
-                "duration" : 1,
+                "start" : 2313,
+                "duration" : 0,
                 "output" : "[build/default_bundle/_generated_ea8e3cc1c93e9f06.spritec]",
                 "name" : "SpriteDesc",
                 "type" : "createTask"
               }, {
-                "start" : 2126,
-                "duration" : 3,
+                "start" : 2313,
+                "duration" : 2,
                 "output" : "[build/default_bundle/_generated_5333657dae6127d.labelc]",
                 "name" : "LabelDesc",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2127,
+                  "start" : 2313,
                   "duration" : 2,
                   "output" : "[build/default_bundle/fonts/drop_font.fontc]",
                   "name" : "Font",
                   "type" : "createTask",
                   "children" : [ {
-                    "start" : 2128,
+                    "start" : 2314,
                     "duration" : 1,
                     "output" : "[build/default_bundle/_generated_vera_mo_bd_ffccc90e21ff20c7.glyph_bankc]",
                     "name" : "Glyph Bank",
@@ -1212,1134 +1212,1453 @@
                 } ]
               } ]
             }, {
-              "start" : 2129,
-              "duration" : 15,
+              "start" : 2315,
+              "duration" : 18,
               "output" : "[build/default_bundle/_generated_795741cf0aa9052e.goc, build/default_bundle/_generated_795741cf0aa9052e.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2130,
-                "duration" : 4,
+                "start" : 2315,
+                "duration" : 6,
                 "output" : "[build/default_bundle/main/particles/confetti.particlefxc]",
                 "name" : "ParticleFX",
                 "type" : "createTask"
               }, {
-                "start" : 2134,
-                "duration" : 2,
+                "start" : 2321,
+                "duration" : 3,
                 "output" : "[build/default_bundle/main/particles/celebration.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2135,
-                  "duration" : 0,
+                  "start" : 2322,
+                  "duration" : 2,
                   "name" : "Parse"
                 } ]
               }, {
-                "start" : 2136,
-                "duration" : 2,
+                "start" : 2324,
+                "duration" : 3,
                 "output" : "[build/default_bundle/main/particles/fw_splat_blue.particlefxc]",
                 "name" : "ParticleFX",
                 "type" : "createTask"
               }, {
-                "start" : 2138,
+                "start" : 2327,
                 "duration" : 3,
                 "output" : "[build/default_bundle/main/particles/fw_splat_green.particlefxc]",
                 "name" : "ParticleFX",
                 "type" : "createTask"
               }, {
-                "start" : 2141,
+                "start" : 2330,
                 "duration" : 3,
                 "output" : "[build/default_bundle/main/particles/fw_splat_red.particlefxc]",
                 "name" : "ParticleFX",
                 "type" : "createTask"
               } ]
             }, {
-              "start" : 2144,
-              "duration" : 3,
+              "start" : 2333,
+              "duration" : 2,
               "output" : "[build/default_bundle/_generated_efea1c9b07696147.goc, build/default_bundle/_generated_efea1c9b07696147.compcount_go]",
               "name" : "GameObject",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2145,
-                "duration" : 2,
+                "start" : 2334,
+                "duration" : 1,
                 "output" : "[build/default_bundle/main/zoom_controller.scriptc]",
                 "name" : "Script",
                 "type" : "createTask",
                 "children" : [ {
-                  "start" : 2146,
+                  "start" : 2334,
                   "duration" : 1,
                   "name" : "Parse"
                 } ]
               } ]
             } ]
           }, {
-            "start" : 2148,
-            "duration" : 7,
+            "start" : 2335,
+            "duration" : 5,
             "output" : "[build/default_bundle/main/my_render.renderc]",
             "name" : "Render",
             "type" : "createTask",
             "children" : [ {
-              "start" : 2149,
-              "duration" : 6,
+              "start" : 2336,
+              "duration" : 4,
               "output" : "[build/default_bundle/main/my_rendercam.render_scriptc]",
               "name" : "RenderScript",
               "type" : "createTask",
               "children" : [ {
-                "start" : 2149,
-                "duration" : 6,
+                "start" : 2337,
+                "duration" : 3,
                 "name" : "Parse"
               } ]
             } ]
           }, {
-            "start" : 2155,
-            "duration" : 1,
+            "start" : 2341,
+            "duration" : 0,
             "output" : "[build/default_bundle/input/game.input_bindingc]",
             "name" : "InputBinding",
             "type" : "createTask"
           }, {
-            "start" : 2156,
-            "duration" : 70,
+            "start" : 2341,
+            "duration" : 65,
             "output" : "[build/default_bundle/builtins/input/default.gamepadsc]",
             "name" : "GamepadMaps",
             "type" : "createTask"
           }, {
-            "start" : 2226,
-            "duration" : 1,
+            "start" : 2406,
+            "duration" : 0,
             "output" : "[build/default_bundle/builtins/render/default.display_profilesc]",
             "name" : "DisplayProfiles",
             "type" : "createTask"
           }, {
-            "start" : 2227,
-            "duration" : 2,
+            "start" : 2406,
+            "duration" : 1,
             "output" : "[build/default_bundle/main/graphics/optimized.texture_profilesc]",
             "name" : "TextureProfile",
             "type" : "createTask"
           } ]
         } ]
       }, {
-        "start" : 2231,
-        "duration" : 15,
+        "start" : 2409,
+        "duration" : 16306,
         "name" : "Build tasks"
       }, {
-        "start" : 2246,
-        "duration" : 53,
+        "start" : 18715,
+        "duration" : 40,
         "name" : "Generating build size report"
       } ]
     }, {
-      "start" : 2299,
-      "duration" : 577,
+      "start" : 18755,
+      "duration" : 536,
       "color" : "#FF0000",
       "name" : "bundle",
       "forceFinishedScope" : true,
       "children" : [ {
-        "start" : 2459,
+        "start" : 18895,
         "duration" : 0,
         "path" : "/var/folders/6t/bqjn52v97c1f6_6t4xg2p1fm0000gn/T/17568517364489960020/wasm-web/dmengine_release.js",
         "name" : "getExeWithExtension dmengine_release..js"
       }, {
-        "start" : 2459,
+        "start" : 18895,
         "duration" : 0,
         "path" : "/var/folders/6t/bqjn52v97c1f6_6t4xg2p1fm0000gn/T/17568517364489960020/wasm-web/dmengine_release.wasm",
         "name" : "getExeWithExtension dmengine_release..wasm"
       }, {
-        "start" : 2773,
-        "duration" : 99,
+        "start" : 19182,
+        "duration" : 107,
         "name" : "BuildInputDataCollector"
       }, {
-        "start" : 2872,
-        "duration" : 4,
+        "start" : 19289,
+        "duration" : 2,
         "name" : "Save cache"
       } ]
     } ]
   }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1135",
+    "start" : -26700,
+    "duration" : 45991,
+    "name" : "Thread 1154",
     "children" : [ {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/input/game.input_bindingc]",
-      "name" : "InputBinding",
-      "type" : "buildTask"
+      "start" : -26700,
+      "duration" : 3,
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2232,
+      "start" : -26697,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/claw/stick/stick.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2232,
+      "start" : -26591,
+      "duration" : 257,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -26591,
+        "duration" : 48,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -26543,
+        "duration" : 21,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -26522,
+        "duration" : 2,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -26520,
+        "duration" : 87,
+        "name" : "ResizeMipLevel0"
+      } ]
+    }, {
+      "start" : -25881,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/defeat_panel.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2232,
+      "start" : -25881,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/charge_bar/charge_bar.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/special_events/duck_fx.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
+      "start" : -25687,
+      "duration" : 129,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -25687,
+        "duration" : 12,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -25675,
+        "duration" : 17,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -25658,
+        "duration" : 3,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -25655,
+        "duration" : 58,
+        "name" : "ResizeMipLevel0"
+      } ]
     }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/cell/cell.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_c8725d41c053a90e.glyph_bankc]",
-      "name" : "Glyph Bank",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
+      "start" : -24893,
       "duration" : 1,
-      "output" : "[build/default_bundle/builtins/input/default.gamepadsc]",
-      "name" : "GamepadMaps",
-      "type" : "buildTask"
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2234,
+      "start" : -24892,
       "duration" : 0,
-      "output" : "[build/default_bundle/rendercam/camera.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_8cd6ff5526c8f77a.soundc]",
-      "name" : "SoundDesc",
-      "type" : "buildTask"
+      "start" : -24860,
+      "duration" : 156,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -24860,
+        "duration" : 22,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -24838,
+        "duration" : 10,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -24828,
+        "duration" : 1,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -24827,
+        "duration" : 102,
+        "name" : "ResizeMipLevel0"
+      } ]
     }, {
-      "start" : 2234,
+      "start" : -24456,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/atlases/particle.a.texturesetc, build/default_bundle/assets/atlases/particle.texturec]",
-      "name" : "Atlas",
-      "type" : "buildTask"
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2236,
+      "start" : -24456,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_2e52e97120894b24.goc, build/default_bundle/_generated_2e52e97120894b24.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/fw_splat_red.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
+      "start" : -24454,
+      "duration" : 5,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -24454,
+        "duration" : 1,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -24453,
+        "duration" : 0,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -24453,
+        "duration" : 0,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -24453,
+        "duration" : 1,
+        "name" : "ResizeMipLevel0"
+      } ]
     }, {
-      "start" : 2236,
+      "start" : -24103,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/blue_glow_particles.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2236,
+      "start" : -24103,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/fw_splat_green.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2238,
-      "duration" : 0,
-      "output" : "[build/default_bundle/fonts/drop_font.fontc]",
-      "name" : "Font",
-      "type" : "buildTask"
+      "start" : -24054,
+      "duration" : 74,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -24054,
+        "duration" : 7,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -24047,
+        "duration" : 8,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -24039,
+        "duration" : 1,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -24038,
+        "duration" : 37,
+        "name" : "ResizeMipLevel0"
+      } ]
     }, {
-      "start" : 2239,
+      "start" : -23755,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_5333657dae6127d.labelc]",
-      "name" : "LabelDesc",
-      "type" : "buildTask"
+      "name" : "calculateLayoutResult"
     }, {
-      "start" : 2240,
+      "start" : -23755,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_b3ff59df12d33dc6.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
+      "name" : "calculateTextureSetResult"
     }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_87b2cf8d428651cc.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_5193d8c515d02fc7.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_a7d2ea6b45efdf38.goc, build/default_bundle/_generated_a7d2ea6b45efdf38.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/explosion/explosion_object.goc, build/default_bundle/main/explosion/explosion_object.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/powerups/powerups.goc, build/default_bundle/main/powerups/powerups.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_77316f4e88b1c9ea.factoryc]",
-      "name" : "Factory",
-      "type" : "buildTask"
-    }, {
-      "start" : 2242,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_934ab6c570f6cfa8.goc, build/default_bundle/_generated_934ab6c570f6cfa8.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
+      "start" : -23673,
+      "duration" : 177,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -23673,
+        "duration" : 46,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -23627,
+        "duration" : 17,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -23610,
+        "duration" : 2,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -23608,
+        "duration" : 74,
+        "name" : "ResizeMipLevel0"
+      } ]
     } ]
   }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1136",
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1163",
     "children" : [ {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/audio/audio_manager.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/victory_panel.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/levels/levels_gui.gui_scriptc]",
-      "name" : "GuiScript",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/victory.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_9b25d1ba92218aba.glyph_bankc]",
+      "output" : "[build/default_bundle/_generated_vera_mo_bd_2e9565c19ca35f02.glyph_bankc]",
       "name" : "Glyph Bank",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/celebration.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/claw/object/object.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
       "output" : "[build/default_bundle/main/claw/drops.scriptc]",
       "name" : "Script",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/hud/absolute_positions.luac]",
-      "name" : "Lua",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_0.goc, build/default_bundle/_generated_0.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_c3340a5691616008.soundc]",
-      "name" : "SoundDesc",
+      "output" : "[build/default_bundle/main/powerups/powerups.scriptc]",
+      "name" : "Script",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2410,
       "duration" : 0,
+      "output" : "[build/default_bundle/builtins/render/default.display_profilesc]",
+      "name" : "DisplayProfiles",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/panels/panels.gui_scriptc]",
+      "name" : "GuiScript",
+      "type" : "buildTask"
+    }, {
+      "start" : 2411,
+      "duration" : 1,
       "output" : "[build/default_bundle/_generated_59b9943f010f2701.soundc]",
       "name" : "SoundDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/zoom_controller.scriptc]",
-      "name" : "Script",
+      "output" : "[build/default_bundle/shader_-7170045909771754498.spc]",
+      "name" : "ShaderProgram",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_1e65ab1bf5fbee5c.soundc]",
+      "name" : "SoundDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17907,
       "duration" : 1,
-      "output" : "[build/default_bundle/assets/atlases/explosion.a.texturesetc, build/default_bundle/assets/atlases/explosion.texturec]",
-      "name" : "Atlas",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/my_render.renderc]",
-      "name" : "Render",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/fw_splat_blue.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
-    }, {
-      "start" : 2237,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_795741cf0aa9052e.goc, build/default_bundle/_generated_795741cf0aa9052e.compcount_go]",
+      "output" : "[build/default_bundle/_generated_2413af3c707a4d95.goc, build/default_bundle/_generated_2413af3c707a4d95.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     }, {
-      "start" : 2238,
+      "start" : 17910,
       "duration" : 0,
-      "output" : "[build/default_bundle/fonts/power_up_count.fontc]",
+      "output" : "[build/default_bundle/fonts/level_font.fontc]",
       "name" : "Font",
       "type" : "buildTask"
     }, {
-      "start" : 2238,
+      "start" : 17910,
       "duration" : 0,
-      "output" : "[build/default_bundle/fonts/score_description.fontc]",
+      "output" : "[build/default_bundle/fonts/drop_font.fontc]",
       "name" : "Font",
       "type" : "buildTask"
     }, {
-      "start" : 2239,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_b764c06870e5ed13.labelc]",
-      "name" : "LabelDesc",
+      "start" : 17911,
+      "duration" : 1,
+      "output" : "[build/default_bundle/main/particles/explosion_fx.particlefxc]",
+      "name" : "ParticleFX",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17912,
+      "duration" : 15,
+      "output" : "[build/default_bundle/main/hud/hud_gui.guic]",
+      "name" : "Gui",
+      "type" : "buildTask"
+    }, {
+      "start" : 17942,
+      "duration" : 3,
+      "output" : "[build/default_bundle/_generated_1cafba463b5af04c.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17945,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_a8007ae7ac23447d.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_b3ff59df12d33dc6.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
+      "duration" : 0,
+      "output" : "[build/default_bundle/builtins/fonts/label-df.materialc]",
+      "name" : "Material",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_291608e9aff11963.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_74a0e2e244433c62.spritec]",
-      "name" : "SpriteDesc",
+      "start" : 17948,
+      "duration" : 2,
+      "output" : "[build/default_bundle/_generated_88ad72cfa9f0d12d.labelc]",
+      "name" : "LabelDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17950,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_a8007ae7ac23447d.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_9c5c5e6a30b9dd40.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_beed708f5ee572ea.goc, build/default_bundle/_generated_beed708f5ee572ea.compcount_go]",
+      "output" : "[build/default_bundle/main/cell/cell.goc, build/default_bundle/main/cell/cell.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_ea8e3cc1c93e9f06.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_6f54607fcb929153.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_84546f8f54bd353a.goc, build/default_bundle/_generated_84546f8f54bd353a.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_4050666130904886.goc, build/default_bundle/_generated_4050666130904886.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/claw/stick/segment.goc, build/default_bundle/main/claw/stick/segment.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_dd33252d35d44480.goc, build/default_bundle/_generated_dd33252d35d44480.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/powerups/powerups_hud.guic]",
-      "name" : "Gui",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_b42063a79ca0c08.factoryc]",
-      "name" : "Factory",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_a84101821715fd86.factoryc]",
-      "name" : "Factory",
-      "type" : "buildTask"
-    }, {
-      "start" : 2242,
+      "start" : 17951,
       "duration" : 0,
       "output" : "[build/default_bundle/main/claw/claw.goc, build/default_bundle/main/claw/claw.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     } ]
   }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1137",
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1164",
     "children" : [ {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/firework_boom.oggc]",
+      "output" : "[build/default_bundle/assets/sounds/music_background.oggc]",
       "name" : "Ogg",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/firework_sparkle.oggc]",
-      "name" : "Ogg",
+      "output" : "[build/default_bundle/main/levels/levels.luac]",
+      "name" : "Lua",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/claw/claw.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/powerups/powerups_hud.gui_scriptc]",
+      "output" : "[build/default_bundle/main/levels/levels_gui.gui_scriptc]",
       "name" : "GuiScript",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_1149a8699ebb4400.glyph_bankc]",
-      "name" : "Glyph Bank",
+      "output" : "[build/default_bundle/main/graphics/optimized.texture_profilesc]",
+      "name" : "TextureProfile",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/panels/panels.gui_scriptc]",
-      "name" : "GuiScript",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
       "output" : "[build/default_bundle/main/hud/hud_gui.gui_scriptc]",
       "name" : "GuiScript",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[]",
-      "name" : "Copy Custom Resources",
+      "output" : "[build/default_bundle/main/claw/object/object.scriptc]",
+      "name" : "Script",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_4a5b04ba4c5cfbc0.glyph_bankc]",
-      "name" : "Glyph Bank",
+      "output" : "[build/default_bundle/input/game.input_bindingc]",
+      "name" : "InputBinding",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/cuac-sound.oggc]",
+      "output" : "[build/default_bundle/main/claw/claw.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/firework_boom.oggc]",
       "name" : "Ogg",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/explosion_sound.oggc]",
+      "output" : "[build/default_bundle/main/cell/cell.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/special_events/duck_fx.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/charge_bar/charge_bar.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/firework_sparkle.oggc]",
       "name" : "Ogg",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
-      "output" : "[build/default_bundle/main/my_rendercam.render_scriptc]",
-      "name" : "RenderScript",
+      "output" : "[build/default_bundle/main/hud/hud.scriptc]",
+      "name" : "Script",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
       "output" : "[build/default_bundle/main/grid_controller/grid.scriptc]",
       "name" : "Script",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_19e64f8016f36ff5.soundc]",
+      "output" : "[build/default_bundle/assets/atlases/background.a.texturesetc, build/default_bundle/assets/atlases/background.texturec]",
+      "name" : "Atlas",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/atlases/particle.a.texturesetc, build/default_bundle/assets/atlases/particle.texturec]",
+      "name" : "Atlas",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_b637e0feeca5e8ee.soundc]",
       "name" : "SoundDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/atlases/powerups.a.texturesetc, build/default_bundle/assets/atlases/powerups.texturec]",
-      "name" : "Atlas",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
+      "start" : 17907,
       "duration" : 1,
-      "output" : "[build/default_bundle/assets/atlases/tutorial.a.texturesetc, build/default_bundle/assets/atlases/tutorial.texturec]",
-      "name" : "Atlas",
+      "output" : "[build/default_bundle/shader_2713870051161532414.spc]",
+      "name" : "ShaderProgram",
       "type" : "buildTask"
     }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/builtins/materials/particlefx.materialc]",
-      "name" : "Material",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/explosion_fx.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
-    }, {
-      "start" : 2237,
-      "duration" : 0,
-      "output" : "[build/default_bundle/builtins/fonts/label-df.materialc]",
-      "name" : "Material",
-      "type" : "buildTask"
-    }, {
-      "start" : 2238,
+      "start" : 17910,
       "duration" : 0,
       "output" : "[build/default_bundle/fonts/title.fontc]",
       "name" : "Font",
       "type" : "buildTask"
     }, {
-      "start" : 2239,
+      "start" : 17911,
       "duration" : 0,
-      "output" : "[build/default_bundle/builtins/materials/sprite.materialc]",
-      "name" : "Material",
+      "output" : "[build/default_bundle/main/particles/fw_splat_green.particlefxc]",
+      "name" : "ParticleFX",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17912,
+      "duration" : 17,
+      "output" : "[build/default_bundle/main/tutorial/tutorial.guic]",
+      "name" : "Gui",
+      "type" : "buildTask"
+    }, {
+      "start" : 17942,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_fba3bd66235322b3.spritec]",
+      "output" : "[build/default_bundle/_generated_5519d8096572f65.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
-      "duration" : 0,
+      "start" : 17942,
+      "duration" : 3,
       "output" : "[build/default_bundle/_generated_e1003420141c8cd.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_1cafba463b5af04c.spritec]",
+      "start" : 17945,
+      "duration" : 2,
+      "output" : "[build/default_bundle/_generated_5193d8c515d02fc7.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17947,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_4167422fcb12dd07.spritec]",
+      "output" : "[build/default_bundle/_generated_49f8ecbd01519994.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_e06f61beb9726087.spritec]",
+      "start" : 17947,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_ea8e3cc1c93e9f06.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17950,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_3dccdd448c604628.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_583393f2d2903330.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_b75197ed9659e281.goc, build/default_bundle/_generated_b75197ed9659e281.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/debug/debug_dot.goc, build/default_bundle/main/debug/debug_dot.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_a2cbf5a10da8527b.goc, build/default_bundle/_generated_a2cbf5a10da8527b.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_65e858ae9d308e4d.goc, build/default_bundle/_generated_65e858ae9d308e4d.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_6ee03cc349dffb13.factoryc]",
+      "output" : "[build/default_bundle/_generated_77316f4e88b1c9ea.factoryc]",
       "name" : "Factory",
       "type" : "buildTask"
     }, {
-      "start" : 2242,
+      "start" : 17950,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_beed708f5ee572ea.goc, build/default_bundle/_generated_beed708f5ee572ea.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17951,
       "duration" : 0,
       "output" : "[build/default_bundle/main/grid_controller/grid.goc, build/default_bundle/main/grid_controller/grid.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     } ]
   }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1138",
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1165",
     "children" : [ {
-      "start" : 2232,
+      "start" : 2410,
       "duration" : 0,
-      "output" : "[build/default_bundle/builtins/render/default.display_profilesc]",
-      "name" : "DisplayProfiles",
+      "output" : "[build/default_bundle/assets/sounds/cuac-sound.oggc]",
+      "name" : "Ogg",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[]",
+      "name" : "Copy Custom Resources",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/victory_panel.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/particles/celebration.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/hud/absolute_positions.luac]",
+      "name" : "Lua",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/explosion_sound.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_1149a8699ebb4400.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
       "duration" : 0,
       "output" : "[build/default_bundle/rendercam/rendercam.luac]",
       "name" : "Lua",
       "type" : "buildTask"
     }, {
-      "start" : 2232,
+      "start" : 2412,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_vera_mo_bd_2e9565c19ca35f02.glyph_bankc]",
-      "name" : "Glyph Bank",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_3715e280bcc8a450.soundc]",
+      "output" : "[build/default_bundle/_generated_19e64f8016f36ff5.soundc]",
       "name" : "SoundDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/atlases/background.a.texturesetc, build/default_bundle/assets/atlases/background.texturec]",
-      "name" : "Atlas",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_a82aa57b150aaf3c.soundc]",
-      "name" : "SoundDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/hud/hud.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_2413af3c707a4d95.goc, build/default_bundle/_generated_2413af3c707a4d95.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 1,
-      "output" : "[build/default_bundle/main/particles/confetti.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
-    }, {
-      "start" : 2238,
-      "duration" : 1,
-      "output" : "[build/default_bundle/builtins/fonts/default.fontc]",
-      "name" : "Font",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_65fef5871078b847.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_7d3741d60976b623.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_d08a4f1ce9cb71b3.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/claw/object/object.goc, build/default_bundle/main/claw/object/object.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/hud/object_icon.goc, build/default_bundle/main/hud/object_icon.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_9b762ef330baee9f.goc, build/default_bundle/_generated_9b762ef330baee9f.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_d3c4197daa781ec6.goc, build/default_bundle/_generated_d3c4197daa781ec6.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_979114f429ee7b01.goc, build/default_bundle/_generated_979114f429ee7b01.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_28795657ad8ef998.factoryc]",
-      "name" : "Factory",
-      "type" : "buildTask"
-    }, {
-      "start" : 2244,
-      "duration" : 1,
-      "output" : "[build/default_bundle/game.projectc, build/default_bundle/game.arci, build/default_bundle/game.arcd, build/default_bundle/game.dmanifest, build/default_bundle/game.public.der, build/default_bundle/game.graph.json]",
-      "name" : "GameProjectBuilder",
-      "type" : "buildTask"
-    } ]
-  }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1139",
-    "children" : [ {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/shader_2713870051161532414.spc]",
-      "name" : "ShaderProgram",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/powerups/powerups.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_f8dd6c38475fe09e.soundc]",
-      "name" : "SoundDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 1,
-      "output" : "[build/default_bundle/assets/atlases/objects.a.texturesetc, build/default_bundle/assets/atlases/objects.texturec]",
-      "name" : "Atlas",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_efea1c9b07696147.goc, build/default_bundle/_generated_efea1c9b07696147.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2236,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/particles/pink_glow_particles.particlefxc]",
-      "name" : "ParticleFX",
-      "type" : "buildTask"
-    }, {
-      "start" : 2237,
-      "duration" : 0,
-      "output" : "[build/default_bundle/builtins/fonts/font-df.materialc]",
-      "name" : "Material",
-      "type" : "buildTask"
-    }, {
-      "start" : 2238,
-      "duration" : 0,
-      "output" : "[build/default_bundle/shader_-7170045909771754498.spc]",
-      "name" : "ShaderProgram",
-      "type" : "buildTask"
-    }, {
-      "start" : 2239,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_16deedc6327d1e72.labelc]",
-      "name" : "LabelDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_f15c042609d59708.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_5519d8096572f65.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_4542a28e47036a8d.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_eeae860c70928a13.goc, build/default_bundle/_generated_eeae860c70928a13.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/tutorial/tutorial.guic]",
-      "name" : "Gui",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/levels/levels_gui.guic]",
-      "name" : "Gui",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_3aff693c1402eb1a.goc, build/default_bundle/_generated_3aff693c1402eb1a.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_e11abf6cda65ae5c.goc, build/default_bundle/_generated_e11abf6cda65ae5c.compcount_go]",
-      "name" : "GameObject",
-      "type" : "buildTask"
-    }, {
-      "start" : 2242,
-      "duration" : 2,
-      "output" : "[build/default_bundle/main/main.collectionc, build/default_bundle/main/main.compcount_col]",
-      "name" : "Collection",
-      "type" : "buildTask"
-    } ]
-  }, {
-    "start" : 2232,
-    "duration" : 644,
-    "name" : "Thread 1140",
-    "children" : [ {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/levels/levels.luac]",
-      "name" : "Lua",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_vera_mo_bd_dd098507f8dab6cd.glyph_bankc]",
-      "name" : "Glyph Bank",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/tutorial/tutorial.gui_scriptc]",
-      "name" : "GuiScript",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/pop-sound.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/duck_party.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/assets/sounds/music_background.oggc]",
-      "name" : "Ogg",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_vera_mo_bd_ffccc90e21ff20c7.glyph_bankc]",
-      "name" : "Glyph Bank",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/explosion/explosion_object.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2232,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/graphics/optimized.texture_profilesc]",
-      "name" : "TextureProfile",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/levels/loader.scriptc]",
-      "name" : "Script",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_31b2853d26d78cfb.soundc]",
       "name" : "SoundDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
+      "start" : 2412,
       "duration" : 0,
-      "output" : "[build/default_bundle/shader_7080802899218083337.spc]",
-      "name" : "ShaderProgram",
+      "output" : "[build/default_bundle/assets/atlases/tutorial.a.texturesetc, build/default_bundle/assets/atlases/tutorial.texturec]",
+      "name" : "Atlas",
       "type" : "buildTask"
     }, {
-      "start" : 2234,
-      "duration" : 0,
-      "output" : "[build/default_bundle/_generated_1e65ab1bf5fbee5c.soundc]",
-      "name" : "SoundDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2234,
+      "start" : 17907,
       "duration" : 1,
-      "output" : "[build/default_bundle/_generated_b637e0feeca5e8ee.soundc]",
+      "output" : "[build/default_bundle/_generated_2e52e97120894b24.goc, build/default_bundle/_generated_2e52e97120894b24.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17910,
+      "duration" : 0,
+      "output" : "[build/default_bundle/fonts/score_description.fontc]",
+      "name" : "Font",
+      "type" : "buildTask"
+    }, {
+      "start" : 17911,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/particles/confetti.particlefxc]",
+      "name" : "ParticleFX",
+      "type" : "buildTask"
+    }, {
+      "start" : 17912,
+      "duration" : 30,
+      "output" : "[build/default_bundle/main/panels/panels_gui.guic]",
+      "name" : "Gui",
+      "type" : "buildTask"
+    }, {
+      "start" : 17943,
+      "duration" : 2,
+      "output" : "[build/default_bundle/_generated_9c5c5e6a30b9dd40.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17945,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_7d3741d60976b623.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/powerups/powerups.goc, build/default_bundle/main/powerups/powerups.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_fba3bd66235322b3.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_f15c042609d59708.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17950,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_28795657ad8ef998.factoryc]",
+      "name" : "Factory",
+      "type" : "buildTask"
+    }, {
+      "start" : 17950,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_a2cbf5a10da8527b.goc, build/default_bundle/_generated_a2cbf5a10da8527b.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17951,
+      "duration" : 1,
+      "output" : "[build/default_bundle/main/main.collectionc, build/default_bundle/main/main.compcount_col]",
+      "name" : "Collection",
+      "type" : "buildTask"
+    } ]
+  }, {
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1166",
+    "children" : [ {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_c8725d41c053a90e.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/defeat_panel.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/duck_party.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/powerups/powerups_hud.gui_scriptc]",
+      "name" : "GuiScript",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/claw/stick/stick.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_9b25d1ba92218aba.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/pop-sound.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/tutorial/tutorial.gui_scriptc]",
+      "name" : "GuiScript",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/audio/audio_manager.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/sounds/victory.oggc]",
+      "name" : "Ogg",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/explosion/explosion_object.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_vera_mo_bd_ffccc90e21ff20c7.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2411,
+      "duration" : 1,
+      "output" : "[build/default_bundle/assets/atlases/powerups.a.texturesetc, build/default_bundle/assets/atlases/powerups.texturec]",
+      "name" : "Atlas",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_f8dd6c38475fe09e.soundc]",
       "name" : "SoundDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2236,
+      "start" : 2412,
       "duration" : 0,
+      "output" : "[build/default_bundle/_generated_3715e280bcc8a450.soundc]",
+      "name" : "SoundDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/assets/atlases/explosion.a.texturesetc, build/default_bundle/assets/atlases/explosion.texturec]",
+      "name" : "Atlas",
+      "type" : "buildTask"
+    }, {
+      "start" : 17907,
+      "duration" : 1,
       "output" : "[build/default_bundle/_generated_3220ae7f2d0f0d7c.goc, build/default_bundle/_generated_3220ae7f2d0f0d7c.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     }, {
-      "start" : 2236,
-      "duration" : 1,
-      "output" : "[build/default_bundle/shader_6592067761991147028.spc]",
-      "name" : "ShaderProgram",
-      "type" : "buildTask"
-    }, {
-      "start" : 2238,
+      "start" : 17910,
       "duration" : 0,
       "output" : "[build/default_bundle/fonts/score.fontc]",
       "name" : "Font",
       "type" : "buildTask"
     }, {
-      "start" : 2238,
-      "duration" : 0,
-      "output" : "[build/default_bundle/fonts/level_font.fontc]",
-      "name" : "Font",
+      "start" : 17910,
+      "duration" : 1,
+      "output" : "[build/default_bundle/builtins/materials/particlefx.materialc]",
+      "name" : "Material",
       "type" : "buildTask"
     }, {
-      "start" : 2239,
+      "start" : 17911,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_88ad72cfa9f0d12d.labelc]",
-      "name" : "LabelDesc",
+      "output" : "[build/default_bundle/main/particles/blue_glow_particles.particlefxc]",
+      "name" : "ParticleFX",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17911,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/particles/fw_splat_blue.particlefxc]",
+      "name" : "ParticleFX",
+      "type" : "buildTask"
+    }, {
+      "start" : 17912,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/powerups/powerups_hud.guic]",
+      "name" : "Gui",
+      "type" : "buildTask"
+    }, {
+      "start" : 17912,
+      "duration" : 0,
+      "output" : "[build/default_bundle/builtins/materials/sprite.materialc]",
+      "name" : "Material",
+      "type" : "buildTask"
+    }, {
+      "start" : 17942,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_c26ff08acb9ede9a.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17942,
+      "duration" : 4,
+      "output" : "[build/default_bundle/_generated_e06f61beb9726087.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
       "duration" : 0,
+      "output" : "[build/default_bundle/_generated_979114f429ee7b01.goc, build/default_bundle/_generated_979114f429ee7b01.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_65fef5871078b847.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_583393f2d2903330.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_74a0e2e244433c62.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17950,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_84546f8f54bd353a.goc, build/default_bundle/_generated_84546f8f54bd353a.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17951,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_6ee03cc349dffb13.factoryc]",
+      "name" : "Factory",
+      "type" : "buildTask"
+    }, {
+      "start" : 17952,
+      "duration" : 762,
+      "output" : "[build/default_bundle/game.projectc, build/default_bundle/game.arci, build/default_bundle/game.arcd, build/default_bundle/game.dmanifest, build/default_bundle/game.public.der, build/default_bundle/game.graph.json]",
+      "name" : "GameProjectBuilder",
+      "type" : "buildTask",
+      "children" : [ {
+        "start" : 18080,
+        "duration" : 101,
+        "name" : "Generate resource graph"
+      }, {
+        "start" : 18181,
+        "duration" : 0,
+        "name" : "Create excluded resources"
+      }, {
+        "start" : 18181,
+        "duration" : 502,
+        "excludedResources" : 0,
+        "name" : "createArchive",
+        "resources" : 163,
+        "children" : [ {
+          "start" : 18183,
+          "duration" : 500,
+          "name" : "writeArchive",
+          "children" : [ {
+            "start" : 18681,
+            "duration" : 2,
+            "name" : "writeArchiveIndex"
+          } ]
+        } ]
+      }, {
+        "start" : 18683,
+        "duration" : 6,
+        "name" : "buildManifestFile",
+        "children" : [ {
+          "start" : 18683,
+          "duration" : 1,
+          "name" : "buildManifestData"
+        } ]
+      } ]
+    } ]
+  }, {
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1167",
+    "children" : [ {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_LuckiestGuy-Regular_4a5b04ba4c5cfbc0.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 1,
+      "output" : "[build/default_bundle/builtins/input/default.gamepadsc]",
+      "name" : "GamepadMaps",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/my_rendercam.render_scriptc]",
+      "name" : "RenderScript",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/levels/loader.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_8cd6ff5526c8f77a.soundc]",
+      "name" : "SoundDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_c3340a5691616008.soundc]",
+      "name" : "SoundDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/rendercam/camera.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 17907,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_efea1c9b07696147.goc, build/default_bundle/_generated_efea1c9b07696147.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17910,
+      "duration" : 0,
+      "output" : "[build/default_bundle/builtins/fonts/font-df.materialc]",
+      "name" : "Material",
+      "type" : "buildTask"
+    }, {
+      "start" : 17910,
+      "duration" : 0,
+      "output" : "[build/default_bundle/fonts/power_up_count.fontc]",
+      "name" : "Font",
+      "type" : "buildTask"
+    }, {
+      "start" : 17911,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/particles/pink_glow_particles.particlefxc]",
+      "name" : "ParticleFX",
+      "type" : "buildTask"
+    }, {
+      "start" : 17911,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/particles/fw_splat_red.particlefxc]",
+      "name" : "ParticleFX",
+      "type" : "buildTask"
+    }, {
+      "start" : 17912,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_795741cf0aa9052e.goc, build/default_bundle/_generated_795741cf0aa9052e.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17942,
+      "duration" : 3,
+      "output" : "[build/default_bundle/_generated_87b2cf8d428651cc.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17945,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_4167422fcb12dd07.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_e11abf6cda65ae5c.goc, build/default_bundle/_generated_e11abf6cda65ae5c.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 1,
       "output" : "[build/default_bundle/_generated_33fdd5273911889.spritec]",
       "name" : "SpriteDesc",
       "type" : "buildTask"
     }, {
-      "start" : 2240,
+      "start" : 17947,
       "duration" : 0,
-      "output" : "[build/default_bundle/_generated_49f8ecbd01519994.spritec]",
-      "name" : "SpriteDesc",
-      "type" : "buildTask"
-    }, {
-      "start" : 2240,
-      "duration" : 0,
-      "output" : "[build/default_bundle/builtins/materials/gui.materialc]",
-      "name" : "Material",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/panels/panels_gui.guic]",
-      "name" : "Gui",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/hud/hud_gui.guic]",
-      "name" : "Gui",
-      "type" : "buildTask"
-    }, {
-      "start" : 2241,
-      "duration" : 0,
-      "output" : "[build/default_bundle/main/cell/cell.goc, build/default_bundle/main/cell/cell.compcount_go]",
+      "output" : "[build/default_bundle/_generated_65e858ae9d308e4d.goc, build/default_bundle/_generated_65e858ae9d308e4d.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
     }, {
-      "start" : 2241,
+      "start" : 17948,
+      "duration" : 1,
+      "output" : "[build/default_bundle/main/claw/object/object.goc, build/default_bundle/main/claw/object/object.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_9b762ef330baee9f.goc, build/default_bundle/_generated_9b762ef330baee9f.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/debug/debug_dot.goc, build/default_bundle/main/debug/debug_dot.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_5333657dae6127d.labelc]",
+      "name" : "LabelDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_b75197ed9659e281.goc, build/default_bundle/_generated_b75197ed9659e281.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/hud/object_icon.goc, build/default_bundle/main/hud/object_icon.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_b764c06870e5ed13.labelc]",
+      "name" : "LabelDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17950,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_ccb429a9038976eb.factoryc]",
       "name" : "Factory",
       "type" : "buildTask"
     }, {
-      "start" : 2242,
+      "start" : 17950,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_a84101821715fd86.factoryc]",
+      "name" : "Factory",
+      "type" : "buildTask"
+    }, {
+      "start" : 17951,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_934ab6c570f6cfa8.goc, build/default_bundle/_generated_934ab6c570f6cfa8.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    } ]
+  }, {
+    "start" : 2410,
+    "duration" : 16881,
+    "name" : "Thread 1168",
+    "children" : [ {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/shader_7080802899218083337.spc]",
+      "name" : "ShaderProgram",
+      "type" : "buildTask"
+    }, {
+      "start" : 2410,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_vera_mo_bd_dd098507f8dab6cd.glyph_bankc]",
+      "name" : "Glyph Bank",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/zoom_controller.scriptc]",
+      "name" : "Script",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_a82aa57b150aaf3c.soundc]",
+      "name" : "SoundDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 2412,
+      "duration" : 15495,
+      "output" : "[build/default_bundle/assets/atlases/objects.a.texturesetc, build/default_bundle/assets/atlases/objects.texturec]",
+      "name" : "Atlas",
+      "type" : "buildTask",
+      "children" : [ {
+        "start" : 2413,
+        "duration" : 140,
+        "name" : "generateTextureSet",
+        "children" : [ {
+          "start" : 2423,
+          "duration" : 5,
+          "name" : "calculateLayoutResult"
+        }, {
+          "start" : 2428,
+          "duration" : 1,
+          "name" : "calculateTextureSetResult"
+        } ]
+      }, {
+        "start" : 2555,
+        "duration" : 15343,
+        "name" : "generateTexture",
+        "children" : [ {
+          "start" : 2555,
+          "duration" : 53,
+          "name" : "CreateTexture"
+        }, {
+          "start" : 2608,
+          "duration" : 22,
+          "name" : "PreMultiplyAlpha"
+        }, {
+          "start" : 2630,
+          "duration" : 2,
+          "name" : "FlipAxis"
+        }, {
+          "start" : 2632,
+          "duration" : 82,
+          "name" : "ResizeMipLevel0"
+        } ]
+      } ]
+    }, {
+      "start" : 17907,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/my_render.renderc]",
+      "name" : "Render",
+      "type" : "buildTask"
+    }, {
+      "start" : 17908,
+      "duration" : 1,
+      "output" : "[build/default_bundle/shader_6592067761991147028.spc]",
+      "name" : "ShaderProgram",
+      "type" : "buildTask"
+    }, {
+      "start" : 17910,
+      "duration" : 1,
+      "output" : "[build/default_bundle/builtins/fonts/default.fontc]",
+      "name" : "Font",
+      "type" : "buildTask"
+    }, {
+      "start" : 17911,
+      "duration" : 0,
+      "output" : "[build/default_bundle/builtins/materials/gui.materialc]",
+      "name" : "Material",
+      "type" : "buildTask"
+    }, {
+      "start" : 17912,
+      "duration" : 15,
+      "output" : "[build/default_bundle/main/levels/levels_gui.guic]",
+      "name" : "Gui",
+      "type" : "buildTask"
+    }, {
+      "start" : 17942,
+      "duration" : 4,
+      "output" : "[build/default_bundle/_generated_3dccdd448c604628.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_d08a4f1ce9cb71b3.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17946,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_4542a28e47036a8d.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_3aff693c1402eb1a.goc, build/default_bundle/_generated_3aff693c1402eb1a.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17947,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_6f54607fcb929153.spritec]",
+      "name" : "SpriteDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17948,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_16deedc6327d1e72.labelc]",
+      "name" : "LabelDesc",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/explosion/explosion_object.goc, build/default_bundle/main/explosion/explosion_object.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_dd33252d35d44480.goc, build/default_bundle/_generated_dd33252d35d44480.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_4050666130904886.goc, build/default_bundle/_generated_4050666130904886.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/main/claw/stick/segment.goc, build/default_bundle/main/claw/stick/segment.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_d3c4197daa781ec6.goc, build/default_bundle/_generated_d3c4197daa781ec6.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_eeae860c70928a13.goc, build/default_bundle/_generated_eeae860c70928a13.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17949,
+      "duration" : 1,
+      "output" : "[build/default_bundle/_generated_a7d2ea6b45efdf38.goc, build/default_bundle/_generated_a7d2ea6b45efdf38.compcount_go]",
+      "name" : "GameObject",
+      "type" : "buildTask"
+    }, {
+      "start" : 17950,
+      "duration" : 0,
+      "output" : "[build/default_bundle/_generated_b42063a79ca0c08.factoryc]",
+      "name" : "Factory",
+      "type" : "buildTask"
+    }, {
+      "start" : 17951,
       "duration" : 0,
       "output" : "[build/default_bundle/_generated_d1cbf163245d4502.goc, build/default_bundle/_generated_d1cbf163245d4502.compcount_go]",
       "name" : "GameObject",
       "type" : "buildTask"
+    } ]
+  }, {
+    "start" : -59832,
+    "duration" : 79123,
+    "name" : "Thread 25",
+    "children" : [ {
+      "start" : -59832,
+      "duration" : 1,
+      "name" : "calculateLayoutResult"
+    }, {
+      "start" : -59831,
+      "duration" : 0,
+      "name" : "calculateTextureSetResult"
+    }, {
+      "start" : -59790,
+      "duration" : 99,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -59790,
+        "duration" : 20,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -59770,
+        "duration" : 9,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -59761,
+        "duration" : 1,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -59760,
+        "duration" : 30,
+        "name" : "ResizeMipLevel0"
+      } ]
+    }, {
+      "start" : -30116,
+      "duration" : 2,
+      "name" : "calculateLayoutResult"
+    }, {
+      "start" : -30114,
+      "duration" : 1,
+      "name" : "calculateTextureSetResult"
+    }, {
+      "start" : -30015,
+      "duration" : 283,
+      "name" : "generateTexture",
+      "children" : [ {
+        "start" : -30014,
+        "duration" : 39,
+        "name" : "CreateTexture"
+      }, {
+        "start" : -29975,
+        "duration" : 16,
+        "name" : "PreMultiplyAlpha"
+      }, {
+        "start" : -29959,
+        "duration" : 2,
+        "name" : "FlipAxis"
+      }, {
+        "start" : -29957,
+        "duration" : 103,
+        "name" : "ResizeMipLevel0"
+      } ]
+    }, {
+      "start" : -29732,
+      "duration" : 3,
+      "name" : "calculateLayoutResult"
+    }, {
+      "start" : -29729,
+      "duration" : 0,
+      "name" : "calculateTextureSetResult"
     } ]
   } ],
   "marks" : [ ]
