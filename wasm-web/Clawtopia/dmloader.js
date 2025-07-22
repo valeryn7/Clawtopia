@@ -71,6 +71,8 @@ var CUSTOM_PARAMETERS = {
         var prevInnerWidth = -1;
         var prevInnerHeight = -1;
         
+        buttonHeight = 42;
+        
         
         // Hack for iOS when exit from Fullscreen mode
         if (is_iOS) {

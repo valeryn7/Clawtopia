@@ -212,6 +212,7 @@ local function reset_grid(self)
 	end
 	self.creating_grid = true
 
+	self.collected_keys = {}
 	self.correct_collected = 0
 	self.incorrect_collected = 0
 	self.total_points = 0
@@ -500,17 +501,22 @@ function on_message(self, message_id, message, sender)
 						-- 🔓 Lógica de candado
 						if cell.locked then
 							local color = cell.lock_color
+
+							-- Validación defensiva: candado sin color o sin llave
 							if not color then
 								print("⚠️ ERROR: Candado sin color")
 								return
 							end
+
 							if not self.collected_keys[color] then
+								print("❌ Intento de agarrar una celda bloqueada sin tener la llave")
 								msg.post("hud", "show_message", { text = "🔒 Necesitás la llave " .. color })
 								return
-							else
-								cell.locked = false
-								msg.post(cell.id, "unlock", {})
 							end
+
+							-- ✅ Candado válido y llave obtenida
+							cell.locked = false
+							msg.post(cell.id, "unlock", {})
 						end
 
 						-- 🗝️ Lógica de llaves
@@ -541,7 +547,8 @@ function on_message(self, message_id, message, sender)
 							print("❌ BUG: Se intentó capturar una celda aún bloqueada")
 							return
 						end
-						
+						print(cell.id)
+						print(cell.locked)
 						msg.post(cell.id, "capture")
 						msg.post("claw", "object_grabbed", { object_sprite = cell.sprite ~= "bomb" and cell.sprite or nil })
 						cell.captured = true

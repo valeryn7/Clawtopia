@@ -16,15 +16,13 @@ input_method = HiddenInputField
 
 [html5]
 scale_mode = downscale_fit
-splash_image = /custom/custom_splash.png
 show_fullscreen_button = 0
-show_made_with_defold = 0
+show_made_with_defold = 1
 
 [project]
 title = Clawtopia
 compress_archive = 1
 dependencies#0 = https://github.com/rgrams/rendercam/archive/master.zip
-dependencies#1 = https://github.com/defold/extension-poki-sdk/archive/refs/tags/3.0.0.zip
 
 [sprite]
 max_count = 1024
