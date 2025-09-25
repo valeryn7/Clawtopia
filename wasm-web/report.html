@@ -6,9 +6,10 @@
       var report_data = {
   "report_version" : "1.0.0",
   "project_name" : "Clawtopia",
-  "build_timestamp" : 1753163194,
+  "build_timestamp" : 1757892371,
   "build_options" : {
     "architectures" : "wasm-web",
+    "exclude-gles-sm100" : "false",
     "platform" : "js-web",
     "sound-stream-enabled" : "false",
     "output" : "build/default_bundle/",
@@ -17,8 +18,9 @@
     "variant" : "release",
     "liveupdate" : "false",
     "strip-executable" : "true",
+    "font-runtime-generation" : "false",
     "output-glsl" : "false",
-    "defoldsdk" : "1c76521bb8b08c63ef619aa8a5ab563dddf7b3cf",
+    "defoldsdk" : "7c81792859a6da7f7401c0ac37a4cc83bb500ff6",
     "bundle-output" : "/Users/valerynater/Documents/GitHub/Clawtopia/wasm-web",
     "output-wgsl" : "false",
     "prometheus-disabled" : "false",
@@ -55,11 +57,6 @@
     "file" : "/main/levels/levels.luac",
     "size" : 14713,
     "compressed_size" : 1484,
-    "encrypted" : true
-  }, {
-    "file" : "/_generated_2413af3c707a4d95.goc",
-    "size" : 362,
-    "compressed_size" : 296,
     "encrypted" : false
   }, {
     "file" : "/main/cell/cell.goc",
@@ -188,7 +185,7 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_vera_mo_bd_dd098507f8dab6cd.glyph_bankc",
-    "size" : 58638,
+    "size" : 58637,
     "compressed_size" : 58640,
     "encrypted" : false
   }, {
@@ -258,13 +255,13 @@
     "encrypted" : false
   }, {
     "file" : "/main/grid_controller/grid.scriptc",
-    "size" : 17447,
-    "compressed_size" : 5916,
-    "encrypted" : true
+    "size" : 18011,
+    "compressed_size" : 6084,
+    "encrypted" : false
   }, {
     "file" : "/fonts/drop_font.fontc",
-    "size" : 130,
-    "compressed_size" : 132,
+    "size" : 255,
+    "compressed_size" : 256,
     "encrypted" : false
   }, {
     "file" : "/assets/sounds/firework_boom.oggc",
@@ -275,6 +272,11 @@
     "file" : "/_generated_4050666130904886.goc",
     "size" : 56,
     "compressed_size" : 56,
+    "encrypted" : false
+  }, {
+    "file" : "/_generated_fe3f15a67748fe5a.goc",
+    "size" : 363,
+    "compressed_size" : 304,
     "encrypted" : false
   }, {
     "file" : "/main/hud/object_icon.goc",
@@ -308,8 +310,8 @@
     "encrypted" : false
   }, {
     "file" : "/builtins/input/default.gamepadsc",
-    "size" : 61307,
-    "compressed_size" : 5252,
+    "size" : 61757,
+    "compressed_size" : 5344,
     "encrypted" : false
   }, {
     "file" : "/assets/sounds/music_background.oggc",
@@ -498,8 +500,8 @@
     "encrypted" : false
   }, {
     "file" : "/fonts/score.fontc",
-    "size" : 139,
-    "compressed_size" : 140,
+    "size" : 264,
+    "compressed_size" : 264,
     "encrypted" : false
   }, {
     "file" : "/main/particles/celebration.scriptc",
@@ -523,8 +525,8 @@
     "encrypted" : false
   }, {
     "file" : "/fonts/level_font.fontc",
-    "size" : 139,
-    "compressed_size" : 140,
+    "size" : 264,
+    "compressed_size" : 264,
     "encrypted" : false
   }, {
     "file" : "/rendercam/rendercam.luac",
@@ -538,7 +540,7 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_vera_mo_bd_2e9565c19ca35f02.glyph_bankc",
-    "size" : 16510,
+    "size" : 16509,
     "compressed_size" : 14280,
     "encrypted" : false
   }, {
@@ -553,8 +555,8 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_LuckiestGuy-Regular_4a5b04ba4c5cfbc0.glyph_bankc",
-    "size" : 58619,
-    "compressed_size" : 53792,
+    "size" : 58618,
+    "compressed_size" : 53788,
     "encrypted" : false
   }, {
     "file" : "/assets/atlases/explosion.a.texturesetc",
@@ -568,7 +570,7 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_LuckiestGuy-Regular_1149a8699ebb4400.glyph_bankc",
-    "size" : 82173,
+    "size" : 82172,
     "compressed_size" : 76080,
     "encrypted" : false
   }, {
@@ -578,8 +580,8 @@
     "encrypted" : false
   }, {
     "file" : "/main/panels/panels.gui_scriptc",
-    "size" : 5654,
-    "compressed_size" : 1736,
+    "size" : 7241,
+    "compressed_size" : 2148,
     "encrypted" : false
   }, {
     "file" : "/main/hud/hud.scriptc",
@@ -588,8 +590,8 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_LuckiestGuy-Regular_c8725d41c053a90e.glyph_bankc",
-    "size" : 53615,
-    "compressed_size" : 48992,
+    "size" : 53614,
+    "compressed_size" : 48988,
     "encrypted" : false
   }, {
     "file" : "/_generated_e06f61beb9726087.spritec",
@@ -625,7 +627,7 @@
     "file" : "/main/levels/loader.scriptc",
     "size" : 1914,
     "compressed_size" : 928,
-    "encrypted" : true
+    "encrypted" : false
   }, {
     "file" : "/assets/sounds/pop-sound.oggc",
     "size" : 4405,
@@ -668,7 +670,7 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_vera_mo_bd_ffccc90e21ff20c7.glyph_bankc",
-    "size" : 20948,
+    "size" : 20947,
     "compressed_size" : 18996,
     "encrypted" : false
   }, {
@@ -693,7 +695,7 @@
     "encrypted" : false
   }, {
     "file" : "/_generated_LuckiestGuy-Regular_9b25d1ba92218aba.glyph_bankc",
-    "size" : 42732,
+    "size" : 42731,
     "compressed_size" : 38744,
     "encrypted" : false
   }, {
@@ -738,18 +740,18 @@
     "encrypted" : false
   }, {
     "file" : "/fonts/score_description.fontc",
-    "size" : 139,
-    "compressed_size" : 140,
+    "size" : 264,
+    "compressed_size" : 264,
     "encrypted" : false
   }, {
     "file" : "/main/levels/levels_gui.gui_scriptc",
     "size" : 3744,
     "compressed_size" : 1656,
-    "encrypted" : true
+    "encrypted" : false
   }, {
     "file" : "/fonts/title.fontc",
-    "size" : 130,
-    "compressed_size" : 132,
+    "size" : 255,
+    "compressed_size" : 256,
     "encrypted" : false
   }, {
     "file" : "/_generated_2e52e97120894b24.goc",
@@ -763,8 +765,8 @@
     "encrypted" : false
   }, {
     "file" : "/builtins/fonts/default.fontc",
-    "size" : 130,
-    "compressed_size" : 132,
+    "size" : 160,
+    "compressed_size" : 160,
     "encrypted" : false
   }, {
     "file" : "/main/particles/fw_splat_blue.particlefxc",
@@ -788,8 +790,8 @@
     "encrypted" : false
   }, {
     "file" : "/fonts/power_up_count.fontc",
-    "size" : 139,
-    "compressed_size" : 140,
+    "size" : 264,
+    "compressed_size" : 264,
     "encrypted" : false
   }, {
     "file" : "/main/tutorial/tutorial.gui_scriptc",
@@ -818,9 +820,9 @@
     "encrypted" : false
   }, {
     "file" : "/main/my_rendercam.render_scriptc",
-    "size" : 3439,
-    "compressed_size" : 1360,
-    "encrypted" : false
+    "size" : 3824,
+    "compressed_size" : 1580,
+    "encrypted" : true
   }, {
     "file" : "/_generated_5519d8096572f65.spritec",
     "size" : 110,

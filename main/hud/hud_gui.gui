@@ -5,46 +5,52 @@ textures {
 }
 nodes {
   position {
-    x: 616.0
-    y: 1234.0
+    x: 1899.0
+    y: 568.0
   }
   scale {
-    x: 0.5
-    y: 0.5
+    x: 0.8
+    y: 0.8
   }
   type: TYPE_BOX
   texture: "hud_icons/pause_button"
   id: "pause_button"
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NE
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 536.0
-    y: 1234.0
+    x: 1783.0
+    y: 568.0
   }
   scale {
-    x: 0.5
-    y: 0.5
+    x: 0.8
+    y: 0.8
   }
   type: TYPE_BOX
   texture: "hud_icons/sound_on"
   id: "sound_button"
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NE
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 457.0
-    y: 1234.0
+    x: 1666.0
+    y: 568.0
   }
   scale {
-    x: 0.5
-    y: 0.5
+    x: 0.8
+    y: 0.8
   }
   type: TYPE_BOX
   texture: "hud_icons/tutorial_button"
   id: "tutorial_button"
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NE
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }

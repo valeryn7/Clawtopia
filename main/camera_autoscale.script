@@ -1,0 +1,88 @@
+-- -- /main/camera_autoscale.script
+-- -- Móvil (retrato): sin zoom extra (fit-height).
+-- -- Web Poki (canvas 16:9): sin zoom extra para usar TODO el ancho.
+-- -- Pivot del zoom: tope superior centrado (ancla arriba).
+-- 
+-- local rendercam = require "rendercam.rendercam"
+-- 
+-- -- Resolución de diseño (retrato)
+-- local DESIGN_W, DESIGN_H = 720, 1280
+-- 
+-- -- Umbrales por aspecto (width/height)
+-- local AR_PHONE_MAX   = 0.66   -- <= ~9:16: teléfonos
+-- local AR_DESKTOP_MIN = 1.20   -- >= esto lo tratamos como desktop/16:9
+-- 
+-- -- Factores de zoom (1.0 = sin zoom extra)
+-- -- TIP: si querés acercar un poco en desktop, probá ZOOM_DESKTOP = 0.92 o 0.90
+-- local ZOOM_PHONE     = 1.00
+-- local ZOOM_DESKTOP   = 1.00   -- Poki: dejar 1.0 para “expandir lo máximo posible”
+-- 
+-- -- Anclaje del encuadre
+-- local ANCHOR_MODE  = "top_center" -- "top_center" | "center"
+-- local LOCK_PIVOT_X = false        -- true para fijar el centro X en PIVOT_X
+-- local PIVOT_X      = 0
+-- 
+-- -- ---------- helpers ----------
+-- local function base_scale_fit_height()
+-- 	-- fit-height: mantiene la ALTURA visible en DESIGN_H
+-- 	return (rendercam.window.y) / DESIGN_H
+-- end
+-- 
+-- local function extra_zoom_for_aspect(ar)
+-- 	if ar <= AR_PHONE_MAX   then return ZOOM_PHONE   end
+-- 	if ar >= AR_DESKTOP_MIN then return ZOOM_DESKTOP end
+-- 	-- tablets entre phone y desktop: interpola suave
+-- 	local t = (ar - AR_PHONE_MAX) / (AR_DESKTOP_MIN - AR_PHONE_MAX)
+-- 	return ZOOM_PHONE + (ZOOM_DESKTOP - ZOOM_PHONE) * t
+-- end
+-- 
+-- local function set_scale_anchor(self, new_scale)
+-- 	local old = self._scale or new_scale
+-- 	if math.abs(new_scale - old) < 1e-7 then return end
+-- 
+-- 	local win_h = rendercam.window.y
+-- 	local cam   = go.get_position()
+-- 
+-- 	if ANCHOR_MODE == "top_center" then
+-- 		-- mantener el borde superior fijo al cambiar escala
+-- 		local half_before = (win_h * 0.5) / old
+-- 		local top_before  = cam.y + half_before
+-- 
+-- 		rendercam.set_ortho_scale(new_scale)
+-- 
+-- 		local half_after = (win_h * 0.5) / new_scale
+-- 		cam.y = top_before - half_after
+-- 		if LOCK_PIVOT_X then cam.x = PIVOT_X end
+-- 		go.set_position(cam)
+-- 	else
+-- 		rendercam.set_ortho_scale(new_scale)
+-- 		if LOCK_PIVOT_X then
+-- 			cam.x = PIVOT_X
+-- 			go.set_position(cam)
+-- 		end
+-- 	end
+-- 
+-- 	self._scale = new_scale
+-- end
+-- 
+-- local function apply(self)
+-- 	local ar    = rendercam.window.x / math.max(1, rendercam.window.y)
+-- 	local base  = base_scale_fit_height()     -- base por altura (móvil)
+-- 	local extra = extra_zoom_for_aspect(ar)   -- ajuste por aspecto (desktop/tablet)
+-- 	set_scale_anchor(self, base * extra)
+-- end
+-- 
+-- -- ---------- lifecycle ----------
+-- function init(self)
+-- 	self._scale = rendercam.ortho_scale or 1.0
+-- 	self._w, self._h = rendercam.window.x, rendercam.window.y
+-- 	apply(self)
+-- end
+-- 
+-- function update(self, dt)
+-- 	if self._w ~= rendercam.window.x or self._h ~= rendercam.window.y then
+-- 		self._w, self._h = rendercam.window.x, rendercam.window.y
+-- 		apply(self)
+-- 	end
+-- end
+-- 

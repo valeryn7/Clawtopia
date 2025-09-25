@@ -1,0 +1,36 @@
+-- /main/background.gui_script  (SOLO gui.*, sin go.*)
+local NODE_ID     = hash("background")
+local ATLAS_ID    = "background"          -- id del atlas en el GUI
+local FLIPBOOK_ID = hash("pattern_stars") -- frame dentro del atlas
+
+local node
+local function resize_to(self, w, h)
+	gui.set_size(node, vmath.vector3(w, h, 0))
+	gui.set_position(node, vmath.vector3(w * 0.5, h * 0.5, 0))
+end
+
+function init(self)
+	node = gui.get_node(NODE_ID)
+	gui.set_texture(node, ATLAS_ID)
+	gui.play_flipbook(node, FLIPBOOK_ID)
+	gui.set_color(node, vmath.vector4(1,1,1,1))
+
+	local w, h = window.get_size()
+	resize_to(self, w, h)
+	self.w, self.h = w, h
+end
+
+function on_message(self, mid, msg)
+	if mid == hash("window_resized") then
+		resize_to(self, msg.width, msg.height)
+		self.w, self.h = msg.width, msg.height
+	end
+end
+
+function update(self, dt)
+	local w, h = window.get_size()
+	if w ~= self.w or h ~= self.h then
+		resize_to(self, w, h)
+		self.w, self.h = w, h
+	end
+end

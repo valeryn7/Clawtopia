@@ -29,12 +29,15 @@ textures {
 }
 nodes {
   position {
-    x: 358.0
-    y: 640.0
+    x: 970.0
+    y: 603.0
+  }
+  rotation {
+    z: 0.195
   }
   scale {
-    x: 2.0
-    y: 2.0
+    x: 5.0
+    y: 5.0
   }
   type: TYPE_BOX
   texture: "background/background_panel"
@@ -43,6 +46,10 @@ nodes {
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
+  scale {
+    x: 0.7
+    y: 0.7
+  }
   size {
     x: 200.0
     y: 100.0
@@ -55,8 +62,8 @@ nodes {
 }
 nodes {
   position {
-    x: 364.0
-    y: 595.0
+    x: 1393.2858
+    y: 319.7143
   }
   scale {
     x: 0.5
@@ -71,8 +78,8 @@ nodes {
 }
 nodes {
   position {
-    x: 489.0
-    y: 453.0
+    x: 1518.2858
+    y: 177.71428
   }
   type: TYPE_BOX
   texture: "hud_icons/next_button"
@@ -83,8 +90,8 @@ nodes {
 }
 nodes {
   position {
-    x: 363.0
-    y: 643.0
+    x: 1392.2858
+    y: 367.7143
   }
   size {
     x: 200.0
@@ -104,8 +111,8 @@ nodes {
 }
 nodes {
   position {
-    x: 233.0
-    y: 453.0
+    x: 1262.2858
+    y: 177.71428
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_button"
@@ -116,8 +123,8 @@ nodes {
 }
 nodes {
   position {
-    x: 357.0
-    y: 923.0
+    x: 1386.2858
+    y: 647.7143
   }
   scale {
     x: 0.6
@@ -170,8 +177,8 @@ nodes {
 }
 nodes {
   position {
-    x: 362.0
-    y: 580.0
+    x: 1391.2858
+    y: 304.7143
   }
   size {
     x: 200.0
@@ -191,8 +198,8 @@ nodes {
 }
 nodes {
   position {
-    x: 434.0
-    y: 714.0
+    x: 1463.2858
+    y: 438.7143
   }
   scale {
     x: 0.5
@@ -228,8 +235,8 @@ nodes {
 }
 nodes {
   position {
-    x: 253.0
-    y: 717.0
+    x: 1282.2858
+    y: 441.7143
   }
   scale {
     x: 0.5
@@ -265,8 +272,8 @@ nodes {
 }
 nodes {
   position {
-    x: 359.81818
-    y: 529.0
+    x: 1389.1039
+    y: 253.71428
     z: 1.0
   }
   size {
@@ -286,6 +293,10 @@ nodes {
   inherit_alpha: true
 }
 nodes {
+  scale {
+    x: 0.7
+    y: 0.7
+  }
   size {
     x: 200.0
     y: 100.0
@@ -298,8 +309,8 @@ nodes {
 }
 nodes {
   position {
-    x: 364.0
-    y: 595.0
+    x: 1400.8572
+    y: 326.5714
   }
   scale {
     x: 0.5
@@ -314,8 +325,8 @@ nodes {
 }
 nodes {
   position {
-    x: 237.0
-    y: 453.0
+    x: 1273.8572
+    y: 184.57143
   }
   scale {
     x: 0.5
@@ -330,8 +341,8 @@ nodes {
 }
 nodes {
   position {
-    x: 364.0
-    y: 620.0
+    x: 1400.8572
+    y: 351.5714
   }
   size {
     x: 200.0
@@ -351,8 +362,8 @@ nodes {
 }
 nodes {
   position {
-    x: 365.0
-    y: 683.0
+    x: 1401.8572
+    y: 414.5714
   }
   size {
     x: 200.0
@@ -372,8 +383,8 @@ nodes {
 }
 nodes {
   position {
-    x: 502.0
-    y: 453.0
+    x: 1538.8572
+    y: 184.57143
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_button"
@@ -384,8 +395,8 @@ nodes {
 }
 nodes {
   position {
-    x: 359.81818
-    y: 529.0
+    x: 1396.6753
+    y: 260.5714
     z: 1.0
   }
   size {
@@ -406,8 +417,8 @@ nodes {
 }
 nodes {
   position {
-    x: 358.0
-    y: 907.0
+    x: 1394.8572
+    y: 638.5714
   }
   scale {
     x: 0.6
@@ -459,6 +470,10 @@ nodes {
   inherit_alpha: true
 }
 nodes {
+  scale {
+    x: 0.7
+    y: 0.7
+  }
   size {
     x: 200.0
     y: 100.0
@@ -471,12 +486,12 @@ nodes {
 }
 nodes {
   position {
-    x: 360.0
-    y: 656.0
+    x: 1396.1428
+    y: 358.57144
   }
   scale {
-    x: 0.4
-    y: 0.4
+    x: 0.6
+    y: 0.6
   }
   type: TYPE_BOX
   texture: "background/bg_panel"
@@ -487,12 +502,8 @@ nodes {
 }
 nodes {
   position {
-    x: 465.0
-    y: 580.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
+    x: 1542.1428
+    y: 240.57143
   }
   type: TYPE_BOX
   texture: "hud_icons/resume_button"
@@ -503,12 +514,8 @@ nodes {
 }
 nodes {
   position {
-    x: 361.0
-    y: 580.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
+    x: 1395.1428
+    y: 240.57143
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_level_button"
@@ -519,8 +526,8 @@ nodes {
 }
 nodes {
   position {
-    x: 355.0
-    y: 715.0
+    x: 1391.1428
+    y: 430.57144
   }
   size {
     x: 280.0
@@ -541,12 +548,8 @@ nodes {
 }
 nodes {
   position {
-    x: 258.0
-    y: 580.0
-  }
-  scale {
-    x: 0.7
-    y: 0.7
+    x: 1247.1428
+    y: 240.57143
   }
   type: TYPE_BOX
   texture: "hud_icons/levels_button"
@@ -557,8 +560,8 @@ nodes {
 }
 nodes {
   position {
-    x: 359.0
-    y: 926.0
+    x: 1395.1428
+    y: 697.5714
   }
   type: TYPE_BOX
   texture: "background/pause_title"

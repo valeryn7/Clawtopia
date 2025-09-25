@@ -1,0 +1,37 @@
+-- -- /main/background_cover.script
+-- local rendercam = require "rendercam.rendercam"
+-- 
+-- -- Tamaño real de tu imagen (de tu frame pattern_stars)
+-- local TEX_W, TEX_H = 1024, 1536
+-- 
+-- local function apply_cover()
+-- 	-- convertir tamaño de ventana a "unidades de mundo"
+-- 	local scale = rendercam.ortho_scale or 1.0
+-- 	local vis_w = rendercam.window.x / scale
+-- 	local vis_h = rendercam.window.y / scale
+-- 
+-- 	-- escalar para cubrir sin deformar
+-- 	local s = math.max(vis_w / TEX_W, vis_h / TEX_H)
+-- 	go.set_scale(s)
+-- 
+-- 	-- mandarlo detrás de todo
+-- 	local p = go.get_position()
+-- 	p.z = 1000            -- si llegara a tapar, cambiá a -1000
+-- 	go.set_position(p)
+-- end
+-- 
+-- function init(self)
+-- 	self._w, self._h = rendercam.window.x, rendercam.window.y
+-- 	self._s = rendercam.ortho_scale or 1.0
+-- 	apply_cover()
+-- end
+-- 
+-- function update(self, dt)
+-- 	if self._w ~= rendercam.window.x or self._h ~= rendercam.window.y
+-- 	or self._s ~= (rendercam.ortho_scale or 1.0) then
+-- 		self._w, self._h = rendercam.window.x, rendercam.window.y
+-- 		self._s = rendercam.ortho_scale or 1.0
+-- 		apply_cover()
+-- 	end
+-- end
+-- 

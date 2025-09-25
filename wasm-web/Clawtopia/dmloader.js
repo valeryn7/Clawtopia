@@ -71,8 +71,8 @@ var CUSTOM_PARAMETERS = {
         var prevInnerWidth = -1;
         var prevInnerHeight = -1;
         
-        buttonHeight = 42;
         
+        buttonHeight = 42;
         
         // Hack for iOS when exit from Fullscreen mode
         if (is_iOS) {
@@ -89,31 +89,15 @@ var CUSTOM_PARAMETERS = {
         }
         prevInnerWidth = innerWidth;
         prevInnerHeight = innerHeight;
-        var width = 720;
-        var height = 1280;
+        var width = 1920;
+        var height = 1080;
         var targetRatio = width / height;
         var actualRatio = innerWidth / innerHeight;
     
-        //Downscale fit
-        if (innerWidth < width || innerHeight < height) {
-            if (actualRatio > targetRatio) {
-                width = innerHeight * targetRatio;
-                height = innerHeight;
-                app_container.style.marginLeft = ((innerWidth - width) / 2) + "px";
-                app_container.style.marginTop = "0px";
-            }
-            else {
-                width = innerWidth;
-                height = innerWidth / targetRatio;
-                app_container.style.marginLeft = "0px";
-                app_container.style.marginTop = ((innerHeight - height) / 2) + "px";
-            }
-        }
-        else {
-            app_container.style.marginLeft = ((innerWidth - width) / 2) + "px";
-            app_container.style.marginTop = ((innerHeight - height) / 2) + "px";
-        }
     
+        //Stretch
+        width = innerWidth;
+        height = innerHeight;
     
     
     
@@ -233,9 +217,9 @@ var FileLoader = {
 var EngineLoader = {
     arc_sha1: "",
     wasm_sha1: "",
-    wasm_size: 2530740,
+    wasm_size: 2532579,
     wasmjs_sha1: "",
-    wasmjs_size: 273436,
+    wasmjs_size: 277163,
     wasm_pthread_sha1: "",
     wasm_pthread_size: 2000000,
     wasmjs_pthread_sha1: "",
@@ -899,8 +883,8 @@ var Progress = {
 /* ********************************************************************* */
 
 var Module = {
-    engineVersion: "1.10.3",
-    engineSdkSha1: "1c76521bb8b08c63ef619aa8a5ab563dddf7b3cf",
+    engineVersion: "1.11.0",
+    engineSdkSha1: "7c81792859a6da7f7401c0ac37a4cc83bb500ff6",
     noInitialRun: true,
 
     _filesToPreload: [],

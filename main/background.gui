@@ -1,0 +1,26 @@
+script: "/main/background.gui_script"
+textures {
+  name: "background"
+  texture: "/assets/atlases/background.atlas"
+}
+nodes {
+  position {
+    x: 373.0
+    y: 699.0
+    z: -1.0
+  }
+  scale {
+    x: 3.0
+    y: 3.0
+  }
+  size {
+    x: 1024.0
+    y: 1536.0
+  }
+  type: TYPE_BOX
+  texture: "background/pattern_stars"
+  id: "background"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

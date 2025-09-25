@@ -1,0 +1,12 @@
+function on_message(self, message_id, message, sender)
+	if message_id == hash("layout_changed") then
+		local w, h, ar = message.w, message.h, message.ar
+		local sprite_size = vmath.vector3(720, 1280, 0) -- tamaño base de tu arte (portrait)
+
+		local scale_x = w / sprite_size.x
+		local scale_y = h / sprite_size.y
+		local scale = math.max(scale_x, scale_y) -- cubrir siempre todo
+
+		go.set_scale(vmath.vector3(scale, scale, 1))
+	end
+end
