@@ -43,6 +43,28 @@ local ANGLE_CELLS_VERTICAL = {
 
 local LEVELS = require("main.levels.levels")
 
+local function enableTouch(self)
+	if (self.showing_tutorial == false) then
+		msg.post("claw#claw", "enable_touch")
+	end
+end
+
+local function disableTouch(self)
+	msg.post("claw#claw", "disable_touch")
+end
+
+-- ==== POKI (mínimo) ====
+local function poki_supported()
+	return (poki_sdk ~= nil) and (type(poki_sdk.gameplay_start) == "function")
+end
+local function poki_gameplay_start()
+	if poki_supported() then pcall(poki_sdk.gameplay_start) end
+end
+local function poki_gameplay_stop()
+	if poki_supported() then pcall(poki_sdk.gameplay_stop) end
+end
+-- =======================
+
 local function has_seen_tutorial()
 	local data = sys.load(SAVE_FILE)
 	return data.tutorial_shown == true
@@ -306,16 +328,6 @@ local function reset_grid(self)
 	end)
 end
 
-local function enableTouch(self)
-	if (self.showing_tutorial == false) then
-		msg.post("claw#claw", "enable_touch")
-	end
-end
-
-local function disableTouch(self)
-	msg.post("claw#claw", "disable_touch")
-end
-
 function init(self)
 	self.grid = {}
 	self.multiplier = 1
@@ -337,6 +349,9 @@ function init(self)
 
 	self.showing_tutorial = false
 	self.level = 1
+
+	if poki_supported() and poki_sdk.set_debug then pcall(poki_sdk.set_debug, true) end
+	poki_gameplay_stop()
 	
 	if not has_seen_tutorial() then
 		self.showing_tutorial = true
@@ -412,7 +427,9 @@ local function check_game_end(self)
 				end)
 			end)
 		end)
-
+		
+		poki_gameplay_stop()
+		
 		return
 	end
 
@@ -424,6 +441,7 @@ local function check_game_end(self)
 			level = self.level,
 			points = self.total_points
 		})
+		poki_gameplay_stop()
 		return
 	end
 
@@ -435,6 +453,7 @@ local function check_game_end(self)
 			level = self.level,
 			points = self.total_points
 		})
+		poki_gameplay_stop()
 	end
 end
 
@@ -469,6 +488,9 @@ function on_message(self, message_id, message, sender)
 
 	elseif message_id == hash("tutorial_hidden") then
 		self.showing_tutorial = false
+		if not has_seen_tutorial() then
+			poki_gameplay_start()
+		end
 		mark_tutorial_as_seen()
 		enableTouch(self)
 		
