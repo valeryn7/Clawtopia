@@ -1,0 +1,58 @@
+script: "/main/background_full.gui_script"
+textures {
+  name: "background"
+  texture: "/assets/atlases/background.atlas"
+}
+nodes {
+  position {
+    x: 953.0
+    y: 215.0
+    z: -1.0
+  }
+  type: TYPE_BOX
+  texture: "background/pattern_stars"
+  id: "box"
+  yanchor: YANCHOR_TOP
+  layer: "layer"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  material: "sprite"
+}
+nodes {
+  position {
+    x: 1782.0
+    y: 215.0
+    z: -1.0
+  }
+  type: TYPE_BOX
+  texture: "background/pattern_stars"
+  id: "box1"
+  yanchor: YANCHOR_TOP
+  layer: "layer"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  material: "sprite"
+}
+nodes {
+  position {
+    x: 156.0
+    y: 215.0
+  }
+  type: TYPE_BOX
+  texture: "background/pattern_stars"
+  id: "box2"
+  yanchor: YANCHOR_TOP
+  layer: "layer"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  material: "sprite"
+}
+layers {
+  name: "layer"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
+materials {
+  name: "sprite"
+  material: "/builtins/materials/sprite.material"
+}

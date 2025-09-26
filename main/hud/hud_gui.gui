@@ -5,8 +5,8 @@ textures {
 }
 nodes {
   position {
-    x: 1899.0
-    y: 568.0
+    x: 1264.0
+    y: 703.0
   }
   scale {
     x: 0.8
@@ -22,8 +22,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1783.0
-    y: 568.0
+    x: 1148.0
+    y: 703.0
   }
   scale {
     x: 0.8
@@ -39,8 +39,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1666.0
-    y: 568.0
+    x: 1031.0
+    y: 703.0
   }
   scale {
     x: 0.8

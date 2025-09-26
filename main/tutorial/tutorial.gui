@@ -13,8 +13,12 @@ textures {
 }
 nodes {
   position {
-    x: 982.0
-    y: 276.0
+    x: 651.0
+    y: 324.0
+  }
+  scale {
+    x: 3.0
+    y: 3.0
   }
   type: TYPE_BOX
   texture: "background/white_pixel"
@@ -25,8 +29,8 @@ nodes {
 }
 nodes {
   position {
-    x: 973.0
-    y: 297.0
+    x: 642.0
+    y: 345.0
   }
   type: TYPE_BOX
   texture: "tutorial/tutorial_anim"
@@ -36,8 +40,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1195.0
-    y: 512.0
+    x: 864.0
+    y: 560.0
   }
   type: TYPE_BOX
   texture: "hud_icons/close_button"

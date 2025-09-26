@@ -1,0 +1,43 @@
+-- /main/background_full.gui_script
+local rendercam = require "rendercam.rendercam"
+
+-- Nombres de tus nodos de fondo (ajustá si cambian)
+local BG_NODES = { "box", "box1", "box2" }
+
+local GUI_BG_MATERIAL = "/materials/gui_bg.material"
+
+local function set_all_materials()
+	for _, id in ipairs(BG_NODES) do
+		local node = gui.get_node(id)
+		if node then
+			gui.set_material(node, hash(GUI_BG_MATERIAL))
+		end
+	end
+end
+
+local function resize_bg(w, h)
+	for _, id in ipairs(BG_NODES) do
+		local node = gui.get_node(id)
+		if node then
+			-- Hace que el fondo cubra toda la ventana
+			gui.set_size(node, vmath.vector3(w, h, 0))
+			gui.set_position(node, vmath.vector3(w * 0.5, h * 0.5, 0))
+		end
+	end
+end
+
+function init(self)
+	-- Fuerza el material de tag gui_bg en TODOS los nodos del fondo
+	set_all_materials()
+
+	-- Ajuste inicial al tamaño actual de la ventana
+	local w, h = rendercam.window.x, rendercam.window.y
+	resize_bg(w, h)
+end
+
+function on_message(self, message_id, message)
+	-- Este mensaje se lo mandamos desde el render_script al cambiar la ventana
+	if message_id == hash("resize_bg") and message.w and message.h then
+		resize_bg(message.w, message.h)
+	end
+end

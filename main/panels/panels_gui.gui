@@ -29,8 +29,8 @@ textures {
 }
 nodes {
   position {
-    x: 970.0
-    y: 603.0
+    x: 597.0
+    y: 588.0
   }
   rotation {
     z: 0.195
@@ -56,14 +56,15 @@ nodes {
   }
   type: TYPE_BOX
   id: "victory_gui"
+  yanchor: YANCHOR_TOP
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
   visible: false
 }
 nodes {
   position {
-    x: 1393.2858
-    y: 319.7143
+    x: 660.42865
+    y: 396.85715
   }
   scale {
     x: 0.5
@@ -78,8 +79,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1518.2858
-    y: 177.71428
+    x: 785.4287
+    y: 254.85713
   }
   type: TYPE_BOX
   texture: "hud_icons/next_button"
@@ -90,8 +91,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1392.2858
-    y: 367.7143
+    x: 659.42865
+    y: 444.85715
   }
   size {
     x: 200.0
@@ -111,8 +112,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1262.2858
-    y: 177.71428
+    x: 529.42865
+    y: 254.85713
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_button"
@@ -123,8 +124,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1386.2858
-    y: 647.7143
+    x: 653.42865
+    y: 724.8571
   }
   scale {
     x: 0.6
@@ -177,8 +178,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1391.2858
-    y: 304.7143
+    x: 658.42865
+    y: 381.85715
   }
   size {
     x: 200.0
@@ -198,8 +199,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1463.2858
-    y: 438.7143
+    x: 730.42865
+    y: 515.8571
   }
   scale {
     x: 0.5
@@ -235,8 +236,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1282.2858
-    y: 441.7143
+    x: 549.42865
+    y: 518.8571
   }
   scale {
     x: 0.5
@@ -272,8 +273,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1389.1039
-    y: 253.71428
+    x: 656.24677
+    y: 330.85712
     z: 1.0
   }
   size {
@@ -309,8 +310,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1400.8572
-    y: 326.5714
+    x: 645.1429
+    y: 403.71426
   }
   scale {
     x: 0.5
@@ -325,8 +326,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1273.8572
-    y: 184.57143
+    x: 518.1429
+    y: 261.71426
   }
   scale {
     x: 0.5
@@ -341,8 +342,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1400.8572
-    y: 351.5714
+    x: 645.1429
+    y: 428.71426
   }
   size {
     x: 200.0
@@ -362,8 +363,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1401.8572
-    y: 414.5714
+    x: 646.1429
+    y: 491.71423
   }
   size {
     x: 200.0
@@ -383,8 +384,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1538.8572
-    y: 184.57143
+    x: 783.14294
+    y: 261.71426
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_button"
@@ -395,8 +396,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1396.6753
-    y: 260.5714
+    x: 640.961
+    y: 337.71426
     z: 1.0
   }
   size {
@@ -417,8 +418,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1394.8572
-    y: 638.5714
+    x: 639.1429
+    y: 715.71423
   }
   scale {
     x: 0.6
@@ -486,8 +487,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1396.1428
-    y: 358.57144
+    x: 646.1428
+    y: 438.57144
   }
   scale {
     x: 0.6
@@ -502,8 +503,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1542.1428
-    y: 240.57143
+    x: 792.1429
+    y: 320.57144
   }
   type: TYPE_BOX
   texture: "hud_icons/resume_button"
@@ -514,8 +515,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1395.1428
-    y: 240.57143
+    x: 645.1428
+    y: 320.57144
   }
   type: TYPE_BOX
   texture: "hud_icons/reset_level_button"
@@ -526,8 +527,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1391.1428
-    y: 430.57144
+    x: 641.1428
+    y: 510.57144
   }
   size {
     x: 280.0
@@ -548,8 +549,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1247.1428
-    y: 240.57143
+    x: 497.14282
+    y: 320.57144
   }
   type: TYPE_BOX
   texture: "hud_icons/levels_button"
@@ -560,8 +561,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1395.1428
-    y: 697.5714
+    x: 645.1428
+    y: 777.5714
   }
   type: TYPE_BOX
   texture: "background/pause_title"
