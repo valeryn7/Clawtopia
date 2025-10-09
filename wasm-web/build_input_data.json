@@ -1,17 +1,20 @@
 {
   "project_git" : {
-    "sha1" : "f8bd76ad066d6a774ca13954035435c7fa3054ac",
+    "sha1" : "431670f995019d5e91eb7da0ee69e45009db5611",
     "origin" : "https://github.com/valeryn7/Clawtopia.git",
     "branch" : "master"
   },
   "bob_arguments" : {
-    "sha1" : "1c76521bb8b08c63ef619aa8a5ab563dddf7b3cf",
-    "version" : "1.10.3",
-    "timestamp" : "2025-06-29 08:05:31"
+    "sha1" : "7c81792859a6da7f7401c0ac37a4cc83bb500ff6",
+    "version" : "1.11.0",
+    "timestamp" : "2025-09-04 12:54:20"
   },
-  "defold_sdk" : "1c76521bb8b08c63ef619aa8a5ab563dddf7b3cf",
+  "defold_sdk" : "7c81792859a6da7f7401c0ac37a4cc83bb500ff6",
   "dependencies" : [ {
     "link" : "https://github.com/rgrams/rendercam/archive/master.zip",
     "md5" : "0FD09D3B4D4BBB234A546B728038C75A"
+  }, {
+    "link" : "https://github.com/defold/extension-poki-sdk/archive/refs/tags/3.0.0.zip",
+    "md5" : "4DFE088156E94BF4532B7D58A9314C47"
   } ]
 }

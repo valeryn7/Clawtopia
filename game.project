@@ -6,23 +6,26 @@ render = /main/my_render.renderc
 shared_state = 1
 
 [display]
-width = 1920
-height = 580
+width = 720
+height = 1280
 high_dpi = 1
 
 [android]
 input_method = HiddenInputField
 
 [html5]
-scale_mode = stretch
+scale_mode = fit
 show_fullscreen_button = 0
 show_made_with_defold = 0
 show_console_banner = 0
 splash_image = /custom/custom_splash1.png
+htmlfile = /builtins/manifests/web/engine_template.html
+cssfile = /builtins/manifests/web/light_theme.css
 
 [project]
 title = Clawtopia
 compress_archive = 1
+developer = Valery Nater
 dependencies#0 = https://github.com/rgrams/rendercam/archive/master.zip
 dependencies#1 = https://github.com/defold/extension-poki-sdk/archive/refs/tags/3.0.0.zip
 
