@@ -1,0 +1,86 @@
+local SAVE_FILE = "clawtopia_data"
+local function poki_supported()
+	return (poki_sdk ~= nil) and (type(poki_sdk.gameplay_start) == "function")
+end
+local function poki_gameplay_start()
+	if poki_supported() then pcall(poki_sdk.gameplay_start) end
+end
+
+local function has_seen_tutorial()
+	local data = sys.load(SAVE_FILE)
+	return data.tutorial_shown == true
+end
+
+local function play_hand_pop_hold(hand)
+	local hold_scale = vmath.vector3(0.9)
+	local normal_scale = vmath.vector3(1.0)
+
+	-- Escala hacia abajo (simula tap)
+	gui.animate(hand, "scale", hold_scale, gui.EASING_INSINE, 0.2, 0, function()
+		-- Mantiene en hold
+		timer.delay(0.7, false, function()
+			-- Sube suave (release)
+			gui.animate(hand, "scale", normal_scale, gui.EASING_OUTBACK, 0.4, 0, function()
+				-- Espera un poco antes de repetir
+				timer.delay(0.8, false, function()
+					play_hand_pop_hold(hand)
+				end)
+			end)
+		end)
+	end)
+end
+
+
+local function subtle_text_motion(text)
+	local start_pos = gui.get_position(text)
+	local float_offset = vmath.vector3(0, 10, 0)
+
+	gui.animate(text, "position", start_pos + float_offset, gui.EASING_INOUTSINE, 1.5, 0, function()
+		gui.animate(text, "position", start_pos, gui.EASING_INOUTSINE, 1.5, 0, function()
+			subtle_text_motion(text)
+		end)
+	end)
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("show_tap_hold_hint") then
+		local text = gui.get_node("tap_hold_label")
+		local hand = gui.get_node("hand_icon")
+
+		-- Reset de estado
+		gui.set_alpha(text, 0)
+		gui.set_alpha(hand, 0)
+		gui.set_scale(text, vmath.vector3(0.5))
+		gui.set_scale(hand, vmath.vector3(0.5))
+
+		-- POP de entrada
+		gui.animate(text, "color.w", 1, gui.EASING_OUTSINE, 0.4)
+		gui.animate(hand, "color.w", 1, gui.EASING_OUTSINE, 0.4)
+		gui.animate(text, "scale", vmath.vector3(1.1), gui.EASING_OUTBACK, 0.4, 0, function()
+			gui.animate(text, "scale", vmath.vector3(1.0), gui.EASING_OUTSINE, 0.2)
+		end)
+		gui.animate(hand, "scale", vmath.vector3(1.1), gui.EASING_OUTBACK, 0.4, 0, function()
+			gui.animate(hand, "scale", vmath.vector3(1.0), gui.EASING_OUTSINE, 0.2)
+		end)
+
+		-- 🔹 Empieza animación de hold en la manito
+		timer.delay(0.8, false, function()
+			play_hand_pop_hold(hand)
+		end)
+
+		-- 🔹 Movimiento sutil del texto
+		subtle_text_motion(text)
+	end
+
+	if message_id == hash("hide_tap_hold_hint") then
+		local text = gui.get_node("tap_hold_label")
+		local hand = gui.get_node("hand_icon")
+		if not has_seen_tutorial() then
+			poki_gameplay_start()
+		end
+
+		gui.animate(text, "color.w", 0, gui.EASING_INOUTSINE, 0.3)
+		gui.animate(hand, "color.w", 0, gui.EASING_INOUTSINE, 0.3)
+	end
+end

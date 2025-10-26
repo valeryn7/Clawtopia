@@ -30,7 +30,7 @@ local function set_current_bear_color(self, sprite)
     elseif sprite == "rabbit" then
         self.current_bear_color = "purple"
     else
-        self.current_bear_color = "pink"
+        self.current_bear_color = "blue"
     end
 end
 
@@ -348,6 +348,7 @@ function on_input(self, action_id, action)
         end
 
         if action.pressed then
+            msg.post("tap_hold_tutorial#tap_hold", "hide_tap_hold_hint")
             if self.selecting_with_magnet then
 
                 self.selecting_with_magnet = false

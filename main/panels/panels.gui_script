@@ -1,8 +1,13 @@
 -- ==== Poki helpers (GUI) ====
+
+-- Estado local para evitar start/stop duplicados
+local poki_state = { started = false, in_break = false }
+
 local function poki_supported()
 	return (poki_sdk ~= nil) and (type(poki_sdk.gameplay_start) == "function")
 end
 
+-- (Opcional) helpers de audio (no usados por ahora si no hay ads)
 local function mute_all()
 	if sound and sound.set_group_gain then pcall(sound.set_group_gain, "master", 0) end
 end
@@ -11,91 +16,112 @@ local function unmute_all()
 end
 
 local function poki_gameplay_start()
-	if poki_supported() then pcall(poki_sdk.gameplay_start) end
+	if not poki_supported() then return end
+	-- no iniciar si ya está iniciado o si “estamos” en un break
+	if poki_state.started or poki_state.in_break then return end
+	poki_state.started = true
+	-- print("Gameplay start")
+	pcall(poki_sdk.gameplay_start)
 end
+
 local function poki_gameplay_stop()
-	if poki_supported() then pcall(poki_sdk.gameplay_stop) end
+	if not poki_supported() then return end
+	-- no frenar si ya está frenado
+	if not poki_state.started then return end
+	poki_state.started = false
+	-- print("Gameplay stop")
+	pcall(poki_sdk.gameplay_stop)
 end
 
+-- (Override temporal) sin anuncios: ejecuta el callback inmediatamente
 local function poki_commercial_break(after_cb)
-	if not poki_supported() then
-		if after_cb then after_cb() end
-		return
-	end
-	mute_all()
-	pcall(poki_sdk.commercial_break, function()
-		unmute_all()
-		if after_cb then after_cb() end
-	end)
+	-- print("Commercial break (disabled)")
+	if after_cb then after_cb() end
 end
 
--- (Opcional) Revive / doble recompensa
+-- (Opcional) también desactivar rewarded por ahora
 local function poki_rewarded_break(on_result)
-	if not poki_supported() then
-		if on_result then on_result(false) end
-		return
-	end
-	mute_all()
-	pcall(poki_sdk.rewarded_break, function(with_reward)
-		unmute_all()
-		if on_result then on_result(with_reward and true or false) end
-	end)
+	-- sin anuncio ni recompensa
+	if on_result then on_result(false) end
 end
+
 -- ==== /Poki helpers ====
 
+
+-- ==== Panels helpers ====
 local function show_panel(self, panel_node_id)
+	-- Mostrar panel
 	gui.set_enabled(gui.get_node(panel_node_id), true)
 	gui.set_scale(gui.get_node(panel_node_id), vmath.vector3(1, 1, 1))
+
+	-- Bloquear interacción del grid
 	msg.post("grid_controller#grid", "disable_touch")
 
+	-- Overlay
 	gui.set_enabled(gui.get_node("panel_overlay"), true)
-	gui.set_color(gui.get_node("panel_overlay"), vmath.vector4(1, 1, 1, 1)) -- Mostramos textura completa
-	self.panel_overlay_angle = 0  -- Reiniciar rotación
+	gui.set_color(gui.get_node("panel_overlay"), vmath.vector4(1, 1, 1, 1)) -- textura completa
+	self.panel_overlay_angle = 0  -- reiniciar rotación
 
+	-- Ocultar botón de pausa del HUD
 	msg.post("buttons#hud_gui", "hide_pause_panel")
-	self.panel_active = true
 
-	poki_gameplay_stop()
+	-- Si no había panel activo, detener gameplay una única vez
+	if not self.panel_active then
+		poki_gameplay_stop()
+	end
+	self.panel_active = true
 end
 
 local function hide_panel(self, panel_node_id)
-	msg.post("grid_controller#grid", "enable_touch")
+	-- Ocultar un panel (sin tocar interacción todavía)
 	gui.set_enabled(gui.get_node(panel_node_id), false)
 	gui.set_scale(gui.get_node(panel_node_id), vmath.vector3(0.001, 0.001, 1))
-	msg.post("/powerups#powerups_hud", "disable")
 end
 
 local function hide_all_panels(self)
+	-- Ocultar todos los paneles
+	local was_active = self.panel_active
+
 	hide_panel(self, "victory_gui")
 	hide_panel(self, "defeat_gui")
 	hide_panel(self, "pause_gui")
-	gui.set_enabled(gui.get_node("panel_overlay"), false)
-	self.panel_active = false
 
+	-- Overlay off
+	gui.set_enabled(gui.get_node("panel_overlay"), false)
+
+	-- Rehabilitar interacción del grid (una sola vez)
+	msg.post("grid_controller#grid", "enable_touch")
+
+	-- Desactivar HUD de powerups
 	msg.post("/powerups#powerups_hud", "disable")
 
-	poki_gameplay_start()
+	self.panel_active = false
+
+	-- Si antes había panel, reanudar gameplay una única vez
+	if was_active then
+		poki_gameplay_start()
+	end
 end
+-- ==== /Panels helpers ====
+
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.panel_active = false
 	self.panel_overlay_angle = 0
 	self.current_level = 1
-	hide_all_panels(self)
+	hide_all_panels(self) -- asegura estado limpio al iniciar
 end
 
 function update(self, dt)
 	if gui.is_enabled(gui.get_node("panel_overlay")) then
-		-- Oscilación entre -20° y +20°
-		local angle_range = math.rad(5
-	)
+		-- Oscilación entre -5° y +5°
+		local angle_range = math.rad(5)
 		local speed = 2  -- velocidad de oscilación
 		self.panel_overlay_angle = angle_range * math.sin(socket.gettime() * speed)
 		gui.set_rotation(gui.get_node("panel_overlay"), vmath.quat_rotation_z(self.panel_overlay_angle))
 	end
 end
-
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("level_completed") then
@@ -103,7 +129,7 @@ function on_message(self, message_id, message, sender)
 		msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_panel_victory") })
 		msg.post("grid_controller#grid", "disable_touch")
 		self.current_level = message.level or self.current_level
-		
+
 		local correct = message.correct_count or 0
 		local incorrect = message.incorrect_count or 0
 		--local total = correct * 100 - incorrect * 50
@@ -111,7 +137,6 @@ function on_message(self, message_id, message, sender)
 
 		gui.set_text(gui.get_node("points_positive"), "x" .. tostring(correct))
 		gui.set_text(gui.get_node("points_negative"), "x" .. tostring(incorrect))
-		
 		gui.set_text(gui.get_node("victory_points_label"), tostring(total))
 		gui.set_text(gui.get_node("victory_level_label"), "LEVEL " .. tostring(self.current_level))
 
@@ -119,6 +144,12 @@ function on_message(self, message_id, message, sender)
 		gui.set_enabled(gui.get_node("victory_points_negative"), true)
 
 		show_panel(self, "victory_gui")
+
+		timer.delay(0.3, false, function()
+			gui.play_particlefx(gui.get_node("confetti_left"))
+			gui.play_particlefx(gui.get_node("confetti_right"))
+			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_boom") })
+		end)
 
 	elseif message_id == hash("level_failed") then
 		print("❌ DERROTA")
@@ -159,24 +190,19 @@ function on_input(self, action_id, action)
 				print("▶️ Reanudar juego")
 				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
 				hide_all_panels(self)
-				msg.post("grid_controller#grid", "enable_touch")
 				msg.post("buttons#hud_gui", "show_pause_panel")
 			elseif gui.pick_node(gui.get_node("pause_reset_button"), x, y) then
 				print("🔁 Reiniciar nivel desde pausa")
 				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-				-- msg.post("loader_level#loader", "restart_level")
-				poki_commercial_break(function()
-					hide_all_panels(self)
-					msg.post("loader_level#loader", "restart_level")
-				end)
+				-- Sin ads: ejecutar de inmediato
+				hide_all_panels(self)
+				msg.post("loader_level#loader", "restart_level")
 			elseif gui.pick_node(gui.get_node("pause_levels_button"), x, y) then
 				print("📋 Ir al selector de niveles desde pausa")
 				msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-				-- msg.post("loader_level#loader", "go_to_level_selector")
-				poki_commercial_break(function()
-					hide_all_panels(self)
-					msg.post("loader_level#loader", "go_to_level_selector")
-				end)
+				-- Sin ads: ejecutar de inmediato
+				hide_all_panels(self)
+				msg.post("loader_level#loader", "go_to_level_selector")
 			end
 			return true
 		end
@@ -185,39 +211,27 @@ function on_input(self, action_id, action)
 		if gui.pick_node(gui.get_node("victory_next_button"), x, y) then
 			print("▶️ Siguiente nivel")
 			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-			-- msg.post("loader_level#loader", "load_next_level")
-			poki_commercial_break(function()
-				hide_all_panels(self)
-				msg.post("loader_level#loader", "load_next_level")
-			end)
+			hide_all_panels(self)
+			msg.post("loader_level#loader", "load_next_level")
 
 		elseif gui.pick_node(gui.get_node("victory_restart_button"), x, y) then
 			print("🔁 Reiniciar nivel (victoria)")
 			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-			-- msg.post("loader_level#loader", "restart_level")
-			poki_commercial_break(function()
-				hide_all_panels(self)
-				msg.post("loader_level#loader", "restart_level")
-			end)
+			hide_all_panels(self)
+			msg.post("loader_level#loader", "restart_level")
 
 			-- Defeat panel
 		elseif gui.pick_node(gui.get_node("defeat_restart_button"), x, y) then
 			print("🔁 Reiniciar nivel (derrota)")
 			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-			-- msg.post("loader_level#loader", "restart_level")
-			poki_commercial_break(function()
-				hide_all_panels(self)
-				msg.post("loader_level#loader", "restart_level")
-			end)
+			hide_all_panels(self)
+			msg.post("loader_level#loader", "restart_level")
 
 		elseif gui.pick_node(gui.get_node("defeat_home_button"), x, y) then
 			print("🏠 Volver al selector de niveles")
 			msg.post("audio_manager#script", "play_sfx", { sound = hash("sfx_click") })
-			-- msg.post("loader_level#loader", "go_to_level_selector")
-			poki_commercial_break(function()
-				hide_all_panels(self)
-				msg.post("loader_level#loader", "go_to_level_selector")
-			end)
+			hide_all_panels(self)
+			msg.post("loader_level#loader", "go_to_level_selector")
 		end
 	end
 end

@@ -748,3 +748,11 @@ embedded_instances {
   "}\n"
   ""
 }
+embedded_instances {
+  id: "tap_hold_tutorial"
+  data: "components {\n"
+  "  id: \"tap_hold\"\n"
+  "  component: \"/main/tap_hold.gui\"\n"
+  "}\n"
+  ""
+}

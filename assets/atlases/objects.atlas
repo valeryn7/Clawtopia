@@ -163,6 +163,21 @@ images {
 images {
   image: "/assets/images/hud/sound_off.png"
 }
+images {
+  image: "/assets/images/hud/tap_and_hold.png"
+}
+images {
+  image: "/assets/images/hud/hand_hold.png"
+}
+images {
+  image: "/assets/images/objects/dot_anim.png"
+}
+images {
+  image: "/assets/images/objects/flower_anim.png"
+}
+images {
+  image: "/assets/images/objects/star_anim.png"
+}
 animations {
   id: "duck"
   images {

@@ -144,6 +144,7 @@ function on_message(self, message_id, message, sender)
 			self.timer_visible = true
 			go.set("#timer_badge", "scale", vmath.vector3(0.2, 0.2, 1))
 			self.timer_badge_visible = true
+			
 		end
 
 		-- 🔥 Si ya estaba revelada, cambiar sprite y restaurar opacidad

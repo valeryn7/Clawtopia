@@ -6,13 +6,14 @@ return {
         grid = {
             { "", "", "", "", "" },
             { "", "", "", "", "" },
-            { "bear_blue", "", "", "", "bear_blue" },
-            { "bear_blue", "bear_blue", "", "bear_blue", "bear_blue" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
+            { "bear_blue", "", "", "", "bear_pink" },
+            { "bear_blue", "bear_blue", "", "bear_pink", "bear_pink" },
+            { "bear_blue", "bear_blue", "bear_blue", "bear_pink", "bear_pink" },
+            { "bear_blue", "bear_blue", "bear_pink", "bear_pink", "bear_pink" },
         },
         goals = {
-            { type = "bear_blue", required = 1 }
+            { type = "bear_blue", required = 1 },
+            { type = "bear_pink", required = 1 }
         },
         powerups = { nil, nil, nil },
     },
@@ -20,14 +21,31 @@ return {
         max_drops = 10,
         grid = {
             { "", "", "", "", "" },
-            { "bear_blue", "", "bear_blue", "", "bear_blue" },
+            { "bear_blue", "", "", "", "" },
             { "", "bear_blue", "bear_blue", "bear_blue", "" },
-            { "bear_blue", "bear_blue", "bear_blue", "bear_blue", "bear_blue" },
+            { "bear_panda", "bear_panda", "bear_panda", "bear_panda", "bear_panda" },
             { "", "bear_blue", "bear_blue", "bear_blue", "" },
-            { "bear_blue", "", "bear_blue", "", "bear_blue" },
+            { "", "", "", "", "bear_blue" },
         },
         goals = {
-            { type = "bear_blue", required = 2 },
+            { type = "bear_blue", required = 1 },
+            { type = "bear_panda", required = 1 },
+        },
+        movements = {
+            {
+                from_row = 2, from_col = 1,
+                to_x = 200, to_y = 100,
+                loop = true,
+                wait = 2,
+                speed = 8
+            },
+            {
+                from_row = 6, from_col = 5,
+                to_x = -200, to_y = -300,
+                loop = true,
+                wait = 2,
+                speed = 8
+            },
         },
         powerups = { nil, nil, nil },
     },

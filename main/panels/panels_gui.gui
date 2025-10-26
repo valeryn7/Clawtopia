@@ -286,6 +286,38 @@ nodes {
   inherit_alpha: true
 }
 nodes {
+  position {
+    x: 259.0
+    y: 832.0
+    z: -1.0
+  }
+  rotation {
+    z: -358.922
+  }
+  type: TYPE_PARTICLEFX
+  id: "confetti_left"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "confetti"
+}
+nodes {
+  position {
+    x: 471.0
+    y: 824.0
+    z: -1.0
+  }
+  rotation {
+    z: -358.922
+  }
+  type: TYPE_PARTICLEFX
+  id: "confetti_right"
+  parent: "victory_gui"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  particlefx: "confetti"
+}
+nodes {
   size {
     x: 200.0
     y: 100.0
@@ -569,3 +601,7 @@ nodes {
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
+particlefxs {
+  name: "confetti"
+  particlefx: "/main/particles/confetti.particlefx"
+}

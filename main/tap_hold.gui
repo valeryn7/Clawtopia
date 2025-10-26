@@ -1,0 +1,29 @@
+script: "/main/tap_hold.gui_script"
+textures {
+  name: "objects"
+  texture: "/assets/atlases/objects.atlas"
+}
+nodes {
+  position {
+    x: 371.0
+    y: 988.0
+  }
+  type: TYPE_BOX
+  texture: "objects/tap_and_hold"
+  id: "tap_hold_label"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 421.0
+    y: 472.0
+  }
+  type: TYPE_BOX
+  texture: "objects/hand_hold"
+  id: "hand_icon"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

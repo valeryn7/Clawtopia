@@ -351,15 +351,18 @@ function init(self)
 	self.level = 1
 
 	if poki_supported() and poki_sdk.set_debug then pcall(poki_sdk.set_debug, true) end
-	poki_gameplay_stop()
+	-- poki_gameplay_stop()
 	
 	if not has_seen_tutorial() then
-		self.showing_tutorial = true
-		msg.post("tutorial_controller#tutorial", "show_tutorial")
 		disableTouch(self)
-	else
-		enableTouch(self)
+		msg.post("tap_hold_tutorial#tap_hold", "show_tap_hold_hint")
 	end
+	-- 	self.showing_tutorial = true
+	-- 	msg.post("tutorial_controller#tutorial", "show_tutorial")
+	-- 	disableTouch(self)
+	-- else
+	-- 	enableTouch(self)
+	-- end
 	
 end
 
